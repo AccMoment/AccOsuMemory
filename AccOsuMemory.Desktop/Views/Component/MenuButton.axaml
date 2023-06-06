@@ -1,0 +1,54 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:AccOsuMemory.Desktop.Views.Component">
+    <Design.PreviewWith>
+        <controls:MenuButton />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|MenuButton">
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="Width" Value="180"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="#f0f0f0"></Setter>
+        <Setter Property="FontSize" Value="24"></Setter>
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Button Classes="menuButton"  Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Foreground="#f0f0f0" Padding="0">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="15"  >
+                            <StackPanel Orientation="Horizontal" Margin="10,0,3,0">
+                                <!-- <i:Icon Value="{TemplateBinding IconValue}" VerticalAlignment="Center" FontSize="20" Margin="3,2,3,0"></i:Icon> -->
+                                <TextBlock Text="{TemplateBinding ButtonContent}" VerticalAlignment="Center" FontSize="{TemplateBinding FontSize}" Foreground="White" />
+                            </StackPanel>
+                        </Border>
+                </Button>
+               
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    
+    <Style Selector="Button.menuButton /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#f0f0f0"></Setter>
+    </Style>
+    <!-- <Style Selector="Border#IconBorder"> -->
+    <!--      -->
+    <!--     <Style.Animations> -->
+    <!--         <Animation Duration="0:0:0.75" IterationCount="INFINITE" PlaybackDirection="Alternate"> -->
+    <!--             <KeyFrame Cue="0%"> -->
+    <!--                 <Setter Property="TranslateTransform.X" Value="0"></Setter> -->
+    <!--             </KeyFrame> -->
+    <!--             <KeyFrame Cue="100%"> -->
+    <!--                 <Setter Property="TranslateTransform.X" Value="-15"></Setter> -->
+    <!--             </KeyFrame> -->
+    <!--         </Animation> -->
+    <!--     </Style.Animations> -->
+    <!-- </Style> -->
+    <Style Selector=":is(controls|MenuButton):pointerover">
+        <Setter Property="Background" Value="Aquamarine"></Setter>
+    </Style>
+    
+    <Style Selector=":is(controls|MenuButton)[IsSelect=true]">
+        <Setter Property="Background" Value="Aquamarine"></Setter>
+    </Style>
+</Styles>

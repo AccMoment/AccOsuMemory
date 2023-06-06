@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace AccOsuMemory.Core.OsuApi.Utils;
 
-public class StringToDateTimeConverter :JsonConverter<DateTime>
+public class JsonStringDateTimeConverter :JsonConverter<DateTime>
 {
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)=>
     DateTime.Parse(reader.GetString()!);

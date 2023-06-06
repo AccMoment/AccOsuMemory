@@ -1,6 +1,6 @@
 ﻿namespace AccOsuMemory.Core.OsuApi.V1.Enum;
 
-enum Mods
+public enum GameMods
 {
     None           = 0,
     NoFail         = 1,

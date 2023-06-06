@@ -3,11 +3,19 @@
         xmlns:vm="using:AccOsuMemory.Desktop.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:views="using:AccOsuMemory.Desktop.Views.Component"
+        mc:Ignorable="d" d:DesignWidth="1180" d:DesignHeight="690"
+        Width="1180"
+        Height="690"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaToDecorationsHint="True"
+        TransparencyLevelHint="Transparent"
         x:Class="AccOsuMemory.Desktop.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="AccOsuMemory.Desktop">
+        Title="AccOsuMemory">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -15,6 +23,41 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid >
+        <!-- Background Grid -->
+        <Grid ColumnDefinitions="Auto,*">
+            <Border Width="220" CornerRadius="0,0,0,0" Background="#495057">
+                <!-- <Border.Background> -->
+                <!--     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1"> -->
+                <!--         <GradientStops> -->
+                <!--             <GradientStop Color="#343155" Offset="0"/> -->
+                <!--             <GradientStop Color="#3B2E58" Offset="1"/> -->
+                <!--         </GradientStops>  -->
+                <!--     </LinearGradientBrush> -->
+                <!-- </Border.Background> -->
+            </Border>
+        </Grid>
+        
+        <Grid ColumnDefinitions="Auto,*">
+            <StackPanel Grid.Column="0" Width="220" Margin="0,32,0,32" >
+                <TextBlock Text="AccOsuMemory" FontSize="20" Foreground="White" HorizontalAlignment="Center"/>
+                <Separator Height="1" Background="White" Margin="25,20,25,20"></Separator>
+                <views:MenuButton ButtonContent="123" IconValue="fa-light fa-house" IsSelect="False" HorizontalAlignment="Center" Margin="20,7,20,7"/>
+                <views:MenuButton ButtonContent="123" IconValue="fa-house" IsSelect="False" HorizontalAlignment="Center" Margin="20,7,20,7"/>
+                <views:MenuButton ButtonContent="123" IconValue="fa-house" IsSelect="False" HorizontalAlignment="Center" Margin="20,7,20,7"/>
+                <views:MenuButton ButtonContent="123" IconValue="fa-house" IsSelect="False" HorizontalAlignment="Center" Margin="20,7,20,7"/>
+            </StackPanel>
+            
+          <StackPanel Grid.Column="1" Orientation="Horizontal">
+              <RadioButton  Content="123" GroupName="a"  ></RadioButton>
+              <RadioButton Content="123" GroupName="a"></RadioButton>
+              <RadioButton Content="123" GroupName="a"></RadioButton>
+          </StackPanel>
+              
+          
+        </Grid>
+    </Grid>
+    
 
 </Window>

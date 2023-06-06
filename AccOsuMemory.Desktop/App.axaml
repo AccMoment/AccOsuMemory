@@ -4,12 +4,40 @@
              x:Class="AccOsuMemory.Desktop.App"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-
+             
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
 
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="/Views/Component/MenuButton.axaml"></StyleInclude>
+        
+        
+        <Style Selector="RadioButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Foreground" Value="#1ab394"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border CornerRadius="10" Margin="10,0,10,0" Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="{TemplateBinding Foreground}">
+                            <ContentPresenter  VerticalAlignment="Center" HorizontalAlignment="Center"  Content="{TemplateBinding Content}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style Selector="RadioButton[IsChecked=True]">
+            <Setter Property="Background" Value="#1ab394"/>
+            <Setter Property="Foreground" Value="White"></Setter>
+        </Style>
+        <Style Selector="RadioButton:pointerover">
+            <Setter Property="Opacity" Value="0.6"></Setter>
+        </Style>
     </Application.Styles>
 </Application>

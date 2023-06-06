@@ -17,5 +17,6 @@ namespace AccOsuMemory.Desktop
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace();
+        // .WithIcons(builder=>builder.Register<FontAwesomeIconProvider>());
     }
 }

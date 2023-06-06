@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using AccOsuMemory.Core.OsuApi.Utils;
 
-namespace AccOsuMemory.Core.OsuApi.V1.User;
+namespace AccOsuMemory.Core.OsuApi.V1.Model.User;
 
 public class UserInfo
 {
@@ -12,7 +12,7 @@ public class UserInfo
     public string UserName { get; set; }
     
     [JsonPropertyName("join_date")]
-    [JsonConverter(typeof(StringToDateTimeConverter))]
+    [JsonConverter(typeof(JsonStringDateTimeConverter))]
     public DateTime JoinDate { get; set; }
     
     [JsonPropertyName("count300")]
@@ -87,7 +87,7 @@ public class Events
     public int BeatMapSetId { get; set; }
     
     [JsonPropertyName("date")]
-    [JsonConverter(typeof(StringToDateTimeConverter))]
+    [JsonConverter(typeof(JsonStringDateTimeConverter))]
     public DateTime Date { get; set; }
     
     [JsonPropertyName("epicfactor")]

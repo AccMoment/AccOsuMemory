@@ -3,7 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public enum MapApprovedState
+public enum ApprovedState
 {
     Pending = 0,
     Ranking = 1,
