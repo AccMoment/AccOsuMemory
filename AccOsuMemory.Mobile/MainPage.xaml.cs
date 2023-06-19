@@ -1,23 +1,17 @@
-﻿namespace AccOsuMemory.Mobile;
+﻿using AccOsuMemory.Mobile.ViewModel;
+
+namespace AccOsuMemory.Mobile;
 
 public partial class MainPage : ContentPage
 {
-    int count = 0;
+    private MainPageViewModel vm = new();
 
     public MainPage()
     {
         InitializeComponent();
+        this.BindingContext = vm;
+        vm.LoadBeatMapsAsync();
     }
 
-    private void OnCounterClicked(object sender, EventArgs e)
-    {
-        count++;
 
-        if (count == 1)
-            CounterBtn.Text = $"Clicked {count} time";
-        else
-            CounterBtn.Text = $"Clicked {count} times";
-
-        SemanticScreenReader.Announce(CounterBtn.Text);
-    }
 }

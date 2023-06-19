@@ -1,5 +1,7 @@
 ﻿using Avalonia;
 using System;
+using Avalonia.Dialogs;
+using Avalonia.Logging;
 
 namespace AccOsuMemory.Desktop
 {
@@ -16,7 +18,7 @@ namespace AccOsuMemory.Desktop
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
-                .LogToTrace();
+                .LogToTrace(LogEventLevel.Debug);
         // .WithIcons(builder=>builder.Register<FontAwesomeIconProvider>());
     }
 }

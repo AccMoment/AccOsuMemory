@@ -1,41 +1,30 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:AccOsuMemory.Mobile.ViewModel"
+             xmlns:model="clr-namespace:AccOsuMemory.Core.OsuApi.Sayo.Model;assembly=AccOsuMemory.Core"
+             x:DataType="vm:MainPageViewModel"
              x:Class="AccOsuMemory.Mobile.MainPage">
 
     <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+        <ListView ItemsSource="{Binding BeatMaps}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:BeatMap">
+                    <ViewCell>
+                        <Border Background="YellowGreen" Padding="4">
+                            <VerticalStackLayout>
+                                <Image Source="{Binding Sid}"></Image>
+                                <Label Text="123"></Label>
+                                <Label Text="{Binding Title}" />
+                                <Label Text="{Binding Creator}"></Label>
+                            </VerticalStackLayout>
+                        </Border>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
-
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
-
-        </VerticalStackLayout>
+        </ListView>
     </ScrollView>
 
 </ContentPage>

@@ -4,6 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="using:AccOsuMemory.Desktop.Views.Component"
+        xmlns:model="using:AccOsuMemory.Core.OsuApi.Sayo.Model"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
         mc:Ignorable="d" d:DesignWidth="1180" d:DesignHeight="690"
         Width="1180"
         Height="690"
@@ -11,7 +14,10 @@
         CanResize="False"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaToDecorationsHint="True"
-        TransparencyLevelHint="Transparent"
+        TransparencyLevelHint="AcrylicBlur"
+        d:Background="#000"
+        Background="#4d4d4d"
+        Opacity="0.75"
         x:Class="AccOsuMemory.Desktop.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
@@ -20,44 +26,52 @@
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
 
 
-    <Grid >
-        <!-- Background Grid -->
-        <Grid ColumnDefinitions="Auto,*">
-            <Border Width="220" CornerRadius="0,0,0,0" Background="#495057">
-                <!-- <Border.Background> -->
-                <!--     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1"> -->
-                <!--         <GradientStops> -->
-                <!--             <GradientStop Color="#343155" Offset="0"/> -->
-                <!--             <GradientStop Color="#3B2E58" Offset="1"/> -->
-                <!--         </GradientStops>  -->
-                <!--     </LinearGradientBrush> -->
-                <!-- </Border.Background> -->
-            </Border>
+    <Grid RowDefinitions="Auto,*">
+        <Grid>
+            <Grid ColumnDefinitions="*,*,*" PointerPressed="WindowMoved">
+                <Image Source="{SvgImage /Assets/osu-logo.svg}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24" Width="24" Margin="10 8 0 0"></Image>
+                <Label Grid.Column="1" Padding="0 10" Content="AccOsuMemory" FontSize="14"
+                       HorizontalAlignment="Center" Foreground="White" />
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top"
+                            HorizontalAlignment="Right">
+                    <Button Click="MinimizeOnClick" Classes="WindowButton NormalAction">
+                        <Image Source="{SvgImage /Assets/minimize.svg}" Classes="WindowIcon" />
+                    </Button>
+                    <Button Click="MaximizeOnclick" Classes="WindowButton NormalAction">
+                        <Image Source="{SvgImage /Assets/windows.svg}" Classes="WindowIcon" />
+                    </Button>
+                    <Button Click="CloseOnClick" Classes="WindowButton CloseAction">
+                        <Image Source="{SvgImage /Assets/close.svg}" Classes="WindowIcon" />
+                    </Button>
+                </StackPanel>
+            </Grid>
         </Grid>
-        
-        <Grid ColumnDefinitions="Auto,*">
-            <StackPanel Grid.Column="0" Width="220" Margin="0,32,0,32" >
-                <TextBlock Text="AccOsuMemory" FontSize="20" Foreground="White" HorizontalAlignment="Center"/>
-                <Separator Height="1" Background="White" Margin="25,20,25,20"></Separator>
-                <views:MenuButton ButtonContent="123" IconValue="fa-light fa-house" IsSelect="False" HorizontalAlignment="Center" Margin="20,7,20,7"/>
-                <views:MenuButton ButtonContent="123" IconValue="fa-house" IsSelect="False" HorizontalAlignment="Center" Margin="20,7,20,7"/>
-                <views:MenuButton ButtonContent="123" IconValue="fa-house" IsSelect="False" HorizontalAlignment="Center" Margin="20,7,20,7"/>
-                <views:MenuButton ButtonContent="123" IconValue="fa-house" IsSelect="False" HorizontalAlignment="Center" Margin="20,7,20,7"/>
+
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
+            <StackPanel Name="MenuLs" Grid.Column="0" Width="220" Margin="0,8,0,32">
+                <Separator Height="1" Background="White" Margin="20 0"></Separator>
+                <views:MenuButton BtnContent="123" IconValue="fa-light fa-house" IsSelect="False"
+                                  HorizontalAlignment="Center" Margin="20,7,20,7" />
+                <views:MenuButton BtnContent="123" IconValue="fa-house" IsSelect="False"
+                                  HorizontalAlignment="Center" Margin="20,7,20,7" />
+                <views:MenuButton BtnContent="123" IconValue="fa-house" IsSelect="False"
+                                  HorizontalAlignment="Center" Margin="20,7,20,7" />
+                <views:MenuButton BtnContent="123" IconValue="fa-house" IsSelect="False"
+                                  HorizontalAlignment="Center" Margin="20,7,20,7" />
+                <views:MenuButton Click="Load" Name="RefreshBtn" BtnContent="Refresh" IconValue="fa-house"
+                                  IsSelect="False" HorizontalAlignment="Center" Margin="20,7,20,7" />
             </StackPanel>
-            
-          <StackPanel Grid.Column="1" Orientation="Horizontal">
-              <RadioButton  Content="123" GroupName="a"  ></RadioButton>
-              <RadioButton Content="123" GroupName="a"></RadioButton>
-              <RadioButton Content="123" GroupName="a"></RadioButton>
-          </StackPanel>
-              
-          
+
+            <Grid Grid.Column="1">
+                <TransitioningContentControl  Name="ViewPages" Content="{Binding CurrentPage}"/>
+                
+            </Grid>
         </Grid>
     </Grid>
-    
+
 
 </Window>

@@ -1,0 +1,113 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AccOsuMemory.Desktop.ViewModels"
+             xmlns:model="clr-namespace:AccOsuMemory.Core.OsuApi.Sayo.Model;assembly=AccOsuMemory.Core"
+             xmlns:c="clr-namespace:AccOsuMemory.Desktop.MyControl"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AccOsuMemory.Desktop.Views.HomePageView"
+             x:DataType="vm:HomePageViewModel">
+    <UserControl.Resources>
+    </UserControl.Resources>
+    <UserControl.Styles>
+        <Style Selector="TextBlock.btn">
+            <Setter Property="Foreground" Value="White"></Setter>
+        </Style>
+
+        <Style Selector="Border.ItemBorder:pointerover">
+            <Setter Property="Effect">
+                <DropShadowEffect OffsetX="0" OffsetY="0"></DropShadowEffect>
+            </Setter>
+        </Style>
+        
+        <Style Selector="Border.TipsBorder">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Background" Value="#f0f0f0"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0 10"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+            <Setter Property="RenderTransform" Value="TranslateY(25px)"></Setter>
+            <Setter Property="Opacity" Value="0"></Setter>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.75"/>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.75"></DoubleTransition>
+                </Transitions>
+            </Setter>
+        </Style>
+        
+        <Style Selector="Border.ShowTipText">
+            <Setter Property="Opacity" Value="1"></Setter>
+            <Setter Property="RenderTransform" Value="TranslateY(0px)"></Setter>
+        </Style>
+        
+        <Style Selector="ListBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="SelectionMode" Value="Single"></Setter>
+            <Setter Property="ItemsPanel">
+                <ItemsPanelTemplate>
+                    <WrapPanel ItemWidth="450" ItemHeight="200" Margin="10"></WrapPanel>
+                </ItemsPanelTemplate>
+            </Setter>
+            <Setter Property="ItemTemplate">
+                <DataTemplate DataType="model:BeatMap">
+                    <Border Classes="ItemBorder" CornerRadius="4" Margin="8" BorderThickness="1"
+                            BorderBrush="#f0f0f0">
+                        <Grid RowDefinitions="Auto,*">
+                            <Grid>
+                                <c:AsyncImage AsyncSource="{Binding ThumbnailUrl}"></c:AsyncImage>
+                                <TextBlock Text="{Binding Title}" Classes="btn" FontSize="16"
+                                           HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4">
+                                </TextBlock>
+                            </Grid>
+                            <Grid Grid.Row="1" RowDefinitions="*,*" Margin="8">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Creator : " Classes="btn" />
+                                        <TextBlock Text="{Binding Creator}" Classes="btn" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Artist : " Classes="btn" />
+                                        <TextBlock Text="{Binding Artist}" Classes="btn" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </Setter>
+        </Style>
+        
+        <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Style.Animations>
+                <Animation Duration="0:0:0.5" IterationCount="1">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Opacity" Value="0"></Setter>
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Opacity" Value="1"></Setter>
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+            <Style
+                Selector="^:selected /template/ ContentPresenter,^:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </Style>
+        
+    </UserControl.Styles>
+    <Grid Name="HomePageGrid">
+        <ScrollViewer Name="SongsScroll">
+            <ListBox ItemsSource="{Binding BeatMaps}"/>
+        </ScrollViewer>
+        <Border Name="TipsBorder" Classes="TipsBorder">
+            <TextBlock Name="TipsText"  TextAlignment="Center" VerticalAlignment="Center" Text="o(╥﹏╥)o 到底了~~"  FontSize="16" Foreground="{StaticResource MainColor}"/>
+        </Border>
+    </Grid>
+</UserControl>
