@@ -1,0 +1,102 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AccOsuMemory.Desktop.ViewModels"
+             xmlns:converter="clr-namespace:AccOsuMemory.Desktop.Converter"
+             xmlns:models="clr-namespace:AccOsuMemory.Core.Models;assembly=AccOsuMemory.Core"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AccOsuMemory.Desktop.Views.DownloadPageView"
+             x:DataType="vm:DownloadPageViewModel">
+    <UserControl.Resources>
+        <converter:NetSpeedConverter x:Key="SpeedConverter"/>
+    </UserControl.Resources>
+    <UserControl.Styles>
+        <Style Selector="TextBlock.StateText">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="Foreground" Value="#000" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="MaxLines" Value="1"/>
+        </Style>
+
+
+        <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="Margin" Value="8"></Setter>
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Style.Animations>
+                <Animation Duration="0:0:0.5" IterationCount="1">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Opacity" Value="0"></Setter>
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Opacity" Value="1"></Setter>
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+            <Style
+                Selector="^:selected /template/ ContentPresenter,^:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </Style>
+
+        <Style Selector="ListBox">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="SelectionMode" Value="Single" />
+            <!-- <Setter Property="ItemsPanel"> -->
+            <!--     <ItemsPanelTemplate> -->
+            <!--         <VirtualizingStackPanel/> -->
+            <!--     </ItemsPanelTemplate> -->
+            <!-- </Setter> -->
+            <Setter Property="ItemTemplate">
+                <DataTemplate DataType="models:DownloadTask">
+                    <Border Height="80" Margin="10" CornerRadius="4" BorderThickness="1"
+                            BorderBrush="#000">
+                        <Grid>
+                            <Grid>
+                                <TextBlock Text="{CompiledBinding Name}" FontSize="16" Margin="4" />
+                                <TextBlock Text="等待中..." IsVisible="{CompiledBinding IsWaiting}" Classes="StateText" />
+                                <TextBlock Text="下载中..." IsVisible="{CompiledBinding IsDownloading}" Classes="StateText" />
+                                <TextBlock Text="已完成" IsVisible="{CompiledBinding IsFinished}" Classes="StateText" />
+                                <TextBlock Text="{Binding ErrorMessage}" IsVisible="{CompiledBinding IsError}" ToolTip.Tip="{CompiledBinding ErrorMessage}"
+                                           Classes="StateText" Foreground="{StaticResource Error}" />
+                            </Grid>
+                            <ProgressBar
+                                VerticalAlignment="Bottom"
+                                Value="{CompiledBinding DownloadedProgress}"
+                                Margin="4"
+                                Minimum="0"
+                                Maximum="100"
+                                ShowProgressText="True"
+                                ProgressTextFormat="{CompiledBinding CurrentNetSpeed,Converter={StaticResource SpeedConverter}}" >
+                                <ProgressBar.Styles>
+                                    <Style Selector="ProgressBar">
+                                        <Setter Property="Foreground" Value="Aqua"></Setter>
+                                    </Style>
+                                </ProgressBar.Styles>
+                            </ProgressBar>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </Setter>
+        </Style>
+    </UserControl.Styles>
+    <Design.PreviewWith>
+
+    </Design.PreviewWith>
+    <Grid RowDefinitions="Auto,*">
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="下载列表" FontSize="18" Foreground="#000" Margin="8" />
+            <Separator Height="2" Background="#f3f3f3" Margin="8"></Separator>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1">
+            <ListBox Name="DownloadListBox" ItemsSource="{CompiledBinding Tasks}">
+            </ListBox>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

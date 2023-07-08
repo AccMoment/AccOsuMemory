@@ -1,14 +1,15 @@
-﻿using System.Net.Http.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http.Json;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using AccOsuMemory.Core.Attribute;
-using AccOsuMemory.Core.OsuApi.Utils;
-using AccOsuMemory.Core.OsuApi.V1.Enum;
-using AccOsuMemory.Core.OsuApi.V1.Model.Beatmap;
-using AccOsuMemory.Core.OsuApi.V1.Model.Beatmap.Score;
-using AccOsuMemory.Core.OsuApi.V1.Model.User;
-using AccOsuMemory.Core.OsuApi.V1.UrlParameters;
+using AccOsuMemory.Core.Models.OsuModels.V1.Beatmap;
+using AccOsuMemory.Core.Models.OsuModels.V1.Beatmap.Score;
+using AccOsuMemory.Core.Models.OsuModels.V1.Enum;
+using AccOsuMemory.Core.Models.OsuModels.V1.UrlParameters;
+using AccOsuMemory.Core.Models.OsuModels.V1.User;
+using AccOsuMemory.Core.Net;
 
 namespace AccOsuMemory.Core.OsuApi.V1;
 
@@ -22,14 +23,11 @@ public class OsuApiV1
     }
 
 
-    private static readonly HttpClient HttpClient = new()
-    {
-        Timeout = TimeSpan.FromSeconds(10),
-    };
+    private static readonly HttpClient HttpClient = DownloadManager.GetHttpClient();
 
     public Task<List<BeatMap>?> GetBeatMaps(DateTime dateTime, GameMode mode = GameMode.Standard, int limit = 500) =>
         GetBeatMaps(new BeatMapParams(dateTime, mode, limit));
-
+    [RequiresUnreferencedCode("GetBeatMaps")]
     public Task<List<BeatMap>?> GetBeatMaps(BeatMapParams param)
     {
         var url = BuildUrl(param, ApiUrlV1.BeatMap);
@@ -42,6 +40,7 @@ public class OsuApiV1
     public Task<List<UserBestScore>?> GetUserBP(int userId, GameMode mode = GameMode.Standard, int limit = 10) =>
         GetUserBP(new UserBestParams(userId, mode, limit));
 
+    [RequiresUnreferencedCode("GetUserBP")]
     public Task<List<UserBestScore>?> GetUserBP(UserBestParams param)
     {
         var url = BuildUrl(param, ApiUrlV1.BestPerformance);
@@ -54,6 +53,7 @@ public class OsuApiV1
     public Task<UserInfo?> GetUserInfo(int userId, GameMode mode = GameMode.Standard, int eventDays = 1) =>
         GetUserInfo(new UserInfoParams(userId, mode, eventDays));
 
+    [RequiresUnreferencedCode("GetUserBP")]
     public async Task<UserInfo?> GetUserInfo(UserInfoParams param)
     {
         var url = BuildUrl(param, ApiUrlV1.User);
@@ -70,6 +70,7 @@ public class OsuApiV1
     public Task<List<MapScore>?> GetMapScores(int beatMapId, int? userId = null, GameMode mode = GameMode.Standard) =>
         GetMapScores(new ScoresParams(beatMapId, mode, userId));
 
+    [RequiresUnreferencedCode("GetUserBP")]
     public Task<List<MapScore>?> GetMapScores(ScoresParams param)
     {
         var url = BuildUrl(param, ApiUrlV1.Scores);
@@ -82,6 +83,7 @@ public class OsuApiV1
     public Task<List<UserRecentScore>?> GetRecentScore(int userId, GameMode mode = GameMode.Standard,
         int limit = 500) => GetRecentScore(new UserRecentScoreParams(userId, mode, limit));
 
+    [RequiresUnreferencedCode("GetUserBP")]
     public Task<List<UserRecentScore>?> GetRecentScore(UserRecentScoreParams param)
     {
         var url = BuildUrl(param, ApiUrlV1.RecentlyPlayed);

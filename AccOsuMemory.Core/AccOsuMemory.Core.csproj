@@ -3,15 +3,22 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>none</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="OsuApi\V1\Model\" />
+    <Folder Include="Exception\" />
+    <Folder Include="Models\OsuModels\V1\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0-preview1" />
+    <PackageReference Include="NAudio.WinMM" Version="2.1.0" />
   </ItemGroup>
 
 </Project>

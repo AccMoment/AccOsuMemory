@@ -1,9 +1,13 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=BP/@EntryIndexedValue">BP</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=870a006e_002D01a8_002D4cd7_002D8132_002Dcafd4f8b5acd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="OsuApiV1Tests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c2269619_002D5fdc_002D45da_002Db654_002D96139c78840c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="NormalTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::3D3331CE-B51F-4C14-A1BC-AA30C56CC80B::net6.0::AccOsuMemory.Test.OsuApiV1Tests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::3D3331CE-B51F-4C14-A1BC-AA30C56CC80B::net6.0::AccOsuMemory.Test.OsuApiV1Tests.NormalTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=avalonia/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=axaml/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Beatmap/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UserDictionary/Words/=beatmaps/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=beatmaps/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Sayo/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

@@ -3,77 +3,122 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:AccOsuMemory.Desktop.ViewModels"
-             xmlns:model="clr-namespace:AccOsuMemory.Core.OsuApi.Sayo.Model;assembly=AccOsuMemory.Core"
-             xmlns:c="clr-namespace:AccOsuMemory.Desktop.MyControl"
+             xmlns:extControl="clr-namespace:AccOsuMemory.Desktop.ExtControl"
+             xmlns:c="clr-namespace:AccOsuMemory.Desktop.Converter"
+             xmlns:sayoModels="clr-namespace:AccOsuMemory.Core.Models.SayoModels;assembly=AccOsuMemory.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AccOsuMemory.Desktop.Views.HomePageView"
-             x:DataType="vm:HomePageViewModel">
+             x:DataType="vm:HomePageViewModel"  >
     <UserControl.Resources>
+        <c:LongToDateTimeConverter x:Key="LongToDateTimeConverter"></c:LongToDateTimeConverter>
     </UserControl.Resources>
     <UserControl.Styles>
-        <Style Selector="TextBlock.btn">
-            <Setter Property="Foreground" Value="White"></Setter>
+        <Style Selector="Button.ActionBtn" >
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+        <Style Selector="Image.ActionIcon">
+            <Setter Property="Width" Value="25"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
+        
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="Black"></Setter>
+        </Style>
+        
+        <Style Selector="Border.ItemBorder">
+            <Setter Property="Background" Value="Transparent"></Setter>
         </Style>
 
         <Style Selector="Border.ItemBorder:pointerover">
-            <Setter Property="Effect">
-                <DropShadowEffect OffsetX="0" OffsetY="0"></DropShadowEffect>
-            </Setter>
+           <Setter Property="BoxShadow" Value="0 2 10 2 #40000000"></Setter>
         </Style>
-        
+
         <Style Selector="Border.TipsBorder">
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Background" Value="#f0f0f0"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="Margin" Value="0 10"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
-            <Setter Property="RenderTransform" Value="TranslateY(25px)"></Setter>
+            <!-- <Setter Property="Width" Value="200" /> -->
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Background" Value="{StaticResource TipsContainer}" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Margin" Value="0 10" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <!-- <Setter Property="RenderTransform" Value="TranslateY(-30px)"></Setter> -->
             <Setter Property="Opacity" Value="0"></Setter>
             <Setter Property="Transitions">
                 <Transitions>
-                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.75"/>
-                    <DoubleTransition Property="Opacity" Duration="0:0:0.75"></DoubleTransition>
+                    <!-- <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.75" /> -->
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.5"></DoubleTransition>
                 </Transitions>
             </Setter>
         </Style>
-        
-        <Style Selector="Border.ShowTipText">
-            <Setter Property="Opacity" Value="1"></Setter>
-            <Setter Property="RenderTransform" Value="TranslateY(0px)"></Setter>
+
+        <Style Selector="Border.ShowTips">
+            <Setter Property="Opacity" Value="1"/>
+            <!-- <Setter Property="RenderTransform" Value="TranslateY(0px)"/> -->
+        </Style>
+
+        <Style Selector="Border.ShowErrorTips">
+            <Setter Property="Background" Value="{StaticResource ErrorContainer}"/>
+            <Setter Property="Opacity" Value="1"/>
+            <!-- <Setter Property="RenderTransform" Value="TranslateY(0px)"/> -->
         </Style>
         
         <Style Selector="ListBox">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="SelectionMode" Value="Single"></Setter>
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="SelectionMode" Value="Single"/>
             <Setter Property="ItemsPanel">
                 <ItemsPanelTemplate>
-                    <WrapPanel ItemWidth="450" ItemHeight="200" Margin="10"></WrapPanel>
+                    <extControl:VirtualizingWrapPanel ItemHeight="275" ItemWidth="525" ></extControl:VirtualizingWrapPanel>
+                    <!-- <WrapPanel ItemHeight="250" ItemWidth="475"></WrapPanel> -->
                 </ItemsPanelTemplate>
             </Setter>
             <Setter Property="ItemTemplate">
-                <DataTemplate DataType="model:BeatMap">
-                    <Border Classes="ItemBorder" CornerRadius="4" Margin="8" BorderThickness="1"
+                <DataTemplate DataType="sayoModels:BeatMap">
+                    <Border Margin="10" Classes="ItemBorder" CornerRadius="4" BorderThickness="1"
                             BorderBrush="#f0f0f0">
                         <Grid RowDefinitions="Auto,*">
                             <Grid>
-                                <c:AsyncImage AsyncSource="{Binding ThumbnailUrl}"></c:AsyncImage>
-                                <TextBlock Text="{Binding Title}" Classes="btn" FontSize="16"
+                                <Grid>
+                                    <extControl:AsyncImage AsyncSource="{CompiledBinding ThumbnailUrl}" ></extControl:AsyncImage>
+                                    <Border Background="Black" Opacity="0.35" CornerRadius="4 4 0 0"></Border>
+                                </Grid>
+                                
+                                <TextBlock Text="{CompiledBinding Title}"  FontSize="18" Foreground="White"
                                            HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4">
                                 </TextBlock>
+                                <Image Source="{SvgImage /Assets/Images/pass.svg}" Classes="ActionIcon" IsVisible="{CompiledBinding IsExist}" Margin="4" ToolTip.Tip="歌曲已存在于Songs文件夹中.."/>
                             </Grid>
-                            <Grid Grid.Row="1" RowDefinitions="*,*" Margin="8">
+                            <Grid Grid.Row="1"  Margin="8">
+                                <!-- Map Info -->
                                 <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Creator : " Classes="btn" />
-                                        <TextBlock Text="{Binding Creator}" Classes="btn" />
+                                    <StackPanel Orientation="Horizontal" Margin="0 4">
+                                        <TextBlock Text="Creator : "  />
+                                        <TextBlock Text="{CompiledBinding Creator}"   TextWrapping="Wrap"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Artist : " Classes="btn" />
-                                        <TextBlock Text="{Binding Artist}" Classes="btn" />
+                                    <StackPanel Orientation="Horizontal" Margin="0 4">
+                                        <TextBlock Text="Artist : "  />
+                                        <TextBlock Text="{CompiledBinding Artist}" TextTrimming="WordEllipsis"   TextWrapping="Wrap"/>
                                     </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0 4">
+                                        <TextBlock Text="LastUpdate : " />
+                                        <TextBlock
+                                            Text="{CompiledBinding LastUpdate,Converter={StaticResource LongToDateTimeConverter}}"  TextWrapping="Wrap"
+                                             />
+                                    </StackPanel>
+                                </StackPanel>
+                                
+                                <!-- Action -->
+                                <StackPanel  VerticalAlignment="Bottom"
+                                      HorizontalAlignment="Right" Orientation="Horizontal">
+                                    <Button Click="AudioPlay_Click"  DataContext="{CompiledBinding}" Classes="WindowButton ActionBtn">
+                                        <Image Source="{SvgImage /Assets/Images/play.svg}" Classes="ActionIcon" />
+                                    </Button>
+                                    <Button Click="Download_Click" DataContext="{CompiledBinding}"  Classes="WindowButton ActionBtn" Margin="4 0">
+                                        <Image  Source="{SvgImage /Assets/Images/download.svg}" Classes="ActionIcon" />
+                                    </Button>
+                                    <Button  Classes="WindowButton ActionBtn">
+                                        <Image Source="{SvgImage /Assets/Images/post.svg}" Classes="ActionIcon" />
+                                    </Button>
                                 </StackPanel>
                             </Grid>
                         </Grid>
@@ -81,9 +126,10 @@
                 </DataTemplate>
             </Setter>
         </Style>
-        
+
         <Style Selector="ListBoxItem">
             <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="Margin" Value="8"></Setter>
             <Setter Property="Background" Value="Transparent"></Setter>
             <Style.Animations>
                 <Animation Duration="0:0:0.5" IterationCount="1">
@@ -100,14 +146,33 @@
                 <Setter Property="Background" Value="Transparent" />
             </Style>
         </Style>
-        
+
+        <Style Selector="TextBlock.TipsText">
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+        <!-- <Style Selector="TextBlock.ErrorTipsText"> -->
+        <!--     <Setter Property="Foreground" Value="White"></Setter> -->
+        <!-- </Style> -->
     </UserControl.Styles>
     <Grid Name="HomePageGrid">
-        <ScrollViewer Name="SongsScroll">
-            <ListBox ItemsSource="{Binding BeatMaps}"/>
-        </ScrollViewer>
-        <Border Name="TipsBorder" Classes="TipsBorder">
-            <TextBlock Name="TipsText"  TextAlignment="Center" VerticalAlignment="Center" Text="o(╥﹏╥)o 到底了~~"  FontSize="16" Foreground="{StaticResource MainColor}"/>
-        </Border>
+        
+        <StackPanel IsVisible="{CompiledBinding !CanConnectNetWork}" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock FontSize="24" Text="网络状况出现异常，请检查网络设置。" Foreground="Black"/>
+            <Button Content="刷新" Click="Refresh_Click" HorizontalAlignment="Center"/>
+        </StackPanel>
+        <Grid IsVisible="{CompiledBinding  CanConnectNetWork}">
+            <ScrollViewer Name="SongsScroll" HorizontalScrollBarVisibility="Auto">
+                <ListBox Name="BeatMapsLb" ItemsSource="{CompiledBinding Beatmaps}" SelectedItem="{CompiledBinding SelectedBeatmap}" />
+            </ScrollViewer >
+            <Border Name="TipsBorder" Classes="TipsBorder">
+                <TextBlock Name="TipsText" Classes="TipsText" Text="o(╥﹏╥)o 到底了~~" Foreground="White"/>
+            </Border>
+        </Grid>
+        
     </Grid>
 </UserControl>

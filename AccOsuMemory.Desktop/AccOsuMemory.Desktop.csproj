@@ -1,26 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <AssemblyName>AccOsuMemory</AssemblyName>
+    <ApplicationIcon>Assets\Images\avalonia-logo.ico</ApplicationIcon>
+    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+    <SatelliteResourceLanguages>en;zh</SatelliteResourceLanguages>
+    <PublishAot>true</PublishAot>
+    <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <NoWarn>1701;1702;IL2121;CS8632</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+<!--    <DebugType>none</DebugType>-->
+    <NoWarn>1701;1702;IL2121;CS8632</NoWarn>
+    <OutputPath />
+<!--    <DebugSymbols>false</DebugSymbols>-->
+  </PropertyGroup>
+  
   <ItemGroup>
-    <AvaloniaResource Include="Assets\**" />
+    <AvaloniaResource Include="Assets\Fonts\*" />
+    <AvaloniaResource Include="Assets\Images\*" />
+    <None Remove=".gitignore"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <TrimmerRootDescriptor Include="Roots.xml" />
+  </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.0-rc1.1" />
-    <PackageReference Include="Avalonia.Desktop" Version="11.0.0-rc1.1" />
+    <PackageReference Include="Avalonia" Version="11.0.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.0" />
     <PackageReference Include="Avalonia.Svg.Skia" Version="11.0.0-rc1.1" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0-rc1.1" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-rc1.1" />
-    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.0-rc1.1" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0-preview.5.23280.8" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0-preview.5.23280.8" />
   </ItemGroup>
 
 
@@ -29,15 +50,15 @@
   </ItemGroup>
 
 
+  
   <ItemGroup>
-    <Folder Include="Models\" />
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 
   <ItemGroup>
-    <Compile Update="Views\HomePageView.axaml.cs">
-      <DependentUpon>HomePageView.axaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

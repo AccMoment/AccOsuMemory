@@ -2,6 +2,8 @@ using AccOsuMemory.Desktop.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using System;
+using System.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AccOsuMemory.Desktop
 {
@@ -9,12 +11,14 @@ namespace AccOsuMemory.Desktop
     {
         public Control Build(object? data)
         {
-            var name = data.GetType().FullName!.Replace("ViewModel", "View");
+            var name = data!.GetType().FullName!.Replace("ViewModel", "View");
             var type = Type.GetType(name);
 
             if (type != null)
             {
-                return (Control)Activator.CreateInstance(type)!;
+                var control =(Control)Activator.CreateInstance(type)!;
+                control.DataContext = App.AppHost?.Services.GetService(data.GetType());
+                return control;
             }
 
             return new TextBlock { Text = "Not Found: " + name };

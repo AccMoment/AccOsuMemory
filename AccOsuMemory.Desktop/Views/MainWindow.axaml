@@ -4,48 +4,45 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="using:AccOsuMemory.Desktop.Views.Component"
-        xmlns:model="using:AccOsuMemory.Core.OsuApi.Sayo.Model"
-        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-        mc:Ignorable="d" d:DesignWidth="1180" d:DesignHeight="690"
-        Width="1180"
-        Height="690"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="750"
+        Width="1280"
+        Height="750"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
-        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaChromeHints='NoChrome'
         ExtendClientAreaToDecorationsHint="True"
+        SystemDecorations="None"
         TransparencyLevelHint="AcrylicBlur"
-        d:Background="#000"
-        Background="#4d4d4d"
-        Opacity="0.75"
+        Background="{StaticResource Background}"
         x:Class="AccOsuMemory.Desktop.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/Images/avalonia-logo.ico"
         Title="AccOsuMemory">
 
-    <Design.DataContext>
+    <Design.DataContext >
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel />
+        <vm:MainWindowViewModel/>
+        
     </Design.DataContext>
-
+    
 
     <Grid RowDefinitions="Auto,*">
-        <Grid>
-            <Grid ColumnDefinitions="*,*,*" PointerPressed="WindowMoved">
-                <Image Source="{SvgImage /Assets/osu-logo.svg}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24" Width="24" Margin="10 8 0 0"></Image>
+        <Grid PointerPressed="WindowMoved" Background="Transparent">
+            <Grid ColumnDefinitions="*,*,*">
+                <Image Source="{SvgImage /Assets/Images/osu-logo.svg}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24" Width="24" Margin="10 8 0 0"></Image>
                 <Label Grid.Column="1" Padding="0 10" Content="AccOsuMemory" FontSize="14"
-                       HorizontalAlignment="Center" Foreground="White" />
+                       HorizontalAlignment="Center" Foreground="Black" />
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top"
                             HorizontalAlignment="Right">
                     <Button Click="MinimizeOnClick" Classes="WindowButton NormalAction">
-                        <Image Source="{SvgImage /Assets/minimize.svg}" Classes="WindowIcon" />
+                        <Image Source="{SvgImage /Assets/Images/hide-window.svg}" Classes="WindowIcon" />
                     </Button>
                     <Button Click="MaximizeOnclick" Classes="WindowButton NormalAction">
-                        <Image Source="{SvgImage /Assets/windows.svg}" Classes="WindowIcon" />
+                        <Image Source="{SvgImage /Assets/Images/scale-window.svg}" Classes="WindowIcon" />
                     </Button>
                     <Button Click="CloseOnClick" Classes="WindowButton CloseAction">
-                        <Image Source="{SvgImage /Assets/close.svg}" Classes="WindowIcon" />
+                        <Image Source="{SvgImage /Assets/Images/close-window.svg}" Classes="WindowIcon" />
                     </Button>
                 </StackPanel>
             </Grid>
@@ -54,24 +51,12 @@
         <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
             <StackPanel Name="MenuLs" Grid.Column="0" Width="220" Margin="0,8,0,32">
                 <Separator Height="1" Background="White" Margin="20 0"></Separator>
-                <views:MenuButton BtnContent="123" IconValue="fa-light fa-house" IsSelect="False"
-                                  HorizontalAlignment="Center" Margin="20,7,20,7" />
-                <views:MenuButton BtnContent="123" IconValue="fa-house" IsSelect="False"
-                                  HorizontalAlignment="Center" Margin="20,7,20,7" />
-                <views:MenuButton BtnContent="123" IconValue="fa-house" IsSelect="False"
-                                  HorizontalAlignment="Center" Margin="20,7,20,7" />
-                <views:MenuButton BtnContent="123" IconValue="fa-house" IsSelect="False"
-                                  HorizontalAlignment="Center" Margin="20,7,20,7" />
-                <views:MenuButton Click="Load" Name="RefreshBtn" BtnContent="Refresh" IconValue="fa-house"
-                                  IsSelect="False" HorizontalAlignment="Center" Margin="20,7,20,7" />
+                <views:MenuButton Name="HomePageBtn" Click="MenuButton_OnClick" BtnContent="主页" HorizontalAlignment="Center" Margin="20,7,20,7" />
+                <views:MenuButton  Name="DownloadPageBtn" Click="MenuButton_OnClick" BtnContent="下载页面" HorizontalAlignment="Center" Margin="20,7,20,7" />
             </StackPanel>
-
-            <Grid Grid.Column="1">
-                <TransitioningContentControl  Name="ViewPages" Content="{Binding CurrentPage}"/>
-                
+            <Grid Grid.Column="1" Background="{StaticResource PrimaryContainer}">
+                <TransitioningContentControl Name="ViewPages"/>
             </Grid>
         </Grid>
     </Grid>
-
-
 </Window>

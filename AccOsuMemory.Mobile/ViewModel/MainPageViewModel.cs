@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Net.Http.Json;
-using AccOsuMemory.Core.OsuApi.Sayo.Model;
+using AccOsuMemory.Core.Models.SayoModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AccOsuMemory.Mobile.ViewModel;

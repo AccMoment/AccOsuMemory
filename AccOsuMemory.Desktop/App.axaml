@@ -1,23 +1,33 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:AccOsuMemory.Desktop"
              x:Class="AccOsuMemory.Desktop.App"
              RequestedThemeVariant="Default">
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
-        <local:ViewLocator />
+        <!-- <local:ViewLocator /> -->
     </Application.DataTemplates>
 
 
     <Application.Resources>
-        <SolidColorBrush x:Key="MainColor" Color="#ff75b3"></SolidColorBrush>
+        
+        <SolidColorBrush x:Key="TopBarColor" Color="#4dffffff"/>
+        <SolidColorBrush x:Key="Primary" Color="#ff75b3"/>
+        <SolidColorBrush x:Key="PrimaryContainer" Color="#4dffd9e5"/>
+        <SolidColorBrush x:Key="SecondaryContainer" Color="#ffd9e5"/>
+        <SolidColorBrush x:Key="TipsContainer" Color="#77f9d0"/>
+        <SolidColorBrush x:Key="Error" Color="#ba1a1a"/>
+        <SolidColorBrush x:Key="ErrorContainer" Color="#ffdad6"/>
+        <SolidColorBrush x:Key="Background" Color="#4df3f3f3"/>
+        <SolidColorBrush x:Key="Surface" Color="#f3f3f3"/>
     </Application.Resources>
     
     
     <Application.Styles>
         <FluentTheme />
+        
 
+        
         <Style Selector="Image.WindowIcon">
             <Setter Property="Width" Value="20" />
             <Setter Property="Height" Value="20" />

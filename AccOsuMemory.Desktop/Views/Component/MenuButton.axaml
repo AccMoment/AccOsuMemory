@@ -4,35 +4,45 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:component="clr-namespace:AccOsuMemory.Desktop.Views.Component"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="AccOsuMemory.Desktop.Views.Component.MenuButton"
-             >
+             x:Class="AccOsuMemory.Desktop.Views.Component.MenuButton">
     <UserControl.Styles>
-        <Style Selector="Button.menuButton">
+        <Style Selector="Button">
             <Setter Property="Height" Value="35" />
-            <Setter Property="Width" Value="180"></Setter>
-            <Setter Property="Background" Value="Transparent"></Setter>
-            <Setter Property="Foreground" Value="#f0f0f0"></Setter>
-            <Setter Property="FontSize" Value="24"></Setter>
+            <Setter Property="Width" Value="180" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="Padding" Value="0 4" />
             <!-- Set Defaults -->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Background="{TemplateBinding Background}">
-                            <ContentPresenter Content="{TemplateBinding Content}"  ></ContentPresenter>
+                        <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"
+                              Background="{TemplateBinding Background}">
+                            <ContentPresenter Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}"
+                                              HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            </ContentPresenter>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style Selector="Button.menuButton /template/ ContentPresenter">
+        <Style Selector="Button /template/ ContentPresenter">
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="#f0f0f0"></Setter>
+            <Setter Property="Foreground" Value="Black"></Setter>
         </Style>
-        
-        <Style Selector="Button.menuButton:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#f0f0f0"></Setter>
+
+        <Style Selector="Button:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource SecondaryContainer}" />
+            <Setter Property="CornerRadius" Value="8" />
         </Style>
+
+        <Style Selector=":is(component|MenuButton)[IsSelect=True]">
+            <Setter Property="Background" Value="{StaticResource SecondaryContainer}" />
+            <Setter Property="CornerRadius" Value="8" />
+        </Style>
+
     </UserControl.Styles>
-    
-    <Button Name="MenuBtn" Click="MenuBtn_OnClick" Classes="menuButton" Content="{Binding $parent[component:MenuButton].BtnContent}" />
+
+    <Button Name="MenuBtn" Click="MenuBtn_OnClick" 
+            Content="{CompiledBinding BtnContent,RelativeSource={RelativeSource AncestorType=component:MenuButton}}" />
 </UserControl>

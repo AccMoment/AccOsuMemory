@@ -3,28 +3,16 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:AccOsuMemory.Mobile.ViewModel"
-             xmlns:model="clr-namespace:AccOsuMemory.Core.OsuApi.Sayo.Model;assembly=AccOsuMemory.Core"
              x:DataType="vm:MainPageViewModel"
              x:Class="AccOsuMemory.Mobile.MainPage">
-
-    <ScrollView>
-        <ListView ItemsSource="{Binding BeatMaps}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="model:BeatMap">
-                    <ViewCell>
-                        <Border Background="YellowGreen" Padding="4">
-                            <VerticalStackLayout>
-                                <Image Source="{Binding Sid}"></Image>
-                                <Label Text="123"></Label>
-                                <Label Text="{Binding Title}" />
-                                <Label Text="{Binding Creator}"></Label>
-                            </VerticalStackLayout>
-                        </Border>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-
-        </ListView>
-    </ScrollView>
-
+    
+    <Grid>
+        <VerticalStackLayout>
+            <Label Text="Hello World NMSL"></Label>
+            <Label Text="Hello World NMSL"></Label>
+        </VerticalStackLayout>
+        
+        
+    </Grid>
+    
 </ContentPage>
