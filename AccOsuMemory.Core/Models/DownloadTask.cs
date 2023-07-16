@@ -1,18 +1,21 @@
 ﻿using System.Net.Http.Handlers;
 using AccOsuMemory.Core.Net;
 using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace AccOsuMemory.Core.Models;
 
-public class DownloadTask : ObservableObject, IHttpTask
+public partial class DownloadTask : ObservableObject, IHttpTask
 {
-    private bool _isWaiting = true;
-    private bool _isDownloading;
-    private bool _isFinished;
-    private bool _isError;
+    [ObservableProperty] private bool _isWaiting = true;
+    [ObservableProperty] private bool _isDownloading;
+    [ObservableProperty] private bool _isFinished;
+    [ObservableProperty] private bool _isError;
+    [ObservableProperty] private long _currentNetSpeed;
+    [ObservableProperty] private double _downloadedProgress;
+    [ObservableProperty] private long _bytesTransferred;
+    [ObservableProperty] private long _totalBytes;
+    [ObservableProperty] private long _recordBytesTransferred;
     private string _errorMessage = string.Empty;
-    private double _downloadedProgress;
-    private long _bytesTransferred;
-    private long _totalBytes;
 
     private readonly System.Timers.Timer _timer = new()
     {
@@ -20,48 +23,12 @@ public class DownloadTask : ObservableObject, IHttpTask
         Enabled = true
     };
 
-    private long _currentNetSpeed;
-    private long _recordBytesTransferred = 0;
+    private string DestinationFilePath { get; }
+
     public long Id { get; init; } = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
     public string Name { get; init; }
     public string Url { get; init; }
-    public string DestinationFilePath { get; init; }
 
-    public bool IsWaiting
-    {
-        get => _isWaiting;
-        private set => SetProperty(ref _isWaiting, value);
-    }
-
-    public bool IsDownloading
-    {
-        get => _isDownloading;
-        private set => SetProperty(ref _isDownloading, value);
-    }
-
-    public bool IsFinished
-    {
-        get => _isFinished;
-        private set => SetProperty(ref _isFinished, value);
-    }
-
-    public bool IsError
-    {
-        get => _isError;
-        private set => SetProperty(ref _isError, value);
-    }
-
-    public double DownloadedProgress
-    {
-        get => _downloadedProgress;
-        set => SetProperty(ref _downloadedProgress, value);
-    }
-
-    public long CurrentNetSpeed
-    {
-        get => _currentNetSpeed;
-        set => SetProperty(ref _currentNetSpeed, value);
-    }
 
     public string ErrorMessage
     {
@@ -87,12 +54,13 @@ public class DownloadTask : ObservableObject, IHttpTask
         {
             DownloadedProgress = (double)_bytesTransferred / _totalBytes * 100;
             CurrentNetSpeed = _bytesTransferred - _recordBytesTransferred;
-            _recordBytesTransferred = _bytesTransferred;
+            RecordBytesTransferred = _bytesTransferred;
         };
         _timer.Disposed += (s, e) =>
         {
             DownloadedProgress = (double)_bytesTransferred / _totalBytes * 100;
             CurrentNetSpeed = _bytesTransferred - _recordBytesTransferred;
+            RecordBytesTransferred = _bytesTransferred;
         };
     }
 
@@ -105,8 +73,8 @@ public class DownloadTask : ObservableObject, IHttpTask
 
     public void OnDownload(object? sender, HttpProgressEventArgs e)
     {
-        _totalBytes = e.TotalBytes ?? -1;
-        _bytesTransferred = e.BytesTransferred;
+        TotalBytes = e.TotalBytes ?? -1;
+        BytesTransferred = e.BytesTransferred;
     }
 
     public async Task OnFinished(Stream responseStream)

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using AccOsuMemory.Core.Models.SayoModels;
@@ -14,10 +12,10 @@ namespace AccOsuMemory.Desktop.Views;
 
 public partial class HomePageView : UserControl
 {
-    private readonly DownloadPageViewModel? _downloadPageViewModel =
-        App.AppHost?.Services.GetRequiredService<DownloadPageViewModel>();
+    private readonly TaskPageViewModel? _taskPageVM =
+        App.AppHost?.Services.GetRequiredService<TaskPageViewModel>();
 
-    private readonly HomePageViewModel _vm = App.AppHost?.Services.GetRequiredService<HomePageViewModel>()!;
+    private readonly HomePageViewModel _homePageVM = App.AppHost?.Services.GetRequiredService<HomePageViewModel>()!;
 
     public HomePageView()
     {
@@ -26,13 +24,13 @@ public partial class HomePageView : UserControl
 
     protected override void OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
-        _vm.CurrentOffset = SongsScroll.Offset;
+        _homePageVM.CurrentOffset = SongsScroll.Offset;
         base.OnDetachedFromLogicalTree(e);
     }
 
     protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
-        SongsScroll.Offset = _vm.CurrentOffset;
+        SongsScroll.Offset = _homePageVM.CurrentOffset;
         base.OnAttachedToLogicalTree(e);
     }
 
@@ -40,20 +38,29 @@ public partial class HomePageView : UserControl
     {
         try
         {
-            var replay = await _vm.CheckNetStatus();
-            if (replay.Status == IPStatus.Success)
+            await _homePageVM.CheckNetStatus();
+            if (_homePageVM.CanConnectNetWork)
             {
-                _vm.CanConnectNetWork = true;
-                LoadBeatmaps();
+                if (_homePageVM.Beatmaps.Count == 0)
+                {
+                    LoadBeatmaps();
+                }
+
                 SongsScroll.ScrollChanged += ScrollEvent;
             }
         }
         catch (Exception e)
         {
-            _vm.WriteErrorToFile(e.StackTrace ?? e.Message);
+            _homePageVM.WriteErrorToFile(e.StackTrace ?? e.Message);
         }
 
         base.OnInitialized();
+    }
+
+    protected override void OnUnloaded(RoutedEventArgs e)
+    {
+        SongsScroll.ScrollChanged -= ScrollEvent;
+        base.OnUnloaded(e);
     }
 
     private async void Download_Click(object? sender, RoutedEventArgs e)
@@ -62,8 +69,8 @@ public partial class HomePageView : UserControl
         {
             TipsBorder.Classes.Add("ShowTips");
             TipsText.Text = "已添加进下载列表中(*^▽^*)";
-            _downloadPageViewModel?.AddTask($"{beatmap.Sid} {beatmap.Creator} - {beatmap.Title}",
-                beatmap.MiniDownloadUrl, null, ".osz");
+            _taskPageVM?.AddTask($"{beatmap.Sid} {beatmap.Creator} - {beatmap.Title}",
+                beatmap.MiniDownloadUrl, ".osz");
             await Task.Delay(1145);
             TipsBorder.Classes.Remove("ShowTips");
         }
@@ -73,7 +80,8 @@ public partial class HomePageView : UserControl
     {
         if (sender is Button { DataContext: BeatMap beatmap })
         {
-            await _vm.PlayAudio(beatmap.PreviewAudio);
+            // Task.Run(async () => await _vm.PlayAudio(beatmap.PreviewAudio));
+            await _homePageVM.PlayAudio(beatmap.PreviewAudio);
         }
     }
 
@@ -81,17 +89,14 @@ public partial class HomePageView : UserControl
     {
         try
         {
-            var replay = await _vm.CheckNetStatus();
-            if (replay.Status == IPStatus.Success)
-            {
-                // _vm.CanConnectNetWork = true;
-                // LoadBeatmaps();
-                // SongsScroll.ScrollChanged += ScrollEvent;
-            }
+            await _homePageVM.CheckNetStatus();
+            if (!_homePageVM.CanConnectNetWork) return;
+            LoadBeatmaps();
+            SongsScroll.ScrollChanged += ScrollEvent;
         }
         catch (Exception ex)
         {
-            _vm.WriteErrorToFile(ex.StackTrace ?? ex.Message);
+            _homePageVM.WriteErrorToFile(ex.StackTrace ?? ex.Message);
         }
     }
 
@@ -99,7 +104,7 @@ public partial class HomePageView : UserControl
     {
         TipsBorder.Classes.Add("ShowTips");
         TipsText.Text = "(*^▽^*)加载中~~";
-        await _vm.LoadBeatMapsAsync();
+        await _homePageVM.LoadBeatMapsAsync();
         await Task.Delay(1145);
         TipsBorder.Classes.Remove("ShowTips");
     }
@@ -115,7 +120,7 @@ public partial class HomePageView : UserControl
         if (extentHeight - currentOffset >= 50d) return;
         try
         {
-            if (_vm.CanLoadBeatMapList)
+            if (_homePageVM.CanLoadBeatMapList)
             {
                 LoadBeatmaps();
             }

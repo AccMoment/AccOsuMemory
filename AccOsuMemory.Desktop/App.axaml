@@ -1,15 +1,17 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:desktop="clr-namespace:AccOsuMemory.Desktop"
              x:Class="AccOsuMemory.Desktop.App"
              RequestedThemeVariant="Default">
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
-        <!-- <local:ViewLocator /> -->
+        <desktop:ViewLocator />
     </Application.DataTemplates>
 
 
     <Application.Resources>
+        <FontFamily x:Key="LXGW-Regular">avares://AccOsuMemory/Assets/Fonts/LXGWWenKaiLite-Regular.ttf#LXGW WenKai Lite</FontFamily>
         
         <SolidColorBrush x:Key="TopBarColor" Color="#4dffffff"/>
         <SolidColorBrush x:Key="Primary" Color="#ff75b3"/>
@@ -24,10 +26,7 @@
     
     
     <Application.Styles>
-        <FluentTheme />
-        
-
-        
+        <StyleInclude Source="avares://Semi.Avalonia/Themes/Index.axaml" />
         <Style Selector="Image.WindowIcon">
             <Setter Property="Width" Value="20" />
             <Setter Property="Height" Value="20" />

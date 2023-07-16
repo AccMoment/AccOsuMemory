@@ -2,6 +2,8 @@
 
 public interface IFileProvider
 {
-    string GetTempDirectory();
-    string GetLogTxt();
+    string GetTempDirectoryPath();
+    string GetLogPath();
+
+    string GetDownloadDirectoryPath();
 }

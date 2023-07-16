@@ -7,9 +7,9 @@ using Avalonia.Data;
 using Avalonia.Markup.Xaml;
 
 namespace AccOsuMemory.Desktop.Views;
-public partial class DownloadPageView : UserControl
+public partial class TaskPageView : UserControl
 {
-    public DownloadPageView()
+    public TaskPageView()
     {
         InitializeComponent();
     }

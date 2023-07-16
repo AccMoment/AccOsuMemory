@@ -8,6 +8,7 @@ using Avalonia.Interactivity;
 using Microsoft.Extensions.DependencyInjection;
 using ShimSkiaSharp;
 using static AccOsuMemory.Desktop.App;
+
 namespace AccOsuMemory.Desktop.Views
 {
     public partial class MainWindow : Window
@@ -15,9 +16,10 @@ namespace AccOsuMemory.Desktop.Views
         public MainWindow()
         {
             InitializeComponent();
-            ViewPages.Content = AppHost?.Services.GetRequiredService<HomePageView>();
+            ViewPages.Content = AppHost?.Services.GetRequiredService<HomePageViewModel>();
+            HomePageBtn.IsSelect = true;
         }
-        
+
         protected override async void OnClosed(EventArgs e)
         {
             await AppHost!.StopAsync();
@@ -48,6 +50,7 @@ namespace AccOsuMemory.Desktop.Views
             e.Handled = true;
         }
 
+
         private void MenuButton_OnClick(object? sender, RoutedEventArgs e)
         {
             ClearSelectedMenuButtonState();
@@ -55,8 +58,8 @@ namespace AccOsuMemory.Desktop.Views
             btn.IsSelect = true;
             ViewPages.Content = btn.Name switch
             {
-                "HomePageBtn" => AppHost?.Services.GetRequiredService<HomePageView>(),
-                "DownloadPageBtn" => AppHost?.Services.GetRequiredService<DownloadPageView>(),
+                "HomePageBtn" => AppHost?.Services.GetRequiredService<HomePageViewModel>(),
+                "TaskPageBtn" => AppHost?.Services.GetRequiredService<TaskPageViewModel>(),
                 _ => null
             };
         }
@@ -71,6 +74,5 @@ namespace AccOsuMemory.Desktop.Views
                 }
             }
         }
-        
     }
 }

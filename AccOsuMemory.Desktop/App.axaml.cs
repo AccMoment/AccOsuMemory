@@ -44,21 +44,21 @@ namespace AccOsuMemory.Desktop
                     /*ViewModel*/
                     services.AddTransient<MainWindowViewModel>();
                     services.AddSingleton<HomePageViewModel>();
-                    services.AddSingleton<DownloadPageViewModel>();
+                    services.AddSingleton<TaskPageViewModel>();
                     
                     /*View*/
-                    services.AddSingleton((provider) => new MainWindow
-                    {
-                        DataContext = provider.GetService<MainWindowViewModel>()
-                    });
-                    services.AddSingleton((provider) => new DownloadPageView()
-                    {
-                        DataContext = provider.GetService<DownloadPageViewModel>()
-                    });
-                    services.AddSingleton((provider) => new HomePageView()
-                    {
-                        DataContext = provider.GetService<HomePageViewModel>()
-                    });
+                    // services.AddSingleton(provider => new MainWindow
+                    // {
+                    //     DataContext = provider.GetService<MainWindowViewModel>()
+                    // });
+                    // services.AddTransient(provider => new TaskPageView
+                    // {
+                    //     DataContext = provider.GetService<TaskPageViewModel>()
+                    // });
+                    // services.AddTransient(provider => new HomePageView
+                    // {
+                    //     DataContext = provider.GetService<HomePageViewModel>()
+                    // });
                 })
                 .Build();
 
@@ -74,8 +74,7 @@ namespace AccOsuMemory.Desktop
                 // Line below is needed to remove Avalonia data validation.
                 // Without this line you will get duplicate validations from both Avalonia and CT
                 BindingPlugins.DataValidators.RemoveAt(0);
-
-                desktop.MainWindow = App.AppHost?.Services.GetRequiredService<MainWindow>();
+                desktop.MainWindow = new MainWindow();
             }
 
             base.OnFrameworkInitializationCompleted();

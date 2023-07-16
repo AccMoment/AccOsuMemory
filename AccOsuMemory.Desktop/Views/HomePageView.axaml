@@ -4,33 +4,38 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:AccOsuMemory.Desktop.ViewModels"
              xmlns:extControl="clr-namespace:AccOsuMemory.Desktop.ExtControl"
-             xmlns:c="clr-namespace:AccOsuMemory.Desktop.Converter"
+             xmlns:converter="clr-namespace:AccOsuMemory.Desktop.Converter"
              xmlns:sayoModels="clr-namespace:AccOsuMemory.Core.Models.SayoModels;assembly=AccOsuMemory.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AccOsuMemory.Desktop.Views.HomePageView"
-             x:DataType="vm:HomePageViewModel"  >
+             x:DataType="vm:HomePageViewModel">
+    <Design.PreviewWith>
+        
+    </Design.PreviewWith>
     <UserControl.Resources>
-        <c:LongToDateTimeConverter x:Key="LongToDateTimeConverter"></c:LongToDateTimeConverter>
+        <converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter"></converter:LongToDateTimeConverter>
+        <converter:MapApprovedConverter x:Key="MapApprovedConverter"></converter:MapApprovedConverter>
+        <converter:ModeConverter x:Key="ModeConverter"></converter:ModeConverter>
     </UserControl.Resources>
     <UserControl.Styles>
-        <Style Selector="Button.ActionBtn" >
-            <Setter Property="Padding" Value="0"/>
+        <Style Selector="Button.ActionBtn">
+            <Setter Property="Padding" Value="0" />
         </Style>
         <Style Selector="Image.ActionIcon">
-            <Setter Property="Width" Value="25"/>
-            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="25" />
+            <Setter Property="Height" Value="25" />
         </Style>
-        
+
         <Style Selector="TextBlock">
             <Setter Property="Foreground" Value="Black"></Setter>
         </Style>
-        
+
         <Style Selector="Border.ItemBorder">
             <Setter Property="Background" Value="Transparent"></Setter>
         </Style>
 
         <Style Selector="Border.ItemBorder:pointerover">
-           <Setter Property="BoxShadow" Value="0 2 10 2 #40000000"></Setter>
+            <Setter Property="BoxShadow" Value="0 2 10 2 #40000000"></Setter>
         </Style>
 
         <Style Selector="Border.TipsBorder">
@@ -38,10 +43,10 @@
             <Setter Property="Height" Value="40" />
             <Setter Property="Background" Value="{StaticResource TipsContainer}" />
             <Setter Property="Padding" Value="10" />
-            <Setter Property="Margin" Value="0 10" />
+            <Setter Property="Margin" Value="0 30" />
             <Setter Property="CornerRadius" Value="10" />
             <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="VerticalAlignment" Value="Bottom" />
             <!-- <Setter Property="RenderTransform" Value="TranslateY(-30px)"></Setter> -->
             <Setter Property="Opacity" Value="0"></Setter>
             <Setter Property="Transitions">
@@ -53,23 +58,23 @@
         </Style>
 
         <Style Selector="Border.ShowTips">
-            <Setter Property="Opacity" Value="1"/>
+            <Setter Property="Opacity" Value="1" />
             <!-- <Setter Property="RenderTransform" Value="TranslateY(0px)"/> -->
         </Style>
 
         <Style Selector="Border.ShowErrorTips">
-            <Setter Property="Background" Value="{StaticResource ErrorContainer}"/>
-            <Setter Property="Opacity" Value="1"/>
+            <Setter Property="Background" Value="{StaticResource ErrorContainer}" />
+            <Setter Property="Opacity" Value="1" />
             <!-- <Setter Property="RenderTransform" Value="TranslateY(0px)"/> -->
         </Style>
-        
+
         <Style Selector="ListBox">
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="SelectionMode" Value="Single" />
             <Setter Property="ItemsPanel">
                 <ItemsPanelTemplate>
-                    <extControl:VirtualizingWrapPanel ItemHeight="275" ItemWidth="525" ></extControl:VirtualizingWrapPanel>
-                    <!-- <WrapPanel ItemHeight="250" ItemWidth="475"></WrapPanel> -->
+                    <extControl:VirtualizingWrapPanel ItemHeight="275" ItemWidth="525"></extControl:VirtualizingWrapPanel>
+                    <!-- <WrapPanel ItemHeight="275" ItemWidth="525" Orientation="Horizontal"></WrapPanel> -->
                 </ItemsPanelTemplate>
             </Setter>
             <Setter Property="ItemTemplate">
@@ -79,44 +84,63 @@
                         <Grid RowDefinitions="Auto,*">
                             <Grid>
                                 <Grid>
-                                    <extControl:AsyncImage AsyncSource="{CompiledBinding ThumbnailUrl}" ></extControl:AsyncImage>
-                                    <Border Background="Black" Opacity="0.35" CornerRadius="4 4 0 0"></Border>
+                                    <extControl:AsyncImage AsyncSource="{CompiledBinding ThumbnailUrl}" />
+                                    <Border Background="Black" Opacity="0.35" CornerRadius="4 4 0 0" />
                                 </Grid>
-                                
-                                <TextBlock Text="{CompiledBinding Title}"  FontSize="18" Foreground="White"
+
+                                <Border CornerRadius="16" Background="Black" Opacity="0.67" HorizontalAlignment="Left"
+                                        VerticalAlignment="Top" Margin="8">
+                                    <TextBlock
+                                        Text="{CompiledBinding Approved,Converter={StaticResource MapApprovedConverter}}"
+                                        FontSize="16" Foreground="White"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Padding="16 8"
+                                        Opacity="1"
+                                        >
+                                    </TextBlock>
+                                </Border>
+
+                                <TextBlock Text="{CompiledBinding Title}" FontSize="18" Foreground="White"
                                            HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4">
                                 </TextBlock>
-                                <Image Source="{SvgImage /Assets/Images/pass.svg}" Classes="ActionIcon" IsVisible="{CompiledBinding IsExist}" Margin="4" ToolTip.Tip="歌曲已存在于Songs文件夹中.."/>
+                                <!-- <Image Source="{SvgImage /Assets/Images/pass.svg}" Classes="ActionIcon" -->
+                                <!--        IsVisible="{CompiledBinding IsExist}" Margin="4" ToolTip.Tip="歌曲已存在于Songs文件夹中.." /> -->
+                                <Svg Path="{CompiledBinding Modes,Converter={StaticResource ModeConverter}}" Width="25" Height="25"
+                                     HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8"/>
                             </Grid>
-                            <Grid Grid.Row="1"  Margin="8">
+                            <Grid Grid.Row="1" Margin="8">
                                 <!-- Map Info -->
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="0 4">
-                                        <TextBlock Text="Creator : "  />
-                                        <TextBlock Text="{CompiledBinding Creator}"   TextWrapping="Wrap"/>
+                                        <TextBlock Text="Creator : " />
+                                        <TextBlock Text="{CompiledBinding Creator}" TextWrapping="Wrap" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="0 4">
-                                        <TextBlock Text="Artist : "  />
-                                        <TextBlock Text="{CompiledBinding Artist}" TextTrimming="WordEllipsis"   TextWrapping="Wrap"/>
+                                        <TextBlock Text="Artist : " />
+                                        <TextBlock Text="{CompiledBinding Artist}" TextTrimming="CharacterEllipsis"
+                                                   MaxLines="1" MaxWidth="460" TextWrapping="Wrap" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="0 4">
                                         <TextBlock Text="LastUpdate : " />
                                         <TextBlock
-                                            Text="{CompiledBinding LastUpdate,Converter={StaticResource LongToDateTimeConverter}}"  TextWrapping="Wrap"
-                                             />
+                                            Text="{CompiledBinding LastUpdate,Converter={StaticResource LongToDateTimeConverter}}"
+                                            TextWrapping="Wrap" />
                                     </StackPanel>
                                 </StackPanel>
-                                
+
                                 <!-- Action -->
-                                <StackPanel  VerticalAlignment="Bottom"
-                                      HorizontalAlignment="Right" Orientation="Horizontal">
-                                    <Button Click="AudioPlay_Click"  DataContext="{CompiledBinding}" Classes="WindowButton ActionBtn">
+                                <StackPanel VerticalAlignment="Bottom"
+                                            HorizontalAlignment="Right" Orientation="Horizontal">
+                                    <Button Click="AudioPlay_Click" DataContext="{CompiledBinding}"
+                                            Classes="WindowButton ActionBtn">
                                         <Image Source="{SvgImage /Assets/Images/play.svg}" Classes="ActionIcon" />
                                     </Button>
-                                    <Button Click="Download_Click" DataContext="{CompiledBinding}"  Classes="WindowButton ActionBtn" Margin="4 0">
-                                        <Image  Source="{SvgImage /Assets/Images/download.svg}" Classes="ActionIcon" />
+                                    <Button Click="Download_Click" DataContext="{CompiledBinding}"
+                                            Classes="WindowButton ActionBtn" Margin="4 0">
+                                        <Image Source="{SvgImage /Assets/Images/download.svg}" Classes="ActionIcon" />
                                     </Button>
-                                    <Button  Classes="WindowButton ActionBtn">
+                                    <Button Classes="WindowButton ActionBtn">
                                         <Image Source="{SvgImage /Assets/Images/post.svg}" Classes="ActionIcon" />
                                     </Button>
                                 </StackPanel>
@@ -151,7 +175,7 @@
             <Setter Property="TextAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="FontSize" Value="16" />
-            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Foreground" Value="White" />
         </Style>
 
@@ -160,19 +184,21 @@
         <!-- </Style> -->
     </UserControl.Styles>
     <Grid Name="HomePageGrid">
-        
-        <StackPanel IsVisible="{CompiledBinding !CanConnectNetWork}" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock FontSize="24" Text="网络状况出现异常，请检查网络设置。" Foreground="Black"/>
-            <Button Content="刷新" Click="Refresh_Click" HorizontalAlignment="Center"/>
+
+        <StackPanel IsVisible="{CompiledBinding !CanConnectNetWork}" VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <TextBlock FontSize="24" Text="网络状况出现异常，请检查网络设置。" Foreground="Black" />
+            <Button Content="刷新" Click="Refresh_Click" HorizontalAlignment="Center" />
         </StackPanel>
         <Grid IsVisible="{CompiledBinding  CanConnectNetWork}">
-            <ScrollViewer Name="SongsScroll" HorizontalScrollBarVisibility="Auto">
-                <ListBox Name="BeatMapsLb" ItemsSource="{CompiledBinding Beatmaps}" SelectedItem="{CompiledBinding SelectedBeatmap}" />
-            </ScrollViewer >
+            <ScrollViewer Name="SongsScroll">
+                <ListBox Name="BeatMapsLb" ItemsSource="{CompiledBinding Beatmaps}"
+                         SelectedItem="{CompiledBinding SelectedBeatmap}" />
+            </ScrollViewer>
             <Border Name="TipsBorder" Classes="TipsBorder">
-                <TextBlock Name="TipsText" Classes="TipsText" Text="o(╥﹏╥)o 到底了~~" Foreground="White"/>
+                <TextBlock Name="TipsText" Classes="TipsText" Foreground="White" />
             </Border>
         </Grid>
-        
+
     </Grid>
 </UserControl>

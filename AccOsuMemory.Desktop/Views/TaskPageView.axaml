@@ -6,10 +6,11 @@
              xmlns:converter="clr-namespace:AccOsuMemory.Desktop.Converter"
              xmlns:models="clr-namespace:AccOsuMemory.Core.Models;assembly=AccOsuMemory.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="AccOsuMemory.Desktop.Views.DownloadPageView"
-             x:DataType="vm:DownloadPageViewModel">
+             x:Class="AccOsuMemory.Desktop.Views.TaskPageView"
+             x:DataType="vm:TaskPageViewModel">
     <UserControl.Resources>
         <converter:NetSpeedConverter x:Key="SpeedConverter"/>
+        <converter:ByteToMegaByteConverter x:Key="ByteToMegaByteConverter"></converter:ByteToMegaByteConverter>
     </UserControl.Resources>
     <UserControl.Styles>
         <Style Selector="TextBlock.StateText">
@@ -55,31 +56,49 @@
             <!-- </Setter> -->
             <Setter Property="ItemTemplate">
                 <DataTemplate DataType="models:DownloadTask">
-                    <Border Height="80" Margin="10" CornerRadius="4" BorderThickness="1"
+                    <Border Height="120" Margin="10" CornerRadius="4" BorderThickness="1"
                             BorderBrush="#000">
                         <Grid>
-                            <Grid>
-                                <TextBlock Text="{CompiledBinding Name}" FontSize="16" Margin="4" />
-                                <TextBlock Text="等待中..." IsVisible="{CompiledBinding IsWaiting}" Classes="StateText" />
-                                <TextBlock Text="下载中..." IsVisible="{CompiledBinding IsDownloading}" Classes="StateText" />
-                                <TextBlock Text="已完成" IsVisible="{CompiledBinding IsFinished}" Classes="StateText" />
-                                <TextBlock Text="{Binding ErrorMessage}" IsVisible="{CompiledBinding IsError}" ToolTip.Tip="{CompiledBinding ErrorMessage}"
-                                           Classes="StateText" Foreground="{StaticResource Error}" />
-                            </Grid>
+                            <!-- <Grid> -->
+                            <TextBlock Text="{CompiledBinding Name}" FontSize="16" Margin="16 16" />
+                            <!--     <TextBlock Text="等待中..." IsVisible="{CompiledBinding IsWaiting}" Classes="StateText" /> -->
+                            <!--     <TextBlock Text="下载中..." IsVisible="{CompiledBinding IsDownloading}" Classes="StateText" /> -->
+                            <!--     <TextBlock Text="已完成" IsVisible="{CompiledBinding IsFinished}" Classes="StateText" /> -->
+                            <!--     <TextBlock Text="{Binding ErrorMessage}" IsVisible="{CompiledBinding IsError}" ToolTip.Tip="{CompiledBinding ErrorMessage}" -->
+                            <!--                Classes="StateText" Foreground="{StaticResource Error}" /> -->
+                            <!-- </Grid> -->
                             <ProgressBar
                                 VerticalAlignment="Bottom"
                                 Value="{CompiledBinding DownloadedProgress}"
-                                Margin="4"
+                                Margin="16 32"
                                 Minimum="0"
                                 Maximum="100"
                                 ShowProgressText="True"
                                 ProgressTextFormat="{CompiledBinding CurrentNetSpeed,Converter={StaticResource SpeedConverter}}" >
-                                <ProgressBar.Styles>
-                                    <Style Selector="ProgressBar">
-                                        <Setter Property="Foreground" Value="Aqua"></Setter>
-                                    </Style>
-                                </ProgressBar.Styles>
+                                <!-- <ProgressBar.Styles> -->
+                                <!--     <Style Selector="ProgressBar"> -->
+                                <!--         <Setter Property="Foreground" Value="Aqua"/> -->
+                                <!--         <Setter Property="Transitions"> -->
+                                <!--             <Transitions> -->
+                                <!--                 <DoubleTransition Duration="0:0:1" Property="Value"></DoubleTransition> -->
+                                <!--             </Transitions> -->
+                                <!--         </Setter> -->
+                                <!--     </Style> -->
+                                <!-- </ProgressBar.Styles> -->
                             </ProgressBar>
+                            
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="16 8">
+                                <StackPanel.Styles>
+                                    <Style Selector="TextBlock">
+                                        <Setter Property="FontSize" Value="14"/>
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Style>
+                                </StackPanel.Styles>
+                                
+                                <TextBlock Text="{CompiledBinding RecordBytesTransferred,Converter={StaticResource ByteToMegaByteConverter}}"/>
+                                <TextBlock Text="/"/>
+                                <TextBlock Text="{CompiledBinding TotalBytes,Converter={StaticResource ByteToMegaByteConverter}}"/>
+                            </StackPanel>
                         </Grid>
                     </Border>
                 </DataTemplate>

@@ -7,6 +7,7 @@
         mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="750"
         Width="1280"
         Height="750"
+        FontFamily="{StaticResource LXGW-Regular}"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
         ExtendClientAreaChromeHints='NoChrome'
@@ -19,18 +20,21 @@
         Icon="/Assets/Images/avalonia-logo.ico"
         Title="AccOsuMemory">
 
-    <Design.DataContext >
+    <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-        
+        <vm:MainWindowViewModel />
+
     </Design.DataContext>
-    
+
 
     <Grid RowDefinitions="Auto,*">
         <Grid PointerPressed="WindowMoved" Background="Transparent">
             <Grid ColumnDefinitions="*,*,*">
-                <Image Source="{SvgImage /Assets/Images/osu-logo.svg}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24" Width="24" Margin="10 8 0 0"></Image>
+                <Image Source="{SvgImage /Assets/Images/osu-logo.svg}" HorizontalAlignment="Left"
+                       VerticalAlignment="Top" Height="24" Width="24" Margin="10 8 0 0"
+                       RenderOptions.BitmapInterpolationMode="HighQuality">
+                </Image>
                 <Label Grid.Column="1" Padding="0 10" Content="AccOsuMemory" FontSize="14"
                        HorizontalAlignment="Center" Foreground="Black" />
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top"
@@ -51,11 +55,17 @@
         <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
             <StackPanel Name="MenuLs" Grid.Column="0" Width="220" Margin="0,8,0,32">
                 <Separator Height="1" Background="White" Margin="20 0"></Separator>
-                <views:MenuButton Name="HomePageBtn" Click="MenuButton_OnClick" BtnContent="主页" HorizontalAlignment="Center" Margin="20,7,20,7" />
-                <views:MenuButton  Name="DownloadPageBtn" Click="MenuButton_OnClick" BtnContent="下载页面" HorizontalAlignment="Center" Margin="20,7,20,7" />
+                <views:MenuButton Name="HomePageBtn" Click="MenuButton_OnClick" BtnContent="主页"
+                                  HorizontalAlignment="Center" Margin="20,7,20,7" />
+                <views:MenuButton Name="SearchPageBtn" Click="MenuButton_OnClick" BtnContent="搜索歌曲"
+                                  HorizontalAlignment="Center" Margin="20,7,20,7" />
+                <views:MenuButton Name="DownloadPageBtn" Click="MenuButton_OnClick" BtnContent="批量下载"
+                                  HorizontalAlignment="Center" Margin="20,7,20,7" />
+                <views:MenuButton Name="TaskPageBtn" Click="MenuButton_OnClick" BtnContent="任务列表"
+                                  HorizontalAlignment="Center" Margin="20,7,20,7" />
             </StackPanel>
             <Grid Grid.Column="1" Background="{StaticResource PrimaryContainer}">
-                <TransitioningContentControl Name="ViewPages"/>
+                <TransitioningContentControl Name="ViewPages" />
             </Grid>
         </Grid>
     </Grid>

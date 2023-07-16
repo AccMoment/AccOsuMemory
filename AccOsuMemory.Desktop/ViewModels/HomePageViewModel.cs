@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using AccOsuMemory.Core.Models.SayoModels;
@@ -12,6 +10,7 @@ using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AccOsuMemory.Desktop.ViewModels;
+
 public partial class HomePageViewModel : ViewModelBase
 {
     private readonly ISayoApiService _service;
@@ -29,34 +28,30 @@ public partial class HomePageViewModel : ViewModelBase
     [ObservableProperty] private Vector _currentOffset;
 
     [ObservableProperty] private bool _canConnectNetWork;
-    
+
     public HomePageViewModel(ISayoApiService service, IFileProvider fileProvider)
     {
         _service = service;
         _fileProvider = fileProvider;
-        // _player.PlaybackFinished += (s, e) =>
-        // {
-        //     if (File.Exists(_tempAudioPath)) File.Delete(_tempAudioPath);
-        // };
     }
 
 
     public async Task PlayAudio(string url)
     {
-        await _player.Stop();
+        if (_player.Playing) await _player.Stop();
         var name = url[url.LastIndexOf('/')..];
-        var audioPath = _fileProvider.GetTempDirectory() + $"/{name}";
+        var audioPath = _fileProvider.GetTempDirectoryPath() + $"/{name}";
         if (File.Exists(audioPath))
         {
             await _player.Play(audioPath);
             return;
         }
-
-        var fileStream = new FileStream(audioPath, FileMode.OpenOrCreate, FileAccess.Write);
-        var response = await DownloadManager.GetHttpClient().GetStreamAsync(url);
-        await response.CopyToAsync(fileStream);
-        await fileStream.DisposeAsync();
-        await response.DisposeAsync();
+        await Task.Run(async () =>
+        {
+            await using var fileStream = new FileStream(audioPath, FileMode.OpenOrCreate, FileAccess.Write);
+            await using var response = await DownloadManager.GetHttpClient().GetStreamAsync(url);
+            await response.CopyToAsync(fileStream);
+        });
         await _player.Play(audioPath);
     }
 
@@ -69,20 +64,21 @@ public partial class HomePageViewModel : ViewModelBase
             CanLoadBeatMapList = false;
             return;
         }
+
         list.BeatMaps.ForEach(map => { Beatmaps.Add(map); });
     }
 
-    public async Task<PingReply> CheckNetStatus()
+    public async Task CheckNetStatus()
     {
         using Ping ping = new();
         const string hostName = "www.baidu.com";
-        return await ping.SendPingAsync(hostName);
+        var reply =await ping.SendPingAsync(hostName,10000);
+        CanConnectNetWork = reply.Status == IPStatus.Success;
     }
 
     public void WriteErrorToFile(string errorText)
     {
-        using var file = File.AppendText(_fileProvider.GetLogTxt());
+        using var file = File.AppendText(_fileProvider.GetLogPath());
         file.Write(errorText);
     }
-    
 }

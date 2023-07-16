@@ -10,7 +10,7 @@
             <Setter Property="Height" Value="35" />
             <Setter Property="Width" Value="180" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontSize" Value="18" />
             <Setter Property="Padding" Value="0 4" />
             <!-- Set Defaults -->
             <Setter Property="Template">
@@ -43,6 +43,6 @@
 
     </UserControl.Styles>
 
-    <Button Name="MenuBtn" Click="MenuBtn_OnClick" 
+    <Button Name="MenuBtn" Click="MenuBtn_OnClick"  FontFamily="avares://AccOsuMemory/Assets/Fonts/LXGWWenKaiLite-Regular.ttf#LXGW WenKai Lite"
             Content="{CompiledBinding BtnContent,RelativeSource={RelativeSource AncestorType=component:MenuButton}}" />
 </UserControl>
