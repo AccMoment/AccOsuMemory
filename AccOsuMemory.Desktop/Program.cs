@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using System;
 using System.Threading;
+using Avalonia.Dialogs;
 
 namespace AccOsuMemory.Desktop
 {
@@ -53,6 +54,7 @@ namespace AccOsuMemory.Desktop
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
+                .UseManagedSystemDialogs()
                 .LogToTrace()
                 .With(new X11PlatformOptions
                 {

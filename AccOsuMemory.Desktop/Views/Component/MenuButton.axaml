@@ -10,6 +10,7 @@
             <Setter Property="Height" Value="35" />
             <Setter Property="Width" Value="180" />
             <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="Black"></Setter>
             <Setter Property="FontSize" Value="18" />
             <Setter Property="Padding" Value="0 4" />
             <!-- Set Defaults -->
@@ -18,7 +19,7 @@
                     <ControlTemplate TargetType="Button">
                         <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"
                               Background="{TemplateBinding Background}">
-                            <ContentPresenter Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}"
+                            <ContentPresenter Padding="{TemplateBinding Padding}" Background="Transparent" CornerRadius="8" Foreground="{TemplateBinding Foreground}" Content="{TemplateBinding Content}"
                                               HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                             </ContentPresenter>
                         </Grid>
@@ -27,15 +28,16 @@
             </Setter>
         </Style>
         <Style Selector="Button /template/ ContentPresenter">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="Black"></Setter>
+            <!-- <Setter Property="Background" Value="Transparent" /> -->
+            <!-- <Setter Property="Foreground" Value="Black"></Setter> -->
+            <!-- <Setter Property="CornerRadius" Value="8" /> -->
         </Style>
 
         <Style Selector="Button:pointerover /template/ ContentPresenter">
             <Setter Property="Background" Value="{StaticResource SecondaryContainer}" />
             <Setter Property="CornerRadius" Value="8" />
         </Style>
-
+        
         <Style Selector=":is(component|MenuButton)[IsSelect=True]">
             <Setter Property="Background" Value="{StaticResource SecondaryContainer}" />
             <Setter Property="CornerRadius" Value="8" />
@@ -43,6 +45,6 @@
 
     </UserControl.Styles>
 
-    <Button Name="MenuBtn" Click="MenuBtn_OnClick"  FontFamily="avares://AccOsuMemory/Assets/Fonts/LXGWWenKaiLite-Regular.ttf#LXGW WenKai Lite"
+    <Button Name="MenuBtn" Click="MenuBtn_OnClick"  FontFamily="{StaticResource LXGW-Regular}"
             Content="{CompiledBinding BtnContent,RelativeSource={RelativeSource AncestorType=component:MenuButton}}" />
 </UserControl>

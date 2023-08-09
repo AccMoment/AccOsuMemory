@@ -60,7 +60,7 @@
                             BorderBrush="#000">
                         <Grid>
                             <!-- <Grid> -->
-                            <TextBlock Text="{CompiledBinding Name}" FontSize="16" Margin="16 16" />
+                            <TextBlock Text="{Binding Name}" FontSize="16" Margin="16 16" />
                             <!--     <TextBlock Text="等待中..." IsVisible="{CompiledBinding IsWaiting}" Classes="StateText" /> -->
                             <!--     <TextBlock Text="下载中..." IsVisible="{CompiledBinding IsDownloading}" Classes="StateText" /> -->
                             <!--     <TextBlock Text="已完成" IsVisible="{CompiledBinding IsFinished}" Classes="StateText" /> -->
@@ -69,12 +69,12 @@
                             <!-- </Grid> -->
                             <ProgressBar
                                 VerticalAlignment="Bottom"
-                                Value="{CompiledBinding DownloadedProgress}"
+                                Value="{Binding DownloadedProgress}"
                                 Margin="16 32"
                                 Minimum="0"
                                 Maximum="100"
                                 ShowProgressText="True"
-                                ProgressTextFormat="{CompiledBinding CurrentNetSpeed,Converter={StaticResource SpeedConverter}}" >
+                                ProgressTextFormat="{Binding CurrentNetSpeed,Converter={StaticResource SpeedConverter}}" >
                                 <!-- <ProgressBar.Styles> -->
                                 <!--     <Style Selector="ProgressBar"> -->
                                 <!--         <Setter Property="Foreground" Value="Aqua"/> -->
@@ -95,9 +95,9 @@
                                     </Style>
                                 </StackPanel.Styles>
                                 
-                                <TextBlock Text="{CompiledBinding RecordBytesTransferred,Converter={StaticResource ByteToMegaByteConverter}}"/>
+                                <TextBlock Text="{Binding RecordBytesTransferred,Converter={StaticResource ByteToMegaByteConverter}}"/>
                                 <TextBlock Text="/"/>
-                                <TextBlock Text="{CompiledBinding TotalBytes,Converter={StaticResource ByteToMegaByteConverter}}"/>
+                                <TextBlock Text="{Binding TotalBytes,Converter={StaticResource ByteToMegaByteConverter}}"/>
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -114,7 +114,7 @@
             <Separator Height="2" Background="#f3f3f3" Margin="8"></Separator>
         </StackPanel>
         <ScrollViewer Grid.Row="1">
-            <ListBox Name="DownloadListBox" ItemsSource="{CompiledBinding Tasks}">
+            <ListBox Name="DownloadListBox" ItemsSource="{Binding Tasks}">
             </ListBox>
         </ScrollViewer>
     </Grid>

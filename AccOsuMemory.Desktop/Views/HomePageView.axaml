@@ -83,15 +83,20 @@
                             BorderBrush="#f0f0f0">
                         <Grid RowDefinitions="Auto,*">
                             <Grid>
+                                
+                                <!-- Thumbnail -->
                                 <Grid>
-                                    <extControl:AsyncImage AsyncSource="{CompiledBinding ThumbnailUrl}" />
+                                    <Border ClipToBounds="True" CornerRadius="4 4 0 0">
+                                        <extControl:AsyncImage AsyncSource="{Binding ThumbnailUrl}" />
+                                    </Border>
                                     <Border Background="Black" Opacity="0.35" CornerRadius="4 4 0 0" />
                                 </Grid>
-
+                                
+                                <!-- Rank Mark -->
                                 <Border CornerRadius="16" Background="Black" Opacity="0.67" HorizontalAlignment="Left"
                                         VerticalAlignment="Top" Margin="8">
                                     <TextBlock
-                                        Text="{CompiledBinding Approved,Converter={StaticResource MapApprovedConverter}}"
+                                        Text="{Binding Approved,Converter={StaticResource MapApprovedConverter}}"
                                         FontSize="16" Foreground="White"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
@@ -100,43 +105,43 @@
                                         >
                                     </TextBlock>
                                 </Border>
-
-                                <TextBlock Text="{CompiledBinding Title}" FontSize="18" Foreground="White"
+                                
+                                <TextBlock Text="{Binding Title}" FontSize="18" Foreground="White"
                                            HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4">
                                 </TextBlock>
                                 <!-- <Image Source="{SvgImage /Assets/Images/pass.svg}" Classes="ActionIcon" -->
                                 <!--        IsVisible="{CompiledBinding IsExist}" Margin="4" ToolTip.Tip="歌曲已存在于Songs文件夹中.." /> -->
-                                <Svg Path="{CompiledBinding Modes,Converter={StaticResource ModeConverter}}" Width="25" Height="25"
+                                <Svg Path="{Binding Modes,Converter={StaticResource ModeConverter}}" Width="25" Height="25"
                                      HorizontalAlignment="Right" VerticalAlignment="Top" Margin="8"/>
                             </Grid>
                             <Grid Grid.Row="1" Margin="8">
                                 <!-- Map Info -->
                                 <StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="0 4">
-                                        <TextBlock Text="Creator : " />
-                                        <TextBlock Text="{CompiledBinding Creator}" TextWrapping="Wrap" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="0 4">
-                                        <TextBlock Text="Artist : " />
-                                        <TextBlock Text="{CompiledBinding Artist}" TextTrimming="CharacterEllipsis"
+                                    <Grid ColumnDefinitions="Auto,Auto" Margin="0 4" >
+                                        <TextBlock Text="Creator : " Grid.Column="0"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding Creator}" TextWrapping="Wrap" />
+                                    </Grid>
+                                    <Grid ColumnDefinitions="Auto,Auto"  Margin="0 4">
+                                        <TextBlock Grid.Column="0" Text="Artist : " />
+                                        <TextBlock Grid.Column="1" Text="{Binding Artist}" TextTrimming="CharacterEllipsis"
                                                    MaxLines="1" MaxWidth="460" TextWrapping="Wrap" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="0 4">
-                                        <TextBlock Text="LastUpdate : " />
-                                        <TextBlock
-                                            Text="{CompiledBinding LastUpdate,Converter={StaticResource LongToDateTimeConverter}}"
+                                    </Grid>
+                                    <Grid ColumnDefinitions="Auto,Auto" Margin="0 4">
+                                        <TextBlock Grid.Column="0" Text="LastUpdate : " />
+                                        <TextBlock Grid.Column="1"
+                                            Text="{Binding LastUpdate,Converter={StaticResource LongToDateTimeConverter}}"
                                             TextWrapping="Wrap" />
-                                    </StackPanel>
+                                    </Grid>
                                 </StackPanel>
 
                                 <!-- Action -->
                                 <StackPanel VerticalAlignment="Bottom"
                                             HorizontalAlignment="Right" Orientation="Horizontal">
-                                    <Button Click="AudioPlay_Click" DataContext="{CompiledBinding}"
+                                    <Button Click="AudioPlay_Click" DataContext="{Binding}"
                                             Classes="WindowButton ActionBtn">
                                         <Image Source="{SvgImage /Assets/Images/play.svg}" Classes="ActionIcon" />
                                     </Button>
-                                    <Button Click="Download_Click" DataContext="{CompiledBinding}"
+                                    <Button Click="Download_Click" DataContext="{Binding}"
                                             Classes="WindowButton ActionBtn" Margin="4 0">
                                         <Image Source="{SvgImage /Assets/Images/download.svg}" Classes="ActionIcon" />
                                     </Button>
@@ -185,15 +190,15 @@
     </UserControl.Styles>
     <Grid Name="HomePageGrid">
 
-        <StackPanel IsVisible="{CompiledBinding !CanConnectNetWork}" VerticalAlignment="Center"
+        <StackPanel IsVisible="{Binding !CanConnectNetWork}" VerticalAlignment="Center"
                     HorizontalAlignment="Center">
             <TextBlock FontSize="24" Text="网络状况出现异常，请检查网络设置。" Foreground="Black" />
             <Button Content="刷新" Click="Refresh_Click" HorizontalAlignment="Center" />
         </StackPanel>
-        <Grid IsVisible="{CompiledBinding  CanConnectNetWork}">
+        <Grid IsVisible="{Binding  CanConnectNetWork}">
             <ScrollViewer Name="SongsScroll">
-                <ListBox Name="BeatMapsLb" ItemsSource="{CompiledBinding Beatmaps}"
-                         SelectedItem="{CompiledBinding SelectedBeatmap}" />
+                <ListBox Name="BeatMapsLb" ItemsSource="{Binding Beatmaps}"
+                         SelectedItem="{Binding SelectedBeatmap}" />
             </ScrollViewer>
             <Border Name="TipsBorder" Classes="TipsBorder">
                 <TextBlock Name="TipsText" Classes="TipsText" Foreground="White" />

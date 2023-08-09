@@ -1,4 +1,6 @@
-﻿namespace AccOsuMemory.Mobile;
+﻿using Microsoft.Maui.Controls;
+
+namespace AccOsuMemory.Mobile;
 
 public partial class AppShell : Shell
 {

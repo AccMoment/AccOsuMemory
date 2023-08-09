@@ -10,6 +10,7 @@
         <VerticalStackLayout>
             <Label Text="Hello World NMSL"></Label>
             <Label Text="Hello World NMSL"></Label>
+            <Label Text="Hello World NMSL"></Label>
         </VerticalStackLayout>
         
         

@@ -38,9 +38,10 @@ public partial class HomePageViewModel : ViewModelBase
 
     public async Task PlayAudio(string url)
     {
-        if (_player.Playing) await _player.Stop();
-        var name = url[url.LastIndexOf('/')..];
-        var audioPath = _fileProvider.GetTempDirectoryPath() + $"/{name}";
+        // if (_player.Playing) await _player.Stop();
+        var index = url.LastIndexOf('/');
+        var name = url[++index..];
+        var audioPath = Path.Combine(_fileProvider.GetTempDirectoryPath(),name);
         if (File.Exists(audioPath))
         {
             await _player.Play(audioPath);
