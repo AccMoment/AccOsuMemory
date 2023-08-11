@@ -45,6 +45,6 @@
 
     </UserControl.Styles>
 
-    <Button Name="MenuBtn" Click="MenuBtn_OnClick"  FontFamily="{StaticResource LXGW-Regular}"
+    <Button Name="MenuBtn" Click="MenuBtn_OnClick" CommandParameter="" FontFamily="{StaticResource LXGW-Regular}"
             Content="{CompiledBinding BtnContent,RelativeSource={RelativeSource AncestorType=component:MenuButton}}" />
 </UserControl>

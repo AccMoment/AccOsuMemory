@@ -1,0 +1,54 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:component="clr-namespace:AccOsuMemory.Desktop.Views.Component"
+             xmlns:model="clr-namespace:AccOsuMemory.Desktop.Model"
+             xmlns:vm="using:AccOsuMemory.Desktop.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AccOsuMemory.Desktop.Views.Component.SideBar"
+             x:DataType="vm:MainWindowViewModel"
+             >
+    
+    <Grid>
+        <Canvas>
+            <Ellipse Name="FloatShape" Canvas.Left="0" Canvas.Top="15" Fill="{StaticResource Primary}" Height="20" Width="5" HorizontalAlignment="Left">
+                <Ellipse.Styles>
+                    <Style Selector="Ellipse">
+                        <Setter Property="Transitions">
+                            <Transitions>
+                                <DoubleTransition Duration="0:0:0.25" Property="Height"></DoubleTransition>
+                            </Transitions>
+                        </Setter>
+                    </Style>
+                </Ellipse.Styles>
+            </Ellipse>
+        </Canvas>
+        <ItemsControl Name="SideBarItems" ItemsSource="{Binding  PageModels}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="model:PageModel">
+                    <Border  PointerPressed="PageChange_OnPointerPressed">
+                        <Border.Styles>
+                            <Style Selector="Border">
+                                <Setter Property="Height" Value="35"/>
+                                <Setter Property="Margin" Value="0 7 0 7"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="CornerRadius" Value="10"></Setter>
+                            </Style>
+                            <Style Selector="Border:pointerover">
+                                <Setter Property="Background" Value="#44000000"></Setter>
+                            </Style>
+                        </Border.Styles>
+        
+                        <TextBlock Tag="{Binding NameEn}" Text="{Binding NameZh}" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"    />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        
+        </ItemsControl>
+        
+        
+    </Grid>
+    
+
+</UserControl>

@@ -16,8 +16,8 @@ namespace AccOsuMemory.Desktop.Views
         public MainWindow()
         {
             InitializeComponent();
-            ViewPages.Content = AppHost?.Services.GetRequiredService<HomePageViewModel>();
-            HomePageBtn.IsSelect = true;
+            // ViewPages.Content = AppHost?.Services.GetRequiredService<HomePageViewModel>();
+            // HomePageBtn.IsSelect = true;
         }
 
         protected override async void OnClosed(EventArgs e)
