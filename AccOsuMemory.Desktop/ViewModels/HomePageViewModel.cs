@@ -41,12 +41,13 @@ public partial class HomePageViewModel : ViewModelBase
         // if (_player.Playing) await _player.Stop();
         var index = url.LastIndexOf('/');
         var name = url[++index..];
-        var audioPath = Path.Combine(_fileProvider.GetTempDirectoryPath(),name);
+        var audioPath = Path.Combine(_fileProvider.GetMusicCacheDirectory(), name);
         if (File.Exists(audioPath))
         {
             await _player.Play(audioPath);
             return;
         }
+
         await Task.Run(async () =>
         {
             await using var fileStream = new FileStream(audioPath, FileMode.OpenOrCreate, FileAccess.Write);
@@ -66,20 +67,31 @@ public partial class HomePageViewModel : ViewModelBase
             return;
         }
 
-        list.BeatMaps.ForEach(map => { Beatmaps.Add(map); });
+        list.BeatMaps.ForEach(async map =>
+        {
+            var file = Path.Combine(_fileProvider.GetThumbnailCacheDirectory(),$"{map.Sid}.jpg");
+            if (!File.Exists(file))
+            {
+                await using var stream = await DownloadManager.GetHttpClient().GetStreamAsync(map.GetThumbnailUrl());
+                await using var fs = new FileStream(file, FileMode.OpenOrCreate, FileAccess.Write);
+                await stream.CopyToAsync(fs);
+            }
+            map.ThumbnailFile = file;
+            Beatmaps.Add(map);
+        });
     }
 
     public async Task CheckNetStatus()
     {
         using Ping ping = new();
         const string hostName = "www.baidu.com";
-        var reply =await ping.SendPingAsync(hostName,10000);
+        var reply = await ping.SendPingAsync(hostName, 10000);
         CanConnectNetWork = reply.Status == IPStatus.Success;
     }
 
     public void WriteErrorToFile(string errorText)
     {
-        using var file = File.AppendText(_fileProvider.GetLogPath());
+        using var file = File.AppendText(_fileProvider.GetLogFilePath());
         file.Write(errorText);
     }
 }

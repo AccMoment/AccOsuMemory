@@ -23,8 +23,8 @@ public partial class TaskPageViewModel : ViewModelBase
 
     public void AddTask(string name, string url, string suffix)
     {
-        var directoryName = Path.GetDirectoryName(_fileProvider.GetDownloadDirectoryPath());
-        var downloadPath = directoryName == "osu!" ? Path.Combine(_fileProvider.GetDownloadDirectoryPath(), "Songs") : _fileProvider.GetDownloadDirectoryPath();
+        var directoryName = Path.GetDirectoryName(_fileProvider.GetDownloadDirectory());
+        var downloadPath = directoryName == "osu!" ? Path.Combine(_fileProvider.GetDownloadDirectory(), "Songs") : _fileProvider.GetDownloadDirectory();
         Console.WriteLine(downloadPath);
         var task = new DownloadTask(name, url, downloadPath, suffix);
         Tasks.Add(task);

@@ -81,13 +81,13 @@
                 <DataTemplate DataType="sayoModels:BeatMap">
                     <Border Margin="10" Classes="ItemBorder" CornerRadius="4" BorderThickness="1"
                             BorderBrush="#f0f0f0">
-                        <Grid RowDefinitions="Auto,*">
+                        <Grid RowDefinitions="136,*">
                             <Grid>
                                 
                                 <!-- Thumbnail -->
                                 <Grid>
                                     <Border ClipToBounds="True" CornerRadius="4 4 0 0">
-                                        <extControl:AsyncImage AsyncSource="{Binding ThumbnailUrl}" />
+                                        <extControl:AsyncImage AsyncSource="{Binding ThumbnailFile}" />
                                     </Border>
                                     <Border Background="Black" Opacity="0.35" CornerRadius="4 4 0 0" />
                                 </Grid>

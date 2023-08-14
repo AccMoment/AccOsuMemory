@@ -2,8 +2,11 @@
 
 public interface IFileProvider
 {
-    string GetTempDirectoryPath();
-    string GetLogPath();
+    string GetMusicCacheDirectory();
 
-    string GetDownloadDirectoryPath();
+    string GetThumbnailCacheDirectory();
+    
+    string GetLogFilePath();
+
+    string GetDownloadDirectory();
 }

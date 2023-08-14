@@ -27,11 +27,12 @@ public partial class SideBar : UserControl
             if (sender is Border { Child: TextBlock tb })
                 vm.ChangePageCommand.Execute(tb.Tag);
         }
+
         var index = Math.Floor(e.GetPosition(this).Y / 49);
-        FloatShape.Height = 0;
+        FloatPoint.Height = 0;
         await Task.Delay(250);
         var y = index * 49 + 15;
-        Canvas.SetTop(FloatShape, y);
-        FloatShape.Height = 20;
+        Canvas.SetTop(FloatPoint, y);
+        FloatPoint.Height = 20;
     }
 }

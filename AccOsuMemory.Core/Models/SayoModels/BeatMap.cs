@@ -32,7 +32,7 @@ public class BeatMap
 
     [JsonPropertyName("titleU")] public string TitleUnicode { get; set; } = string.Empty;
 
-    [Description("缩略图")] public string ThumbnailUrl => $"https://cdn.sayobot.cn:25225/beatmaps/{Sid}/covers/cover.jpg";
+    [Description("缩略图")] public string? ThumbnailFile { get; set; }
 
     [Description("试听音频")] public string PreviewAudio => $"https://cdn.sayobot.cn:25225/preview/{Sid}.mp3";
 
@@ -62,4 +62,6 @@ public class BeatMap
         .Where(w => w?.LastIndexOf(".mp3", StringComparison.Ordinal) != -1)
         .Select(s => FileUrl + s)
         .ToList()[0];
+    
+    public string GetThumbnailUrl()=>$"https://cdn.sayobot.cn:25225/beatmaps/{Sid}/covers/cover.jpg";
 }

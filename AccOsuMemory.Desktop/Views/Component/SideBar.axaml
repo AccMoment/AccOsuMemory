@@ -11,19 +11,6 @@
              >
     
     <Grid>
-        <Canvas>
-            <Ellipse Name="FloatShape" Canvas.Left="0" Canvas.Top="15" Fill="{StaticResource Primary}" Height="20" Width="5" HorizontalAlignment="Left">
-                <Ellipse.Styles>
-                    <Style Selector="Ellipse">
-                        <Setter Property="Transitions">
-                            <Transitions>
-                                <DoubleTransition Duration="0:0:0.25" Property="Height"></DoubleTransition>
-                            </Transitions>
-                        </Setter>
-                    </Style>
-                </Ellipse.Styles>
-            </Ellipse>
-        </Canvas>
         <ItemsControl Name="SideBarItems" ItemsSource="{Binding  PageModels}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="model:PageModel">
@@ -44,9 +31,20 @@
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-        
         </ItemsControl>
-        
+        <Canvas>
+            <Ellipse Name="FloatPoint" Canvas.Left="0" Canvas.Top="15" Fill="{StaticResource Primary}" Height="20" Width="5" HorizontalAlignment="Left">
+                <Ellipse.Styles>
+                    <Style Selector="Ellipse">
+                        <Setter Property="Transitions">
+                            <Transitions>
+                                <DoubleTransition Duration="0:0:0.25" Property="Height"></DoubleTransition>
+                            </Transitions>
+                        </Setter>
+                    </Style>
+                </Ellipse.Styles>
+            </Ellipse>
+        </Canvas>
         
     </Grid>
     
