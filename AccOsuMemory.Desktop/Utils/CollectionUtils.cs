@@ -8,7 +8,6 @@ namespace AccOsuMemory.Desktop.Utils
 {
     internal static class CollectionUtils
     {
-        
         public static NotifyCollectionChangedEventArgs ResetEventArgs { get; } =
             new(NotifyCollectionChangedAction.Reset);
 
@@ -44,7 +43,5 @@ namespace AccOsuMemory.Desktop.Utils
                 }
             }
         }
-
-       
     }
 }

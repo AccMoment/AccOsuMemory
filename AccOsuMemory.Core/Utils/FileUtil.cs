@@ -10,8 +10,8 @@
             if (originalFileName.Contains(" "))
             {
                 Directory.CreateDirectory(TempDirName);
-                fileNameToReturn = TempDirName + Path.DirectorySeparatorChar + 
-                    Path.GetFileName(originalFileName).Replace(" ", "");
+                fileNameToReturn = TempDirName + Path.DirectorySeparatorChar +
+                                   Path.GetFileName(originalFileName).Replace(" ", "");
                 File.Copy(originalFileName, fileNameToReturn);
             }
 

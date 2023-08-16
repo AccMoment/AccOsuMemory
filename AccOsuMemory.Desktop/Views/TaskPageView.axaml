@@ -5,24 +5,25 @@
              xmlns:vm="clr-namespace:AccOsuMemory.Desktop.ViewModels"
              xmlns:converter="clr-namespace:AccOsuMemory.Desktop.Converter"
              xmlns:models="clr-namespace:AccOsuMemory.Core.Models;assembly=AccOsuMemory.Core"
+             xmlns:net="clr-namespace:AccOsuMemory.Core.Net;assembly=AccOsuMemory.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AccOsuMemory.Desktop.Views.TaskPageView"
              x:DataType="vm:TaskPageViewModel">
     <UserControl.Resources>
-        <converter:NetSpeedConverter x:Key="SpeedConverter"/>
+        <converter:NetSpeedConverter x:Key="SpeedConverter" />
         <converter:ByteToMegaByteConverter x:Key="ByteToMegaByteConverter"></converter:ByteToMegaByteConverter>
     </UserControl.Resources>
     <UserControl.Styles>
         <Style Selector="TextBlock.StateText">
-            <Setter Property="Width" Value="150"/>
+            <Setter Property="Width" Value="150" />
             <Setter Property="FontSize" Value="16" />
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="VerticalAlignment" Value="Top" />
-            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="TextAlignment" Value="Right" />
             <Setter Property="Foreground" Value="#000" />
             <Setter Property="Margin" Value="4" />
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="MaxLines" Value="1"/>
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="MaxLines" Value="1" />
         </Style>
 
 
@@ -55,7 +56,7 @@
             <!--     </ItemsPanelTemplate> -->
             <!-- </Setter> -->
             <Setter Property="ItemTemplate">
-                <DataTemplate DataType="models:DownloadTask">
+                <DataTemplate DataType="net:DownloadTask">
                     <Border Height="120" Margin="10" CornerRadius="4" BorderThickness="1"
                             BorderBrush="#000">
                         <Grid>
@@ -74,7 +75,7 @@
                                 Minimum="0"
                                 Maximum="100"
                                 ShowProgressText="True"
-                                ProgressTextFormat="{Binding CurrentNetSpeed,Converter={StaticResource SpeedConverter}}" >
+                                ProgressTextFormat="{Binding CurrentNetSpeed,Converter={StaticResource SpeedConverter}}">
                                 <!-- <ProgressBar.Styles> -->
                                 <!--     <Style Selector="ProgressBar"> -->
                                 <!--         <Setter Property="Foreground" Value="Aqua"/> -->
@@ -86,18 +87,21 @@
                                 <!--     </Style> -->
                                 <!-- </ProgressBar.Styles> -->
                             </ProgressBar>
-                            
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="16 8">
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                                        Margin="16 8">
                                 <StackPanel.Styles>
                                     <Style Selector="TextBlock">
-                                        <Setter Property="FontSize" Value="14"/>
-                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Setter Property="FontSize" Value="14" />
+                                        <Setter Property="Foreground" Value="Black" />
                                     </Style>
                                 </StackPanel.Styles>
-                                
-                                <TextBlock Text="{Binding RecordBytesTransferred,Converter={StaticResource ByteToMegaByteConverter}}"/>
-                                <TextBlock Text="/"/>
-                                <TextBlock Text="{Binding TotalBytes,Converter={StaticResource ByteToMegaByteConverter}}"/>
+
+                                <TextBlock
+                                    Text="{Binding RecordBytesTransferred,Converter={StaticResource ByteToMegaByteConverter}}" />
+                                <TextBlock Text="/" />
+                                <TextBlock
+                                    Text="{Binding TotalBytes,Converter={StaticResource ByteToMegaByteConverter}}" />
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -114,7 +118,7 @@
             <Separator Height="2" Background="#f3f3f3" Margin="8"></Separator>
         </StackPanel>
         <ScrollViewer Grid.Row="1">
-            <ListBox Name="DownloadListBox" ItemsSource="{Binding Tasks}">
+            <ListBox Name="DownloadListBox" ItemsSource="{Binding DownloadTasks}">
             </ListBox>
         </ScrollViewer>
     </Grid>

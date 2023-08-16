@@ -19,6 +19,26 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/Images/avalonia-logo.ico"
         Title="AccOsuMemory">
+    <Window.Styles>
+        <Style Selector="Button.SettingButton">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="6" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.5" />
+                </Transitions>
+            </Setter>
+            <Style Selector="^">
+                <Setter Property="RenderTransform" Value="rotate(0)" />
+            </Style>
+            <Style Selector="^:pointerover">
+                <Setter Property="RenderTransform" Value="rotate(180deg)" />
+            </Style>
+        </Style>
+    </Window.Styles>
+
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -29,6 +49,7 @@
 
 
     <Grid RowDefinitions="Auto,*">
+        <!-- Top -->
         <Grid PointerPressed="WindowMoved" Background="Transparent">
             <Grid ColumnDefinitions="*,*,*">
                 <Image Source="{SvgImage /Assets/Images/osu-logo.svg}" HorizontalAlignment="Left"
@@ -53,18 +74,13 @@
         </Grid>
 
         <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
-            <StackPanel Name="MenuLs" Grid.Column="0" Width="220" Margin="0,8,0,32">
-                <Separator Height="1" Background="White" Margin="20 0"></Separator>
-                <!-- <views:MenuButton Name="HomePageBtn" Click="MenuButton_OnClick" BtnContent="主页" -->
-                <!--                   HorizontalAlignment="Center" Margin="20,7,20,7" /> -->
-                <!-- <views:MenuButton Name="SearchPageBtn" Click="MenuButton_OnClick" BtnContent="搜索歌曲" -->
-                <!--                   HorizontalAlignment="Center" Margin="20,7,20,7" /> -->
-                <!-- <views:MenuButton Name="DownloadPageBtn" Click="MenuButton_OnClick" BtnContent="批量下载" -->
-                <!--                   HorizontalAlignment="Center" Margin="20,7,20,7" /> -->
-                <!-- <views:MenuButton Name="TaskPageBtn" Click="MenuButton_OnClick" BtnContent="任务列表" -->
-                <!--                   HorizontalAlignment="Center" Margin="20,7,20,7" /> -->
-                <views:SideBar DataContext="{Binding}"></views:SideBar>
-            </StackPanel>
+            <Grid Grid.Column="0" RowDefinitions="Auto,*,Auto" Width="220">
+                <Separator Grid.Row="0" Height="1" Background="White" Margin="20 0" />
+                <views:SideBar Grid.Row="1" DataContext="{Binding}" />
+                <Button Grid.Row="2" Classes="SettingButton">
+                    <Image Source="{SvgImage /Assets/Images/setting.svg}" Width="32" Height="32" />
+                </Button>
+            </Grid>
             <Grid Grid.Column="1" Background="{StaticResource PrimaryContainer}">
                 <TransitioningContentControl Name="ViewPages" Content="{Binding ViewModelBase}" />
             </Grid>

@@ -23,10 +23,11 @@ public class OsuApiV1
     }
 
 
-    private static readonly HttpClient HttpClient = DownloadManager.GetHttpClient();
+    private static readonly HttpClient HttpClient = DownloadManager.HttpClient;
 
     public Task<List<BeatMap>?> GetBeatMaps(DateTime dateTime, GameMode mode = GameMode.Standard, int limit = 500) =>
         GetBeatMaps(new BeatMapParams(dateTime, mode, limit));
+
     [RequiresUnreferencedCode("GetBeatMaps")]
     public Task<List<BeatMap>?> GetBeatMaps(BeatMapParams param)
     {
@@ -64,10 +65,10 @@ public class OsuApiV1
     public Task<List<MapScore>?> GetMapScores(int beatMapId) => GetMapScores(new ScoresParams(beatMapId));
 
     public Task<List<MapScore>?>
-        GetMapScores(int beatMapId, string? userName = null, GameMode mode = GameMode.Standard) =>
+        GetMapScores(int beatMapId, string? userName, GameMode mode = GameMode.Standard) =>
         GetMapScores(new ScoresParams(beatMapId, mode, userName));
 
-    public Task<List<MapScore>?> GetMapScores(int beatMapId, int? userId = null, GameMode mode = GameMode.Standard) =>
+    public Task<List<MapScore>?> GetMapScores(int beatMapId, int? userId, GameMode mode = GameMode.Standard) =>
         GetMapScores(new ScoresParams(beatMapId, mode, userId));
 
     [RequiresUnreferencedCode("GetUserBP")]

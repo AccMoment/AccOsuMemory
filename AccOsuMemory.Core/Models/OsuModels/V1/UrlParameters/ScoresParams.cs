@@ -64,5 +64,4 @@ public class ScoresParams
     public int Limit { get; set; } = 500;
 
     #endregion
-    
 }

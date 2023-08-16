@@ -6,7 +6,7 @@
              RequestedThemeVariant="Default">
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
-    
+
     <Application.DataTemplates>
         <desktop:ViewLocator />
     </Application.DataTemplates>
@@ -14,23 +14,23 @@
 
     <Application.Resources>
         <FontFamily x:Key="LXGW-Regular">avares://AccOsuMemory/Assets/Fonts/LXGWWenKaiLite-Regular.ttf#LXGW WenKai Lite</FontFamily>
-        
-        <SolidColorBrush x:Key="TopBarColor" Color="#4dffffff"/>
-        <SolidColorBrush x:Key="Primary" Color="#ff75b3"/>
-        <SolidColorBrush x:Key="PrimaryContainer" Color="#4dffd9e5"/>
-        <SolidColorBrush x:Key="SecondaryContainer" Color="#ffd9e5"/>
-        <SolidColorBrush x:Key="TipsContainer" Color="#77f9d0"/>
-        <SolidColorBrush x:Key="Error" Color="#ba1a1a"/>
-        <SolidColorBrush x:Key="ErrorContainer" Color="#ffdad6"/>
-        <SolidColorBrush x:Key="Background" Color="#4df3f3f3"/>
-        <SolidColorBrush x:Key="Surface" Color="#f3f3f3"/>
+
+        <SolidColorBrush x:Key="TopBarColor" Color="#4dffffff" />
+        <SolidColorBrush x:Key="Primary" Color="#ff75b3" />
+        <SolidColorBrush x:Key="PrimaryContainer" Color="#4dffd9e5" />
+        <SolidColorBrush x:Key="SecondaryContainer" Color="#ffd9e5" />
+        <SolidColorBrush x:Key="TipsContainer" Color="#77f9d0" />
+        <SolidColorBrush x:Key="Error" Color="#ba1a1a" />
+        <SolidColorBrush x:Key="ErrorContainer" Color="#ffdad6" />
+        <SolidColorBrush x:Key="Background" Color="#4df3f3f3" />
+        <SolidColorBrush x:Key="Surface" Color="#f3f3f3" />
     </Application.Resources>
-    
-    
+
+
     <Application.Styles>
         <StyleInclude Source="avares://Semi.Avalonia/Themes/Index.axaml" />
         <!-- <sty:FluentAvaloniaTheme   PreferUserAccentColor="True"> </sty:FluentAvaloniaTheme> -->
-        
+
         <Style Selector="Image.WindowIcon">
             <Setter Property="Width" Value="20" />
             <Setter Property="Height" Value="20" />
@@ -58,7 +58,7 @@
             <!--     </Transitions> -->
             <!-- </Setter> -->
         </Style>
-        
+
         <Style Selector="RadioButton">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />

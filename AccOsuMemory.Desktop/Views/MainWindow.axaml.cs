@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
 using Microsoft.Extensions.DependencyInjection;
 using ShimSkiaSharp;
 using static AccOsuMemory.Desktop.App;
@@ -16,8 +17,6 @@ namespace AccOsuMemory.Desktop.Views
         public MainWindow()
         {
             InitializeComponent();
-            // ViewPages.Content = AppHost?.Services.GetRequiredService<HomePageViewModel>();
-            // HomePageBtn.IsSelect = true;
         }
 
         protected override async void OnClosed(EventArgs e)
@@ -28,14 +27,14 @@ namespace AccOsuMemory.Desktop.Views
 
         private void MinimizeOnClick(object sender, RoutedEventArgs e)
         {
-            WindowState = WindowState.Minimized;
             e.Handled = true;
+            WindowState = WindowState.Minimized;
         }
 
         private void CloseOnClick(object sender, RoutedEventArgs e)
         {
-            Close();
             e.Handled = true;
+            Close();
         }
 
 
@@ -50,29 +49,14 @@ namespace AccOsuMemory.Desktop.Views
             e.Handled = true;
         }
 
-
-        private void MenuButton_OnClick(object? sender, RoutedEventArgs e)
+        protected override void OnDataContextChanged(EventArgs e)
         {
-            ClearSelectedMenuButtonState();
-            var btn = (MenuButton)sender!;
-            btn.IsSelect = true;
-            ViewPages.Content = btn.Name switch
+            if (DataContext is MainWindowViewModel vm)
             {
-                "HomePageBtn" => AppHost?.Services.GetRequiredService<HomePageViewModel>(),
-                "TaskPageBtn" => AppHost?.Services.GetRequiredService<TaskPageViewModel>(),
-                _ => null
-            };
-        }
-
-        private void ClearSelectedMenuButtonState()
-        {
-            foreach (var menuItem in MenuLs.Children)
-            {
-                if (menuItem is MenuButton b)
-                {
-                    b.IsSelect = false;
-                }
+                vm.ViewModelBase = AppHost?.Services.GetRequiredService<HomePageViewModel>();
             }
+
+            base.OnDataContextChanged(e);
         }
     }
 }

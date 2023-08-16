@@ -16,7 +16,7 @@ namespace AccOsuMemory.Desktop
 
             if (type != null)
             {
-                var control =(Control)Activator.CreateInstance(type)!;
+                var control = (Control)Activator.CreateInstance(type)!;
                 control.DataContext = App.AppHost?.Services.GetService(data.GetType());
                 return control;
             }

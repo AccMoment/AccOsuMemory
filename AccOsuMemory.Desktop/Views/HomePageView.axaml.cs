@@ -41,7 +41,7 @@ public partial class HomePageView : UserControl
             await _homePageVM.CheckNetStatus();
             if (_homePageVM.CanConnectNetWork)
             {
-                if (_homePageVM.Beatmaps.Count == 0)
+                if (_homePageVM.BeatmapStorage.Beatmaps.Count == 0)
                 {
                     LoadBeatmaps();
                 }
@@ -120,7 +120,7 @@ public partial class HomePageView : UserControl
         if (extentHeight - currentOffset >= 50d) return;
         try
         {
-            if (_homePageVM.CanLoadBeatMapList)
+            if (_homePageVM.BeatmapStorage.CanLoadBeatMapList)
             {
                 LoadBeatmaps();
             }

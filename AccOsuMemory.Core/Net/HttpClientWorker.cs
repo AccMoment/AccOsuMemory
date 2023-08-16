@@ -2,16 +2,16 @@
 
 namespace AccOsuMemory.Core.Net;
 
-public class HttpClientWorker:HttpClient
+public class HttpClientWorker : HttpClient
 {
     public bool IsWorking { get; private set; }
 
     private readonly ProgressMessageHandler? _handler;
 
     private readonly CancellationTokenSource _cancellationTokenSource = new();
-    
-    
-    public HttpClientWorker(ProgressMessageHandler handler) :base(handler)
+
+
+    public HttpClientWorker(ProgressMessageHandler handler) : base(handler)
     {
         _handler = handler;
     }

@@ -4,7 +4,7 @@ using Avalonia.Data.Converters;
 
 namespace AccOsuMemory.Desktop.Converter;
 
-public class ByteToMegaByteConverter: IValueConverter
+public class ByteToMegaByteConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

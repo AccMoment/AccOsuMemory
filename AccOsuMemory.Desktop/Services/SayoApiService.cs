@@ -22,7 +22,7 @@ public class SayoApiService : ISayoApiService
             Offset = (currentPage - 1) * offset,
             Type = (int)type
         };
-        var response = await DownloadManager.GetHttpClient()
+        var response = await DownloadManager.HttpClient
             .PostAsync(Url,
                 new StringContent(JsonSerializer.Serialize(body, SourceGenerationContext.Default.SayoQueryParams)));
         var result = await response.Content.ReadAsStreamAsync();

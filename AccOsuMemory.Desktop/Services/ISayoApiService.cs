@@ -7,5 +7,5 @@ namespace AccOsuMemory.Desktop.Services;
 
 public interface ISayoApiService
 {
-    Task<BeatMapList>  GetBeatmapList(int currentPage, int offset = 25,SearchType type = SearchType.New);
+    Task<BeatMapList> GetBeatmapList(int currentPage, int offset = 25, SearchType type = SearchType.New);
 }

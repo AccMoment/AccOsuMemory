@@ -1,6 +1,5 @@
 ﻿namespace AccOsuMemory.Core.Models.OsuModels.V1.Enum;
 
-
 /// <summary>
 /// 歌曲语言
 /// </summary>

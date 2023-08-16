@@ -224,11 +224,13 @@ namespace AccOsuMemory.Desktop.ExtControl
                     _realizedElements.ItemsInserted(e.NewStartingIndex, e.NewItems!.Count, _updateElementIndex);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    _realizedElements.ItemsRemoved(e.OldStartingIndex, e.OldItems!.Count, _updateElementIndex, _recycleElementOnItemRemoved);
+                    _realizedElements.ItemsRemoved(e.OldStartingIndex, e.OldItems!.Count, _updateElementIndex,
+                        _recycleElementOnItemRemoved);
                     break;
                 case NotifyCollectionChangedAction.Replace:
                 case NotifyCollectionChangedAction.Move:
-                    _realizedElements.ItemsRemoved(e.OldStartingIndex, e.OldItems!.Count, _updateElementIndex, _recycleElementOnItemRemoved);
+                    _realizedElements.ItemsRemoved(e.OldStartingIndex, e.OldItems!.Count, _updateElementIndex,
+                        _recycleElementOnItemRemoved);
                     _realizedElements.ItemsInserted(e.NewStartingIndex, e.NewItems!.Count, _updateElementIndex);
                     break;
                 case NotifyCollectionChangedAction.Reset:
@@ -296,7 +298,7 @@ namespace AccOsuMemory.Desktop.ExtControl
             return ScrollIntoView(toIndex);
         }
 
-        protected  override IEnumerable<Control>? GetRealizedContainers()
+        protected override IEnumerable<Control>? GetRealizedContainers()
         {
             return _realizedElements?.Elements.Where(x => x is not null)!;
         }
@@ -316,9 +318,9 @@ namespace AccOsuMemory.Desktop.ExtControl
             return null;
         }
 
-        protected  override int IndexFromContainer(Control container) => _realizedElements?.GetIndex(container) ?? -1;
+        protected override int IndexFromContainer(Control container) => _realizedElements?.GetIndex(container) ?? -1;
 
-        protected  override Control? ScrollIntoView(int index)
+        protected override Control? ScrollIntoView(int index)
         {
             var items = Items;
 
@@ -345,10 +347,13 @@ namespace AccOsuMemory.Desktop.ExtControl
                 _scrollToIndex = index;
 
                 var viewport = _viewport != s_invalidViewport ? _viewport : EstimateViewport();
-                var viewportEnd = Orientation == Orientation.Horizontal ? new UVSize(Orientation, viewport.Right, viewport.Bottom) : new UVSize(Orientation, viewport.Bottom, viewport.Right);
+                var viewportEnd = Orientation == Orientation.Horizontal
+                    ? new UVSize(Orientation, viewport.Right, viewport.Bottom)
+                    : new UVSize(Orientation, viewport.Bottom, viewport.Right);
 
                 // Get the expected position of the element and put it in place.
-                var anchorUV = _realizedElements.GetOrEstimateElementUV(index, ref _lastEstimatedElementSizeUV, viewportEnd);
+                var anchorUV =
+                    _realizedElements.GetOrEstimateElementUV(index, ref _lastEstimatedElementSizeUV, viewportEnd);
                 size = new Size(isItemWidthSet ? itemWidth : _scrollToElement.DesiredSize.Width,
                     isItemHeightSet ? itemHeight : _scrollToElement.DesiredSize.Height);
                 var rect = new Rect(anchorUV.Width, anchorUV.Height, size.Width, size.Height);
@@ -404,8 +409,8 @@ namespace AccOsuMemory.Desktop.ExtControl
             bool isItemHeightSet = !double.IsNaN(itemHeight);
 
             var estimatedSize = new UVSize(Orientation,
-               isItemWidthSet ? itemWidth : _lastEstimatedElementSizeUV.Width,
-               isItemHeightSet ? itemHeight : _lastEstimatedElementSizeUV.Height);
+                isItemWidthSet ? itemWidth : _lastEstimatedElementSizeUV.Width,
+                isItemHeightSet ? itemHeight : _lastEstimatedElementSizeUV.Height);
 
             if ((isItemWidthSet && isItemHeightSet) || _realizedElements is null)
                 return estimatedSize;
@@ -415,8 +420,9 @@ namespace AccOsuMemory.Desktop.ExtControl
             {
                 estimatedSize = result.Value;
                 estimatedSize.Width = isItemWidthSet ? itemWidth : estimatedSize.Width;
-                estimatedSize.Height = isItemHeightSet ? itemHeight:estimatedSize.Height;
+                estimatedSize.Height = isItemHeightSet ? itemHeight : estimatedSize.Height;
             }
+
             return estimatedSize;
         }
 
@@ -448,7 +454,7 @@ namespace AccOsuMemory.Desktop.ExtControl
 
             // Check if the anchor element is not within the currently realized elements.
             var disjunct = anchorIndex < _realizedElements.FirstIndex ||
-                anchorIndex > _realizedElements.LastIndex;
+                           anchorIndex > _realizedElements.LastIndex;
 
             return new MeasureViewport
             {
@@ -474,7 +480,7 @@ namespace AccOsuMemory.Desktop.ExtControl
                 sizeUV.U = Math.Max(estimatedItemsPerU * estimatedSize.U, estimatedSize.U);
                 sizeUV.V = estimatedULanes * estimatedSize.V;
 
-                if(double.IsInfinity(sizeUV.V))
+                if (double.IsInfinity(sizeUV.V))
                     sizeUV.V = estimatedSize.V;
             }
             else if (viewport.lastIndex >= 0)
@@ -591,7 +597,7 @@ namespace AccOsuMemory.Desktop.ExtControl
                 var uEnd = new UVSize(Orientation)
                 {
                     U = uv.U + size.U,
-                    V = Math.Max(v,uv.V)
+                    V = Math.Max(v, uv.V)
                 };
 
                 if (uEnd.U > viewport.viewportUVEnd.U)
@@ -872,8 +878,8 @@ namespace AccOsuMemory.Desktop.ExtControl
             _unrealizedFocusedElement = null;
             _unrealizedFocusedIndex = -1;
         }
-        
-        
+
+
         private struct MeasureViewport
         {
             public int anchorIndex;

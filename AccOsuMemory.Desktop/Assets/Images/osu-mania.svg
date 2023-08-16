@@ -1,18 +1,19 @@
 ﻿<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
- <g>
-  <ellipse fill="#ff75b3" cx="16" cy="16" id="svg_1" rx="14" ry="14" stroke-width="4" stroke="#ff75b3"/>
-  <polyline stroke="#ffffff" stroke-linecap="round" id="svg_7" points="48.375,7.5625 48.375,7.4375 " stroke-width="2" fill="none"/>
-  <line id="svg_15" y2="24" x2="8" y1="8" x1="8" stroke-width="4" stroke="#ffffff" fill="none"/>
-  <ellipse ry="2" rx="2"  cy="8" cx="8" stroke-width="0" stroke="#ffffff" fill="#ffffff"/>
-  <ellipse ry="2" rx="2"  cy="24" cx="8" stroke-width="0" stroke="#ffffff" fill="#ffffff"/>
+    <g>
+        <ellipse fill="#ff75b3" cx="16" cy="16" id="svg_1" rx="14" ry="14" stroke-width="4" stroke="#ff75b3"/>
+        <polyline stroke="#ffffff" stroke-linecap="round" id="svg_7" points="48.375,7.5625 48.375,7.4375 "
+                  stroke-width="2" fill="none"/>
+        <line id="svg_15" y2="24" x2="8" y1="8" x1="8" stroke-width="4" stroke="#ffffff" fill="none"/>
+        <ellipse ry="2" rx="2" cy="8" cx="8" stroke-width="0" stroke="#ffffff" fill="#ffffff"/>
+        <ellipse ry="2" rx="2" cy="24" cx="8" stroke-width="0" stroke="#ffffff" fill="#ffffff"/>
 
-  <line id="svg_15" y2="28" x2="16" y1="4" x1="16" stroke-width="4" stroke="#ffffff" fill="none"/>
-  <ellipse ry="2" rx="2"  cy="4" cx="16" stroke-width="0" stroke="#ffffff" fill="#ffffff"/>
-  <ellipse ry="2" rx="2"  cy="28" cx="16" stroke-width="0" stroke="#ffffff" fill="#ffffff"/>
+        <line id="svg_15" y2="28" x2="16" y1="4" x1="16" stroke-width="4" stroke="#ffffff" fill="none"/>
+        <ellipse ry="2" rx="2" cy="4" cx="16" stroke-width="0" stroke="#ffffff" fill="#ffffff"/>
+        <ellipse ry="2" rx="2" cy="28" cx="16" stroke-width="0" stroke="#ffffff" fill="#ffffff"/>
 
-  <line id="svg_15" y2="24" x2="24" y1="8" x1="24" stroke-width="4" stroke="#ffffff" fill="none"/>
-  <ellipse ry="2" rx="2"  cy="8" cx="24" stroke-width="0" stroke="#ffffff" fill="#ffffff"/>
-  <ellipse ry="2" rx="2"  cy="24" cx="24" stroke-width="0" stroke="#ffffff" fill="#ffffff"/>
- </g>
+        <line id="svg_15" y2="24" x2="24" y1="8" x1="24" stroke-width="4" stroke="#ffffff" fill="none"/>
+        <ellipse ry="2" rx="2" cy="8" cx="24" stroke-width="0" stroke="#ffffff" fill="#ffffff"/>
+        <ellipse ry="2" rx="2" cy="24" cx="24" stroke-width="0" stroke="#ffffff" fill="#ffffff"/>
+    </g>
 
 </svg>

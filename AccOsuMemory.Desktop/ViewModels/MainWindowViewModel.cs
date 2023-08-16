@@ -6,7 +6,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using AccOsuMemory.Core.Models;
+using AccOsuMemory.Core.Utils;
 using AccOsuMemory.Desktop.Model;
+using AccOsuMemory.Desktop.Services;
 using Avalonia.Input;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -21,30 +24,29 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     [ObservableProperty] private ViewModelBase? _viewModelBase;
 
-    private readonly IHost? _appHost = App.AppHost;
+    [ObservableProperty] private ObservableCollection<Page> _pageModels;
 
-    [ObservableProperty] private ObservableCollection<PageModel> _pageModels;
-
-    public MainWindowViewModel()
+    public MainWindowViewModel(IFileProvider fileProvider) : base(fileProvider)
     {
-        _viewModelBase = _appHost?.Services.GetRequiredService<HomePageViewModel>();
-        _pageModels = new ObservableCollection<PageModel>
+        // _viewModelBase = _appHost?.Services.GetRequiredService<HomePageViewModel>();
+        _pageModels = new ObservableCollection<Page>
         {
-            new PageModel("HomePage", "主页"), 
-            new PageModel("SearchPage", "搜索歌曲"), 
-            new PageModel("DownloadPage", "批量下载"),
-            new PageModel("TaskPage", "任务列表")
+            new("HomePage", "主页"),
+            new("SearchPage", "搜索歌曲"),
+            new("DownloadPage", "批量下载"),
+            new("TaskPage", "任务列表")
         };
+        AppSettingsWriter.Write(nameof(AppSettings.ApiV1Key), "nmsl");
     }
 
-    [RelayCommand]
-    private void ChangePage(string name)
+    public void ChangePage(IHost? appHost, string? name)
     {
         ViewModelBase = name switch
         {
-            "HomePage" => _appHost?.Services.GetRequiredService<HomePageViewModel>(),
+            "HomePage" => appHost?.Services.GetRequiredService<HomePageViewModel>(),
             "SearchPage" or "DownloadPage" => null,
-            "TaskPage" => _appHost?.Services.GetRequiredService<TaskPageViewModel>()
+            "TaskPage" => appHost?.Services.GetRequiredService<TaskPageViewModel>(),
+            _ => null
         };
     }
 }

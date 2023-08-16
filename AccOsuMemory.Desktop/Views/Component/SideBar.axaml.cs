@@ -25,7 +25,7 @@ public partial class SideBar : UserControl
         if (DataContext is MainWindowViewModel vm)
         {
             if (sender is Border { Child: TextBlock tb })
-                vm.ChangePageCommand.Execute(tb.Tag);
+                vm.ChangePage(App.AppHost, tb.Tag?.ToString());
         }
 
         var index = Math.Floor(e.GetPosition(this).Y / 49);

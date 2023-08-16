@@ -19,7 +19,9 @@
                     <ControlTemplate TargetType="Button">
                         <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"
                               Background="{TemplateBinding Background}">
-                            <ContentPresenter Padding="{TemplateBinding Padding}" Background="Transparent" CornerRadius="8" Foreground="{TemplateBinding Foreground}" Content="{TemplateBinding Content}"
+                            <ContentPresenter Padding="{TemplateBinding Padding}" Background="Transparent"
+                                              CornerRadius="8" Foreground="{TemplateBinding Foreground}"
+                                              Content="{TemplateBinding Content}"
                                               HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                             </ContentPresenter>
                         </Grid>
@@ -37,7 +39,7 @@
             <Setter Property="Background" Value="{StaticResource SecondaryContainer}" />
             <Setter Property="CornerRadius" Value="8" />
         </Style>
-        
+
         <Style Selector=":is(component|MenuButton)[IsSelect=True]">
             <Setter Property="Background" Value="{StaticResource SecondaryContainer}" />
             <Setter Property="CornerRadius" Value="8" />

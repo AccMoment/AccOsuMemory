@@ -2,7 +2,7 @@
 
     <g>
         <ellipse stroke="#ff75b3" stroke-width="4" ry="14" rx="14" id="svg_1" cy="16" cx="16" fill="#ff75b3"/>
-<!--        <ellipse stroke="#ff75b3" ry="2.7" rx="2.4" id="svg_2" cy="8" cx="9" stroke-width="4" fill="#ffffff"/>-->
+        <!--        <ellipse stroke="#ff75b3" ry="2.7" rx="2.4" id="svg_2" cy="8" cx="9" stroke-width="4" fill="#ffffff"/>-->
         <ellipse stroke="#ffffff" ry="4" rx="4" id="svg_3" cy="8" cx="10" stroke-width="2" fill="#ffffff"/>
         <ellipse stroke="#ffffff" ry="4" rx="4" id="svg_4" cy="24" cx="10" stroke-width="2" fill="#ffffff"/>
         <ellipse stroke="#ffffff" ry="4" rx="4" id="svg_7" cy="16" cx="20" stroke-width="2" fill="#ffffff"/>

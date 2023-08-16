@@ -12,13 +12,13 @@ public class DownloadManager
     public bool IsRunning { get; private set; }
     public int WorkingTasks => _httpTasks.Count;
 
-    private static readonly HttpClient HttpClient = new()
+    public static readonly HttpClient HttpClient = new()
     {
         DefaultRequestHeaders =
         {
             Referrer = new Uri("https://github.com/AccMoment/AccOsuMemory")
         },
-        Timeout = new TimeSpan(0,0,10,0)
+        Timeout = new TimeSpan(0, 0, 10, 0)
     };
 
     public DownloadManager(int maxTaskWorker = 3)
@@ -74,8 +74,4 @@ public class DownloadManager
             IsRunning = false;
         });
     }
-
-    public static HttpClient GetHttpClient() => HttpClient;
-    
-
 }

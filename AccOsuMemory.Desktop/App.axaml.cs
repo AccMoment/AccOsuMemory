@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net.Http;
 using AccOsuMemory.Core.Models;
+using AccOsuMemory.Core.Net;
 using AccOsuMemory.Desktop.Services;
 using AccOsuMemory.Desktop.ViewModels;
 using AccOsuMemory.Desktop.Views;
@@ -36,29 +37,18 @@ namespace AccOsuMemory.Desktop
                 {
                     /*Setting*/
                     services.AddOptions().Configure<AppSettings>(config);
-                    
+
                     /*Service*/
                     services.AddSingleton<ISayoApiService, SayoApiService>();
                     services.AddSingleton<IFileProvider, FileProvider>();
 
                     /*ViewModel*/
-                    services.AddTransient<MainWindowViewModel>();
+                    services.AddSingleton<MainWindowViewModel>();
                     services.AddSingleton<HomePageViewModel>();
                     services.AddSingleton<TaskPageViewModel>();
-                    
-                    /*View*/
-                    // services.AddSingleton(provider => new MainWindow
-                    // {
-                    //     DataContext = provider.GetService<MainWindowViewModel>()
-                    // });
-                    // services.AddTransient(provider => new TaskPageView
-                    // {
-                    //     DataContext = provider.GetService<TaskPageViewModel>()
-                    // });
-                    // services.AddTransient(provider => new HomePageView
-                    // {
-                    //     DataContext = provider.GetService<HomePageViewModel>()
-                    // });
+
+                    // Others
+                    services.AddSingleton<DownloadManager>();
                 })
                 .Build();
 

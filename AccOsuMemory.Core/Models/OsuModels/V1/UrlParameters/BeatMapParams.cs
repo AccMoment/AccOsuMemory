@@ -6,7 +6,6 @@ using AccOsuMemory.Core.Utils.Converter;
 
 namespace AccOsuMemory.Core.Models.OsuModels.V1.UrlParameters;
 
-
 public class BeatMapParams
 {
     #region Constructor
@@ -17,7 +16,7 @@ public class BeatMapParams
         this.Mode = mode;
         this.Limit = limit;
     }
-    
+
     #endregion
 
     #region Properties
@@ -41,13 +40,15 @@ public class BeatMapParams
     [UrlParam("u")]
     [Description("specify a user_id or a username to return metadata from.")]
     public string? UserId { get; set; } = null;
-    
+
     [UrlParam("type")]
-    [Description("specify if u is a user_id or a username. Use string for usernames or id for user_ids. Optional, default behaviour is automatic recognition (may be problematic for usernames made up of digits only).")]
+    [Description(
+        "specify if u is a user_id or a username. Use string for usernames or id for user_ids. Optional, default behaviour is automatic recognition (may be problematic for usernames made up of digits only).")]
     public string? Type { get; set; } = null;
 
     [UrlParam("m")]
-    [Description("mode (0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!mania). Optional, maps of all modes are returned by default.")]
+    [Description(
+        "mode (0 = osu!, 1 = Taiko, 2 = CtB, 3 = osu!mania). Optional, maps of all modes are returned by default.")]
     public GameMode Mode { get; set; } = GameMode.Standard;
 
     [UrlParam("a")]
@@ -57,7 +58,8 @@ public class BeatMapParams
     public bool IncludeConvertedBeatMaps { get; set; } = false;
 
     [UrlParam("h")]
-    [Description("the beatmap hash. It can be used, for instance, if you're trying to get what beatmap has a replay played in, as .osr replays only provide beatmap hashes (example of hash: a5b99395a42bd55bc5eb1d2411cbdf8b). Optional, by default all beatmaps are returned independently from the hash.")]
+    [Description(
+        "the beatmap hash. It can be used, for instance, if you're trying to get what beatmap has a replay played in, as .osr replays only provide beatmap hashes (example of hash: a5b99395a42bd55bc5eb1d2411cbdf8b). Optional, by default all beatmaps are returned independently from the hash.")]
     public string? BeatMapHash { get; set; } = null;
 
     [UrlParam("limit")]
@@ -70,6 +72,4 @@ public class BeatMapParams
     public GameMods Mods { get; set; } = GameMods.None;
 
     #endregion
-    
-    
 }

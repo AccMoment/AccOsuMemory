@@ -12,22 +12,22 @@ namespace AccOsuMemory.Desktop.ViewModels;
 
 public partial class TaskPageViewModel : ViewModelBase
 {
-    private readonly IFileProvider _fileProvider;
-    [ObservableProperty] private ObservableCollection<DownloadTask> _tasks = new();
-    private readonly DownloadManager _manager = new();
+    [ObservableProperty] private ObservableCollection<DownloadTask> _downloadTasks = new();
+    private readonly DownloadManager _manager;
 
-    public TaskPageViewModel(IFileProvider fileProvider)
+    public TaskPageViewModel(IFileProvider fileProvider, DownloadManager manager) : base(fileProvider)
     {
-        _fileProvider = fileProvider;
+        _manager = manager;
     }
 
     public void AddTask(string name, string url, string suffix)
     {
-        var directoryName = Path.GetDirectoryName(_fileProvider.GetDownloadDirectory());
-        var downloadPath = directoryName == "osu!" ? Path.Combine(_fileProvider.GetDownloadDirectory(), "Songs") : _fileProvider.GetDownloadDirectory();
-        Console.WriteLine(downloadPath);
+        var directoryName = Path.GetDirectoryName(FileProvider.GetDownloadDirectory());
+        var downloadPath = directoryName == "osu!"
+            ? Path.Combine(FileProvider.GetDownloadDirectory(), "Songs")
+            : FileProvider.GetDownloadDirectory();
         var task = new DownloadTask(name, url, downloadPath, suffix);
-        Tasks.Add(task);
+        DownloadTasks.Add(task);
         _manager.SubmitTask(task);
         if (!_manager.IsRunning) _manager.Start();
     }

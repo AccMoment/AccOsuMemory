@@ -8,5 +8,4 @@ public static class ApiUrlV1
     public static string Scores => $"{BaseUrl}/get_scores";
     public static string BestPerformance => $"{BaseUrl}/get_user_best";
     public static string RecentlyPlayed => $"{BaseUrl}/get_user_recent";
-    
 }

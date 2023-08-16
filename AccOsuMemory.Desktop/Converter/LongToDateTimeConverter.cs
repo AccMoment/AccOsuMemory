@@ -4,7 +4,7 @@ using Avalonia.Data.Converters;
 
 namespace AccOsuMemory.Desktop.Converter;
 
-public class LongToDateTimeConverter:IValueConverter
+public class LongToDateTimeConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
@@ -12,6 +12,7 @@ public class LongToDateTimeConverter:IValueConverter
         {
             return DateTimeOffset.FromUnixTimeSeconds(result).DateTime.ToString("yyyy-M-d HH:mm:ss");
         }
+
         throw new NotSupportedException();
     }
 

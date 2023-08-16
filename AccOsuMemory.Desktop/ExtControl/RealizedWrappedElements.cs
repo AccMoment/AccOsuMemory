@@ -176,7 +176,9 @@ namespace AccOsuMemory.Desktop.ExtControl
             estimatedElementSize = estimatedSize;
 
             // Estimate the element at the start of the viewport.
-            var index = Math.Min((int)(viewportStart.V / estimatedSize.V) * (int)(viewportEnd.U / estimatedSize.U) + (int)(viewportStart.U / estimatedSize.U), itemCount - 1);
+            var index = Math.Min(
+                (int)(viewportStart.V / estimatedSize.V) * (int)(viewportEnd.U / estimatedSize.U) +
+                (int)(viewportStart.U / estimatedSize.U), itemCount - 1);
             return (index, GetPosition(index, estimatedSize, viewportEnd));
         }
 
@@ -298,7 +300,8 @@ namespace AccOsuMemory.Desktop.ExtControl
                     // in _elements and _sizes.
                     _elements!.InsertMany(realizedIndex, null, count);
                     _size = new UVSize(Orientation.Horizontal, double.NaN, double.NaN);
-                    _positions!.InsertMany(realizedIndex, new UVSize(Orientation.Horizontal, double.NaN, double.NaN), count);
+                    _positions!.InsertMany(realizedIndex, new UVSize(Orientation.Horizontal, double.NaN, double.NaN),
+                        count);
                 }
             }
         }

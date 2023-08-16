@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using AccOsuMemory.Core.Models;
+using AccOsuMemory.Core.Utils;
 using AccOsuMemory.Desktop.Utils;
 using Microsoft.Extensions.Options;
 
@@ -11,7 +12,7 @@ public class FileProvider : IFileProvider
 {
     private static string DataPath => "data";
     private static string TempPath => Path.Combine(DataPath, "temp");
-    private static string LogPath => Path.Combine(DataPath, "log.txt");
+    private static string LogFilePath => Path.Combine(DataPath, "log.txt");
 
     private string DownloadPath;
 
@@ -22,18 +23,16 @@ public class FileProvider : IFileProvider
     public FileProvider(IOptions<AppSettings> options)
     {
         // if (!Directory.Exists(DataPath)) Directory.CreateDirectory(DataPath);
-        if (!Directory.Exists(TempPath)) Directory.CreateDirectory(TempPath);
-        if (!Directory.Exists(MusicCacheDirectoryPath)) Directory.CreateDirectory(MusicCacheDirectoryPath);
-        if (!Directory.Exists(ThumbnailCacheDirectoryPath)) Directory.CreateDirectory(ThumbnailCacheDirectoryPath);
-        if (!File.Exists(LogPath)) File.Create(LogPath).Dispose();
+        CreateDirectory(TempPath);
+        CreateDirectory(MusicCacheDirectoryPath);
+        CreateDirectory(ThumbnailCacheDirectoryPath);
+        if (!File.Exists(LogFilePath)) File.Create(LogFilePath).Dispose();
         var appSettings = options.Value;
         if (string.IsNullOrWhiteSpace(appSettings.DefaultDownloadPath))
         {
-            appSettings.DefaultDownloadPath = Path.Combine(Environment.CurrentDirectory, DataPath, "download");
-            if (!Directory.Exists(appSettings.DefaultDownloadPath))
-                Directory.CreateDirectory(appSettings.DefaultDownloadPath);
-            AppSettingsWriter.Write(appSettings);
-            DownloadPath = appSettings.DefaultDownloadPath;
+            DownloadPath = Path.Combine(Environment.CurrentDirectory, DataPath, "download");
+            CreateDirectory(DownloadPath);
+            AppSettingsWriter.Write(nameof(AppSettings.DefaultDownloadPath), DownloadPath);
         }
         else
         {
@@ -43,10 +42,15 @@ public class FileProvider : IFileProvider
         }
     }
 
+    private void CreateDirectory(string path)
+    {
+        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+    }
+
 
     public string GetTempDirectoryPath() => TempPath;
     public string GetMusicCacheDirectory() => MusicCacheDirectoryPath;
     public string GetThumbnailCacheDirectory() => ThumbnailCacheDirectoryPath;
-    public string GetLogFilePath() => LogPath;
+    public string GetLogFilePath() => LogFilePath;
     public string GetDownloadDirectory() => DownloadPath;
 }

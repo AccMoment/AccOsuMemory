@@ -1,10 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.IO;
+﻿using System.IO;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using AccOsuMemory.Core.Models.SayoModels;
 using AccOsuMemory.Core.Net;
 using AccOsuMemory.Core.NetCoreAudio;
+using AccOsuMemory.Desktop.Model;
 using AccOsuMemory.Desktop.Services;
 using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -14,34 +14,29 @@ namespace AccOsuMemory.Desktop.ViewModels;
 public partial class HomePageViewModel : ViewModelBase
 {
     private readonly ISayoApiService _service;
-    private readonly IFileProvider _fileProvider;
 
     private readonly Player _player = new();
-    private int _currentPage;
 
-    [ObservableProperty] private ObservableCollection<BeatMap> _beatmaps = new();
 
-    [ObservableProperty] private bool _canLoadBeatMapList = true;
+    [ObservableProperty] private BeatmapStorage _beatmapStorage = new();
 
-    [ObservableProperty] private BeatMap? _selectedBeatmap;
 
     [ObservableProperty] private Vector _currentOffset;
 
     [ObservableProperty] private bool _canConnectNetWork;
 
-    public HomePageViewModel(ISayoApiService service, IFileProvider fileProvider)
+    public HomePageViewModel(ISayoApiService service, IFileProvider fileProvider) : base(fileProvider)
     {
         _service = service;
-        _fileProvider = fileProvider;
     }
 
 
-    public async Task PlayAudio(string url)
+    public async ValueTask PlayAudio(string url)
     {
         // if (_player.Playing) await _player.Stop();
         var index = url.LastIndexOf('/');
         var name = url[++index..];
-        var audioPath = Path.Combine(_fileProvider.GetMusicCacheDirectory(), name);
+        var audioPath = Path.Combine(FileProvider.GetMusicCacheDirectory(), name);
         if (File.Exists(audioPath))
         {
             await _player.Play(audioPath);
@@ -51,47 +46,45 @@ public partial class HomePageViewModel : ViewModelBase
         await Task.Run(async () =>
         {
             await using var fileStream = new FileStream(audioPath, FileMode.OpenOrCreate, FileAccess.Write);
-            await using var response = await DownloadManager.GetHttpClient().GetStreamAsync(url);
+            await using var response = await DownloadManager.HttpClient.GetStreamAsync(url);
             await response.CopyToAsync(fileStream);
         });
         await _player.Play(audioPath);
     }
 
-    public async Task LoadBeatMapsAsync()
+    public async ValueTask LoadBeatMapsAsync()
     {
-        _currentPage++;
-        var list = await _service.GetBeatmapList(_currentPage);
+        var list = await _service.GetBeatmapList(++BeatmapStorage.CurrentPage);
         if (list.Status != 0)
         {
-            CanLoadBeatMapList = false;
+            BeatmapStorage.CanLoadBeatMapList = false;
             return;
         }
 
-        list.BeatMaps.ForEach(async map =>
+        list.BeatMaps.ForEach(map =>
         {
-            var file = Path.Combine(_fileProvider.GetThumbnailCacheDirectory(),$"{map.Sid}.jpg");
-            if (!File.Exists(file))
+            Task.Run(async () =>
             {
-                await using var stream = await DownloadManager.GetHttpClient().GetStreamAsync(map.GetThumbnailUrl());
-                await using var fs = new FileStream(file, FileMode.OpenOrCreate, FileAccess.Write);
-                await stream.CopyToAsync(fs);
-            }
-            map.ThumbnailFile = file;
-            Beatmaps.Add(map);
+                var file = Path.Combine(FileProvider.GetThumbnailCacheDirectory(), $"{map.Sid}.jpg");
+                if (!File.Exists(file))
+                {
+                    await using var stream =
+                        await DownloadManager.HttpClient.GetStreamAsync(map.GetThumbnailUrl());
+                    await using var fs = new FileStream(file, FileMode.OpenOrCreate, FileAccess.Write);
+                    await stream.CopyToAsync(fs);
+                }
+
+                map.ThumbnailFile = file;
+            });
+            BeatmapStorage.Beatmaps.Add(map);
         });
     }
 
-    public async Task CheckNetStatus()
+    public async ValueTask CheckNetStatus()
     {
         using Ping ping = new();
         const string hostName = "www.baidu.com";
         var reply = await ping.SendPingAsync(hostName, 10000);
         CanConnectNetWork = reply.Status == IPStatus.Success;
-    }
-
-    public void WriteErrorToFile(string errorText)
-    {
-        using var file = File.AppendText(_fileProvider.GetLogFilePath());
-        file.Write(errorText);
     }
 }

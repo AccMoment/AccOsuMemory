@@ -1,10 +1,10 @@
 ﻿using System.Net.Http.Handlers;
-using AccOsuMemory.Core.Net;
+using AccOsuMemory.Core.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace AccOsuMemory.Core.Models;
+namespace AccOsuMemory.Core.Net;
 
-public partial class DownloadTask : ObservableObject, IHttpTask
+public partial class DownloadTask : BaseModel, IHttpTask
 {
     [ObservableProperty] private bool _isWaiting = true;
     [ObservableProperty] private bool _isDownloading;
@@ -77,7 +77,7 @@ public partial class DownloadTask : ObservableObject, IHttpTask
         BytesTransferred = e.BytesTransferred;
     }
 
-    public async Task OnFinished(Stream responseStream)
+    public async ValueTask OnFinished(Stream responseStream)
     {
         await using var fileStream = new FileStream(DestinationFilePath, FileMode.OpenOrCreate, FileAccess.Write);
         await responseStream.CopyToAsync(fileStream);
