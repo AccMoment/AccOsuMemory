@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
+using AccOsuMemory.Core.JsonConverter;
 using AccOsuMemory.Core.Models.OsuModels.V1.Enum;
-using AccOsuMemory.Core.Utils.Converter;
 using ApprovedState = AccOsuMemory.Core.Models.SayoModels.Enum.ApprovedState;
 
 namespace AccOsuMemory.Core.Models.OsuModels.V1.Beatmap;
@@ -109,8 +109,7 @@ public class BeatMap
 
     [JsonPropertyName("diff_aim")] public double DiffAim { get; set; }
 
-    [property: JsonPropertyName("diff_speed")]
-    public double DiffSpeed { get; set; }
+    [JsonPropertyName("diff_speed")] public double DiffSpeed { get; set; }
 
     [JsonPropertyName("difficultyrating")] public double DifficultyRating { get; set; }
 }

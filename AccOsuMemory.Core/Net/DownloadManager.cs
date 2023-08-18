@@ -45,6 +45,11 @@ public class DownloadManager
         _httpTasks.Add(task);
     }
 
+    public void SubmitTasks(IEnumerable<IHttpTask> tasks)
+    {
+        _httpTasks.AddRange(tasks);
+    }
+    
     public bool CancelTask(IHttpTask task)
     {
         var t = _httpTasks.Find(f => f.Id == task.Id);

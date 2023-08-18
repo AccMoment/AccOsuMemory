@@ -12,8 +12,15 @@ namespace AccOsuMemory.Desktop.Services;
 public class SayoApiService : ISayoApiService
 {
     private const string Url = "https://api.sayobot.cn/?post";
+    
+    private readonly HttpClient _httpClient;
 
-    public async Task<BeatMapList> GetBeatmapList(int currentPage, int offset, SearchType type,
+    public SayoApiService(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
+
+    public async Task<BeatMapList> GetBeatmapList(int currentPage, int offset, SearchType searchType,
         Language language, Mode mode, Genre genre, ApprovedState approvedState,SubType subType)
     {
         var body = new SayoQueryParams
@@ -21,19 +28,18 @@ public class SayoApiService : ISayoApiService
             Cmd = "beatmaplist",
             Limit = 25,
             Offset = (currentPage - 1) * offset,
-            Type = (int)type,
-            Language = (int)language,
-            Mode = (int)mode,
-            Genre = (int)genre,
-            ApprovedState = (int) approvedState,
-            KeyWord = "",
-            SubType = (int)subType
+            Type = searchType,
+            Language = language,
+            Mode = mode,
+            Genre = genre,
+            ApprovedState = approvedState,
+            SubType = subType
         };
-        var response = await DownloadManager.HttpClient
+        var response = await _httpClient
             .PostAsync(Url,
-                new StringContent(JsonSerializer.Serialize(body, SourceGenerationContext.Default.SayoQueryParams)));
+                new StringContent(JsonSerializer.Serialize(body, SayoJsonSerializerContext.Default.SayoQueryParams)));
         var result = await response.Content.ReadAsStreamAsync();
-        var list = JsonSerializer.Deserialize(result, SourceGenerationContext.Default.BeatMapList);
+        var list = JsonSerializer.Deserialize(result, SayoJsonSerializerContext.Default.BeatMapList);
         if (list == null) throw new Exception("发生错误，请重新尝试!");
         return list;
     }

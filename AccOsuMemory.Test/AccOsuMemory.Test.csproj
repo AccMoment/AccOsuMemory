@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
+        <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -19,7 +19,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AccOsuMemory.Core\AccOsuMemory.Core.csproj" />
+<!--      <ProjectReference Include="..\AccOsuMemory.Core\AccOsuMemory.Core.csproj" />-->
+      <ProjectReference Include="..\AccOsuMemory.Desktop\AccOsuMemory.Desktop.csproj" />
     </ItemGroup>
 
 </Project>

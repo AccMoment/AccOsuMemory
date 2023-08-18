@@ -50,6 +50,7 @@ namespace AccOsuMemory.Desktop
 
                     // Others
                     services.AddSingleton<DownloadManager>();
+                    services.AddSingleton(DownloadManager.HttpClient);
                 })
                 .Build();
 

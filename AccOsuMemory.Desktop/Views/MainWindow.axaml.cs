@@ -1,9 +1,13 @@
 using System;
+using AccOsuMemory.Core.Models;
+using AccOsuMemory.Desktop.Services;
 using AccOsuMemory.Desktop.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using static AccOsuMemory.Desktop.App;
 
 namespace AccOsuMemory.Desktop.Views
@@ -11,6 +15,7 @@ namespace AccOsuMemory.Desktop.Views
     public partial class MainWindow : Window
     {
         private MainWindowViewModel? _viewModel;
+        
         
         public MainWindow()
         {
@@ -56,7 +61,6 @@ namespace AccOsuMemory.Desktop.Views
                 _viewModel = vm;
                 _viewModel.ViewModelBase = AppHost?.Services.GetRequiredService<HomePageViewModel>();
             }
-
             base.OnDataContextChanged(e);
         }
     }

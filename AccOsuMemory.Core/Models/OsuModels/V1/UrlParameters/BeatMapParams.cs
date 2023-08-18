@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Text.Json.Serialization;
 using AccOsuMemory.Core.Attribute;
+using AccOsuMemory.Core.JsonConverter;
 using AccOsuMemory.Core.Models.OsuModels.V1.Enum;
-using AccOsuMemory.Core.Utils.Converter;
 
 namespace AccOsuMemory.Core.Models.OsuModels.V1.UrlParameters;
 

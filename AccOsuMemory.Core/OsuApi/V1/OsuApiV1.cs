@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using AccOsuMemory.Core.Attribute;
+using AccOsuMemory.Core.Models.OsuModels;
 using AccOsuMemory.Core.Models.OsuModels.V1.Beatmap;
 using AccOsuMemory.Core.Models.OsuModels.V1.Beatmap.Score;
 using AccOsuMemory.Core.Models.OsuModels.V1.Enum;
@@ -87,7 +88,7 @@ public class OsuApiV1
     }
 
 
-    private string BuildUrl<T>(T param, string url)
+    private string BuildUrl<T> (T param, string url)
     {
         var ps = param!.GetType().GetProperties();
         var sb = new StringBuilder();

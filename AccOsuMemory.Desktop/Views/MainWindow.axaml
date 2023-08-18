@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="using:AccOsuMemory.Desktop.Views.Component"
+        xmlns:preivew ="clr-namespace:AccOsuMemory.Desktop.Views"
         mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="750"
         Width="1280"
         Height="750"
@@ -18,7 +19,8 @@
         x:Class="AccOsuMemory.Desktop.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/Images/avalonia-logo.ico"
-        Title="AccOsuMemory">
+        Title="AccOsuMemory"
+        >
     <Window.Styles>
         <Style Selector="Button.SettingButton">
             <Setter Property="Padding" Value="0" />
@@ -40,12 +42,9 @@
     </Window.Styles>
 
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel />
-
-    </Design.DataContext>
+<!--     <Design.DataContext>  -->
+<!--        <vm:MainWindowViewModel />  -->
+<!-- </Design.DataContext>  -->
 
 
     <Grid RowDefinitions="Auto,*">

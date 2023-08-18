@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Net.Http.Handlers;
+using AccOsuMemory.Core.Models;
 using AccOsuMemory.Core.OsuApi.V1;
+using AccOsuMemory.Desktop.Services;
+using Microsoft.Extensions.Options;
 using NUnit.Framework.Internal;
 
 namespace AccOsuMemory.Test;
@@ -8,14 +11,17 @@ namespace AccOsuMemory.Test;
 public class OsuApiV1Tests
 {
     private HttpClient HttpClient;
-    private OsuApiV1 api;
+    private OsuApiService  api;
     private ProgressMessageHandler pmh = new(new HttpClientHandler());
     [SetUp]
     public void Setup()
     {
-       
+        
         HttpClient = new(pmh);
-        api = new("c79b5e03926c8013656913718b7cb609a726470b");
+        api = new(new OptionsWrapper<AppSettings>(new AppSettings()
+        {
+            ApiV1Key = "c79b5e03926c8013656913718b7cb609a726470b"
+        }),HttpClient);
     }
 
     [Test]
@@ -60,24 +66,7 @@ public class OsuApiV1Tests
 
         Assert.That(list, Is.Not.Empty);
     }
-
-    [Test]
-    public void NormalTest()
-    {
-        MyTask t1 = new MyTask(1, pmh, HttpClient);
-        MyTask t2 = new MyTask(2, pmh, HttpClient);
-        var a = Task.Run(async () =>
-        {
-            await t1.Download(@"D:\osu!\Songs\a.osz");
-        });
-        var b = Task.Run(async () =>
-        {
-            await t2.Download(@"D:\osu!\Songs\b.osz");
-        });
-        Task.WaitAll(a, b);
-    }
-
-  
+    
     
    
 }

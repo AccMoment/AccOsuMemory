@@ -41,8 +41,6 @@ public partial class HitTestPageView : UserControl
                 vm.HitCalculator.Tap();
             }
         }
-
-        base.OnKeyDown(e);
     }
 
 
@@ -57,7 +55,7 @@ public partial class HitTestPageView : UserControl
         {
             _hitKeys[1] = (int)Enum.Parse<Key>(e.AddedItems[0]?.ToString() ?? "X");
         }
-        Debug.WriteLine(e.AddedItems[0]?.ToString());
+        // Debug.WriteLine(e.AddedItems[0]?.ToString());
     }
 
     private void InitChart()

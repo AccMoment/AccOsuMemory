@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Text.Json.Serialization;
-using AccOsuMemory.Core.Utils.Converter;
+using AccOsuMemory.Core.JsonConverter;
 
 namespace AccOsuMemory.Core.Models.OsuModels.V1.Beatmap.Score;
 

@@ -7,10 +7,10 @@
              x:Class="AccOsuMemory.Mobile.MainPage">
     
     <Grid>
-        <VerticalStackLayout>
-            <Label Text="Hello World NMSL"></Label>
-            <Label Text="Hello World NMSL"></Label>
-            <Label Text="Hello World NMSL"></Label>
+        <VerticalStackLayout HorizontalOptions="Center">
+            
+            <Image x:Name="Image"/>
+            <Button Text="next" x:Name="Button" Clicked="Button_OnClicked"></Button>
         </VerticalStackLayout>
         
         

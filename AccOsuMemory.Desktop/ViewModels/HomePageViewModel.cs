@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using AccOsuMemory.Core.Net;
@@ -16,7 +17,8 @@ public partial class HomePageViewModel : ViewModelBase
 
     private readonly Player _player = new();
 
-
+    private HttpClient _httpClient;
+    
     [ObservableProperty] private BeatmapStorage _beatmapStorage = new();
 
 
@@ -24,9 +26,10 @@ public partial class HomePageViewModel : ViewModelBase
 
     [ObservableProperty] private bool _canConnectNetWork;
 
-    public HomePageViewModel(ISayoApiService service, IFileProvider fileProvider) : base(fileProvider)
+    public HomePageViewModel(ISayoApiService service, IFileProvider fileProvider,HttpClient httpClient) : base(fileProvider)
     {
         _service = service;
+        _httpClient = httpClient;
     }
 
 
@@ -44,7 +47,7 @@ public partial class HomePageViewModel : ViewModelBase
         await Task.Run(async () =>
         {
             await using var fileStream = new FileStream(audioPath, FileMode.OpenOrCreate, FileAccess.Write);
-            await using var response = await DownloadManager.HttpClient.GetStreamAsync(url);
+            await using var response = await _httpClient.GetStreamAsync(url);
             await response.CopyToAsync(fileStream);
             await _player.Play(audioPath);
         });
@@ -67,7 +70,7 @@ public partial class HomePageViewModel : ViewModelBase
                 if (!File.Exists(file))
                 {
                     await using var stream =
-                        await DownloadManager.HttpClient.GetStreamAsync(map.GetThumbnailUrl());
+                        await _httpClient.GetStreamAsync(map.GetThumbnailUrl());
                     await using var fs = new FileStream(file, FileMode.OpenOrCreate, FileAccess.Write);
                     await stream.CopyToAsync(fs);
                 }

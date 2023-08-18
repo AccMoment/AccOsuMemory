@@ -10,8 +10,8 @@
         <ApplicationIcon>Assets\Images\avalonia-logo.ico</ApplicationIcon>
         <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
         <SatelliteResourceLanguages>en;zh</SatelliteResourceLanguages>
-        <!--    <PublishAot>true</PublishAot>-->
-        <!--    <IsAotCompatible>true</IsAotCompatible>-->
+            <PublishAot>true</PublishAot>
+            <IsAotCompatible>true</IsAotCompatible>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <NoWarn>1701;1702;IL2121;CS8632</NoWarn>
