@@ -31,7 +31,7 @@ public partial class HomePageViewModel : ViewModelBase
     }
 
 
-    public async ValueTask PlayAudio(string url)
+    public async Task PlayAudio(string url)
     {
         // if (_player.Playing) await _player.Stop();
         var index = url.LastIndexOf('/');
@@ -42,17 +42,16 @@ public partial class HomePageViewModel : ViewModelBase
             await _player.Play(audioPath);
             return;
         }
-
         await Task.Run(async () =>
         {
             await using var fileStream = new FileStream(audioPath, FileMode.OpenOrCreate, FileAccess.Write);
             await using var response = await DownloadManager.HttpClient.GetStreamAsync(url);
             await response.CopyToAsync(fileStream);
+            await _player.Play(audioPath);
         });
-        await _player.Play(audioPath);
     }
 
-    public async ValueTask LoadBeatMapsAsync()
+    public async Task LoadBeatMapsAsync()
     {
         var list = await _service.GetBeatmapList(++BeatmapStorage.CurrentPage);
         if (list.Status != 0)

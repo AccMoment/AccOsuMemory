@@ -17,12 +17,16 @@
                         <Border.Styles>
                             <Style Selector="Border">
                                 <Setter Property="Height" Value="35" />
-                                <Setter Property="Margin" Value="0 7 0 7" />
+                                <Setter Property="Margin" Value="2.5 7 2.5 7" />
                                 <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="CornerRadius" Value="10"></Setter>
+                                <!-- <Setter Property="CornerRadius" Value="5"></Setter> -->
                             </Style>
                             <Style Selector="Border:pointerover">
-                                <Setter Property="Background" Value="#44000000"></Setter>
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="CornerRadius" Value="6"></Setter>
+                                <Setter Property="BorderBrush" Value="DarkGray"></Setter>
+                                <!-- <Setter Property="Background" Value="#44000000"></Setter> -->
+                                <Setter Property="BoxShadow" Value="0 2 10 2 #40000000"></Setter>
                             </Style>
                         </Border.Styles>
 

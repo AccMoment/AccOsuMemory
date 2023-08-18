@@ -8,7 +8,7 @@ namespace AccOsuMemory.Desktop.ViewModels
     {
         internal readonly IFileProvider FileProvider;
 
-        public ViewModelBase(IFileProvider fileProvider)
+        protected ViewModelBase(IFileProvider fileProvider)
         {
             FileProvider = fileProvider;
         }

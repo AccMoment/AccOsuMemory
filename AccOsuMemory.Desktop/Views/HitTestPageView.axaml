@@ -1,0 +1,56 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AccOsuMemory.Desktop.ViewModels"
+             xmlns:converter="clr-namespace:AccOsuMemory.Desktop.Converter"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AccOsuMemory.Desktop.Views.HitTestPageView"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             x:DataType="vm:HitTestPageViewModel">
+    <UserControl.Resources>
+        <converter:StringToTimeSpanConverter x:Key="StringToTimeSpanConverter"></converter:StringToTimeSpanConverter>
+        <converter:DoublePrecisionConverter x:Key="DoublePrecisionConverter"></converter:DoublePrecisionConverter>
+    </UserControl.Resources>
+    <Grid RowDefinitions="Auto,*" Background="Transparent">
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Vertical">
+                <Grid ColumnDefinitions="*,*" Margin="8 8 8 4">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <Label VerticalAlignment="Center" FontSize="18" Content="测试时间(秒):" />
+                        <TextBox MinWidth="50" VerticalAlignment="Center" FontSize="18"
+                                 Text="{Binding HitCalculator.Time,Converter={StaticResource StringToTimeSpanConverter},Mode=OneWayToSource}" />
+                        <Button Margin="8 0" FontSize="18" Content="重置" Command="{Binding  Reset}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <CheckBox Name="Cb1" Margin="8 0"/>
+                        <ComboBox Name="Key1" SelectionChanged="OnSelectionChanged" />
+                        <CheckBox Name="Cb2" Margin="8 0"/>
+                        <ComboBox Name="Key2" SelectionChanged="OnSelectionChanged" />
+                    </StackPanel>
+                </Grid>
+
+                <Grid Margin="8 4 8 8" ColumnDefinitions="*,*,*">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <Label FontSize="18" Content="剩余时间:" />
+                        <TextBlock FontSize="18" VerticalAlignment="Center"
+                                   Text="{Binding HitCalculator.RemainingTime,Converter={StaticResource StringToTimeSpanConverter}}" />
+                    </StackPanel>
+                    <StackPanel VerticalAlignment="Center" Grid.Column="1" Orientation="Horizontal">
+                        <Label FontSize="18" Content="打击次数:" />
+                        <TextBlock FontSize="18" VerticalAlignment="Center" Text="{Binding HitCalculator.TapCount}" />
+                    </StackPanel>
+                    <StackPanel VerticalAlignment="Center" Grid.Column="2" Orientation="Horizontal">
+                        <Label Content="平均BPM:" FontSize="18" />
+                        <TextBlock FontSize="18" VerticalAlignment="Center"
+                                   Text="{Binding HitCalculator.Bpm,Converter={StaticResource DoublePrecisionConverter}}" />
+                    </StackPanel>
+                </Grid>
+
+            </StackPanel>
+        </Grid>
+        <lvc:CartesianChart Grid.Row="1" Name="Chart"
+                            Series="{Binding HitCalculator.Series}">
+        </lvc:CartesianChart>
+    </Grid>
+</UserControl>

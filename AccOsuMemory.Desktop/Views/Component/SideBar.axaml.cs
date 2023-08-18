@@ -30,7 +30,7 @@ public partial class SideBar : UserControl
 
         var index = Math.Floor(e.GetPosition(this).Y / 49);
         FloatPoint.Height = 0;
-        await Task.Delay(250);
+        await Task.Delay(300);
         var y = index * 49 + 15;
         Canvas.SetTop(FloatPoint, y);
         FloatPoint.Height = 20;

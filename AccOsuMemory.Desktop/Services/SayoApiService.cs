@@ -2,9 +2,9 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using AccOsuMemory.Core.Models.SayoModels;
+using AccOsuMemory.Core.Models.SayoModels.Enum;
 using AccOsuMemory.Core.Net;
 using AccOsuMemory.Core.Utils;
-using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace AccOsuMemory.Desktop.Services;
@@ -13,14 +13,21 @@ public class SayoApiService : ISayoApiService
 {
     private const string Url = "https://api.sayobot.cn/?post";
 
-    public async Task<BeatMapList> GetBeatmapList(int currentPage, int offset = 25, SearchType type = SearchType.New)
+    public async Task<BeatMapList> GetBeatmapList(int currentPage, int offset, SearchType type,
+        Language language, Mode mode, Genre genre, ApprovedState approvedState,SubType subType)
     {
         var body = new SayoQueryParams
         {
             Cmd = "beatmaplist",
             Limit = 25,
             Offset = (currentPage - 1) * offset,
-            Type = (int)type
+            Type = (int)type,
+            Language = (int)language,
+            Mode = (int)mode,
+            Genre = (int)genre,
+            ApprovedState = (int) approvedState,
+            KeyWord = "",
+            SubType = (int)subType
         };
         var response = await DownloadManager.HttpClient
             .PostAsync(Url,

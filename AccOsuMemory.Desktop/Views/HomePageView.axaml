@@ -138,15 +138,19 @@
                                 <!-- Action -->
                                 <StackPanel VerticalAlignment="Bottom"
                                             HorizontalAlignment="Right" Orientation="Horizontal">
-                                    <Button Click="AudioPlay_Click" DataContext="{Binding}"
+                                    <Button Click="AudioPlay_Click" DataContext="{Binding}" ToolTip.Tip="播放"
+                                            ToolTip.ShowDelay="1000" ToolTip.VerticalOffset="-51" ToolTip.HorizontalOffset="-30"
                                             Classes="WindowButton ActionBtn">
                                         <Image Source="{SvgImage /Assets/Images/play.svg}" Classes="ActionIcon" />
                                     </Button>
-                                    <Button Click="Download_Click" DataContext="{Binding}"
+                                    <Button Click="Download_Click" DataContext="{Binding}" ToolTip.Tip="下载"
+                                            ToolTip.ShowDelay="1000" ToolTip.VerticalOffset="-51" ToolTip.HorizontalOffset="-26"
                                             Classes="WindowButton ActionBtn" Margin="4 0">
                                         <Image Source="{SvgImage /Assets/Images/download.svg}" Classes="ActionIcon" />
                                     </Button>
-                                    <Button Classes="WindowButton ActionBtn">
+                                    <Button Classes="WindowButton ActionBtn" DataContext="{Binding}"
+                                            ToolTip.Tip="分享链接" ToolTip.VerticalOffset="-55" ToolTip.HorizontalOffset="-40"
+                                            ToolTip.ShowDelay="1000" Click="ShareLink_OnClick">
                                         <Image Source="{SvgImage /Assets/Images/post.svg}" Classes="ActionIcon" />
                                     </Button>
                                 </StackPanel>

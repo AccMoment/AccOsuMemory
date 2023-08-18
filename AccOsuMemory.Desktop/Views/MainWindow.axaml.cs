@@ -7,13 +7,14 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Microsoft.Extensions.DependencyInjection;
-using ShimSkiaSharp;
 using static AccOsuMemory.Desktop.App;
 
 namespace AccOsuMemory.Desktop.Views
 {
     public partial class MainWindow : Window
     {
+        private MainWindowViewModel? _viewModel;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -22,6 +23,7 @@ namespace AccOsuMemory.Desktop.Views
         protected override async void OnClosed(EventArgs e)
         {
             await AppHost!.StopAsync();
+            _viewModel?.ClearTempFiles();
             base.OnClosed(e);
         }
 
@@ -40,6 +42,7 @@ namespace AccOsuMemory.Desktop.Views
 
         private void WindowMoved(object sender, PointerPressedEventArgs e)
         {
+           
             BeginMoveDrag(e);
         }
 
@@ -53,7 +56,8 @@ namespace AccOsuMemory.Desktop.Views
         {
             if (DataContext is MainWindowViewModel vm)
             {
-                vm.ViewModelBase = AppHost?.Services.GetRequiredService<HomePageViewModel>();
+                _viewModel = vm;
+                _viewModel.ViewModelBase = AppHost?.Services.GetRequiredService<HomePageViewModel>();
             }
 
             base.OnDataContextChanged(e);

@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using System.Net.Http;
 using AccOsuMemory.Core.Models;
 using AccOsuMemory.Core.Net;
 using AccOsuMemory.Desktop.Services;
@@ -46,6 +44,7 @@ namespace AccOsuMemory.Desktop
                     services.AddSingleton<MainWindowViewModel>();
                     services.AddSingleton<HomePageViewModel>();
                     services.AddSingleton<TaskPageViewModel>();
+                    services.AddTransient<HitTestPageViewModel>();
 
                     // Others
                     services.AddSingleton<DownloadManager>();

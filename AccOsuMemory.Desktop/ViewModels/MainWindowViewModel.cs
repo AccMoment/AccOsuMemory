@@ -1,22 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using System.IO;
 using AccOsuMemory.Core.Models;
 using AccOsuMemory.Core.Utils;
 using AccOsuMemory.Desktop.Model;
 using AccOsuMemory.Desktop.Services;
-using Avalonia.Input;
-using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 
 namespace AccOsuMemory.Desktop.ViewModels;
 
@@ -34,11 +24,18 @@ public partial class MainWindowViewModel : ViewModelBase
             new("HomePage", "主页"),
             new("SearchPage", "搜索歌曲"),
             new("DownloadPage", "批量下载"),
-            new("TaskPage", "任务列表")
+            new("TaskPage", "任务列表"),
+            new("HandAltTestPage","手速测试")
         };
         AppSettingsWriter.Write(nameof(AppSettings.ApiV1Key), "nmsl");
     }
 
+    public void ClearTempFiles()
+    {
+        Directory.Delete(FileProvider.GetMusicCacheDirectory(),true);
+        Directory.Delete(FileProvider.GetThumbnailCacheDirectory(),true);
+    }
+    
     public void ChangePage(IHost? appHost, string? name)
     {
         ViewModelBase = name switch
@@ -46,6 +43,7 @@ public partial class MainWindowViewModel : ViewModelBase
             "HomePage" => appHost?.Services.GetRequiredService<HomePageViewModel>(),
             "SearchPage" or "DownloadPage" => null,
             "TaskPage" => appHost?.Services.GetRequiredService<TaskPageViewModel>(),
+            "HandAltTestPage"=>appHost?.Services.GetRequiredService<HitTestPageViewModel>(),
             _ => null
         };
     }

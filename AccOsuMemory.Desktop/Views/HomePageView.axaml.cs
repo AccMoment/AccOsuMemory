@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AccOsuMemory.Core.Models.SayoModels;
 using AccOsuMemory.Desktop.ViewModels;
 using Avalonia.Controls;
+using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Microsoft.Extensions.DependencyInjection;
@@ -102,8 +103,8 @@ public partial class HomePageView : UserControl
 
     private async void LoadBeatmaps()
     {
-        TipsBorder.Classes.Add("ShowTips");
         TipsText.Text = "(*^▽^*)加载中~~";
+        TipsBorder.Classes.Add("ShowTips");
         await _homePageVM.LoadBeatMapsAsync();
         await Task.Delay(1145);
         TipsBorder.Classes.Remove("ShowTips");
@@ -140,5 +141,17 @@ public partial class HomePageView : UserControl
             await Task.Delay(1145);
             TipsBorder.Classes.Remove("ShowErrorTips");
         }
+    }
+
+    private async void ShareLink_OnClick(object? sender, RoutedEventArgs e)
+    {
+        TipsText.Text = "(*^▽^*)复制成功，分享给你的好友吧~~";
+        TipsBorder.Classes.Add("ShowTips");
+        if (sender is Button { DataContext : BeatMap beatmap })
+        {
+            TopLevel.GetTopLevel(this)?.Clipboard?.SetTextAsync(beatmap.FullDownloadUrl);
+        }
+        await Task.Delay(1145);
+        TipsBorder.Classes.Remove("ShowTips");
     }
 }

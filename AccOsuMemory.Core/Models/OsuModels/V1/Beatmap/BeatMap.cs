@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using AccOsuMemory.Core.Models.OsuModels.V1.Enum;
 using AccOsuMemory.Core.Utils.Converter;
+using ApprovedState = AccOsuMemory.Core.Models.SayoModels.Enum.ApprovedState;
 
 namespace AccOsuMemory.Core.Models.OsuModels.V1.Beatmap;
 
