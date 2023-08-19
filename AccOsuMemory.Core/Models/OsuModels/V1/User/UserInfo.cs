@@ -19,7 +19,7 @@ public class UserInfo
 
     [JsonPropertyName("count50")] public int Count50 { get; set; }
 
-    [JsonPropertyName("playcount")] public int Playcount { get; set; }
+    [JsonPropertyName("playcount")] public int PlayCount { get; set; }
 
     [JsonPropertyName("ranked_score")] public long RankedScore { get; set; }
 

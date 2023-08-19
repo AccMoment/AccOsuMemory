@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using AccOsuMemory.Core.Models.SayoModels;
 using AccOsuMemory.Desktop.ViewModels;
 using Avalonia.Controls;
-using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Microsoft.Extensions.DependencyInjection;
@@ -82,7 +80,7 @@ public partial class HomePageView : UserControl
         if (sender is Button { DataContext: BeatMap beatmap })
         {
             // Task.Run(async () => await _vm.PlayAudio(beatmap.PreviewAudio));
-            await _homePageVM.PlayAudio(beatmap.PreviewAudio);
+            await _homePageVM.PlayAudioAsync(beatmap.PreviewAudio);
         }
     }
 

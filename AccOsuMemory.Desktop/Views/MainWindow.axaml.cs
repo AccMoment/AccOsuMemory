@@ -1,11 +1,8 @@
 using System;
 using AccOsuMemory.Desktop.ViewModels;
-using AccOsuMemory.Desktop.Views.Component;
 using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.LogicalTree;
 using Microsoft.Extensions.DependencyInjection;
 using static AccOsuMemory.Desktop.App;
 

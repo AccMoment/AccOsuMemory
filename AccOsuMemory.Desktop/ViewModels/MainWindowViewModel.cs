@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
-using AccOsuMemory.Core.Models;
-using AccOsuMemory.Core.Utils;
 using AccOsuMemory.Desktop.Model;
 using AccOsuMemory.Desktop.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -23,11 +21,10 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             new("HomePage", "主页"),
             new("SearchPage", "搜索歌曲"),
-            new("DownloadPage", "批量下载"),
+            new("BatchDownloadPage", "批量下载"),
             new("TaskPage", "任务列表"),
-            new("HandAltTestPage","手速测试")
+            new("HitTestPage","手速测试")
         };
-        AppSettingsWriter.Write(nameof(AppSettings.ApiV1Key), "nmsl");
     }
 
     public void ClearTempFiles()
@@ -41,9 +38,10 @@ public partial class MainWindowViewModel : ViewModelBase
         ViewModelBase = name switch
         {
             "HomePage" => appHost?.Services.GetRequiredService<HomePageViewModel>(),
-            "SearchPage" or "DownloadPage" => null,
+            "SearchPage" =>appHost?.Services.GetRequiredService<SearchPageViewModel>(), 
+            "BatchDownloadPage" => appHost?.Services.GetRequiredService<BatchDownloadPageViewModel>(),
             "TaskPage" => appHost?.Services.GetRequiredService<TaskPageViewModel>(),
-            "HandAltTestPage"=>appHost?.Services.GetRequiredService<HitTestPageViewModel>(),
+            "HitTestPage"=>appHost?.Services.GetRequiredService<HitTestPageViewModel>(),
             _ => null
         };
     }

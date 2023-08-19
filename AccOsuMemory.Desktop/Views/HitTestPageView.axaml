@@ -18,14 +18,15 @@
                 <Grid ColumnDefinitions="*,*" Margin="8 8 8 4">
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
                         <Label VerticalAlignment="Center" FontSize="18" Content="测试时间(秒):" />
-                        <TextBox MinWidth="50" VerticalAlignment="Center" FontSize="18"
-                                 Text="{Binding HitCalculator.Time,Converter={StaticResource StringToTimeSpanConverter},Mode=OneWayToSource}" />
+                        <TextBox MinWidth="60" VerticalAlignment="Center" FontSize="18"
+                                 Text="{Binding HitCalculator.InputSeconds,Mode=TwoWay}"
+                                 Margin="8 0" />
                         <Button Margin="8 0" FontSize="18" Content="重置" Command="{Binding  Reset}" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <CheckBox Name="Cb1" Margin="8 0"/>
+                        <CheckBox Name="Cb1" Margin="8 0" IsChecked="True" />
                         <ComboBox Name="Key1" SelectionChanged="OnSelectionChanged" />
-                        <CheckBox Name="Cb2" Margin="8 0"/>
+                        <CheckBox Name="Cb2" Margin="8 0" IsChecked="True" />
                         <ComboBox Name="Key2" SelectionChanged="OnSelectionChanged" />
                     </StackPanel>
                 </Grid>

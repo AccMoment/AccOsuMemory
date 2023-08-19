@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using AccOsuMemory.Desktop.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;

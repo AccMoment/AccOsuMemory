@@ -22,7 +22,7 @@
                                 <!-- <Setter Property="CornerRadius" Value="5"></Setter> -->
                             </Style>
                             <Style Selector="Border:pointerover">
-                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="BorderThickness" Value="1" />
                                 <Setter Property="CornerRadius" Value="6"></Setter>
                                 <Setter Property="BorderBrush" Value="DarkGray"></Setter>
                                 <!-- <Setter Property="Background" Value="#44000000"></Setter> -->

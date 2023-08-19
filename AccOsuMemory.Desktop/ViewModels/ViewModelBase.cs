@@ -4,11 +4,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AccOsuMemory.Desktop.ViewModels
 {
-    public class ViewModelBase : ObservableObject
+    public abstract class ViewModelBase : ObservableObject
     {
         internal readonly IFileProvider FileProvider;
 
-        protected ViewModelBase(IFileProvider fileProvider)
+        internal ViewModelBase(IFileProvider fileProvider)
         {
             FileProvider = fileProvider;
         }

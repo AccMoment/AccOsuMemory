@@ -15,6 +15,7 @@ public class ModeConverter : IValueConverter
             2 => "avares://AccOsuMemory/Assets/Images/osu-taiko.svg",
             4 => "avares://AccOsuMemory/Assets/Images/osu-catch.svg",
             8 => "avares://AccOsuMemory/Assets/Images/osu-mania.svg",
+            _ => null
         };
     }
 

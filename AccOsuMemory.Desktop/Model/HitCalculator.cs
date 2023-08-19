@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Timers;
 using AccOsuMemory.Core.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore;
 using LiveChartsCore.Drawing;
 using LiveChartsCore.SkiaSharpView;
@@ -15,23 +15,31 @@ namespace AccOsuMemory.Desktop.Model;
 public partial class HitCalculator : BaseModel
 {
     [ObservableProperty] private double _bpm;
-    [ObservableProperty] private TimeSpan _time = TimeSpan.FromSeconds(5);
+
     [ObservableProperty] private int _tapCount;
     [ObservableProperty] private bool _isSingleKey;
     [ObservableProperty] private bool _isStarted;
     [ObservableProperty] private bool _isCompeted;
+
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(Time))]
+    private double _inputSeconds = 5d;
+
     [ObservableProperty] private CalculateType _hitType;
     [ObservableProperty] private TimeSpan _remainingTime;
     private readonly ObservableCollection<double> _bpmLines = new();
 
+    [ObservableProperty] private ObservableCollection<ISeries> _series;
+
     // private readonly ObservableCollection<double> _averageLines = new();
     private readonly Timer _timer = new();
+    [ObservableProperty]
+    private TimeSpan _time = TimeSpan.FromSeconds(5);
 
-    [ObservableProperty] private ObservableCollection<ISeries> _series;
 
     private long _startTime;
     // private int _tempTapCount;
     // private long _tempTime;
+
 
     public HitCalculator()
     {
@@ -84,8 +92,17 @@ public partial class HitCalculator : BaseModel
             // _tempTapCount = TapCount;
             // _tempTime = endTime;
         };
-        // _startTime = DateTime.Now.Ticks;
-        // Time = TimeSpan.FromSeconds(15);
+    }
+
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(Time))
+        {
+            if (InputSeconds > TimeSpan.MaxValue.TotalSeconds || InputSeconds < 0) Time = TimeSpan.FromSeconds(5);
+            Time = TimeSpan.FromSeconds(InputSeconds);
+        }
+
+        base.OnPropertyChanged(e);
     }
 
     public void Start()
@@ -93,14 +110,11 @@ public partial class HitCalculator : BaseModel
         if (IsCompeted) return;
         _startTime = DateTime.Now.Ticks;
         RemainingTime = Time;
-        // TapCount = 0;
         IsStarted = true;
-        // _bpmLines.Clear();
-        // _averageLines.Clear();
         _timer.Enabled = true;
         _timer.Start();
     }
-    
+
     public void Reset()
     {
         IsCompeted = false;

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AccOsuMemory.Core.Models.SayoModels;
 using AccOsuMemory.Core.Models.SayoModels.Enum;
 using AccOsuMemory.Core.Net;
 using AccOsuMemory.Core.Utils;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace AccOsuMemory.Desktop.Services;
 

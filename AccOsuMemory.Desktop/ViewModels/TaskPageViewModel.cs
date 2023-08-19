@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.ObjectModel;
 using System.IO;
-using AccOsuMemory.Core.Models;
 using AccOsuMemory.Core.Net;
 using AccOsuMemory.Desktop.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.Options;
 
 namespace AccOsuMemory.Desktop.ViewModels;
 

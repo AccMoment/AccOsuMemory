@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AccOsuMemory.Core.Net;
-using AccOsuMemory.Core.Utils;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;

@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
-using AccOsuMemory.Core.Models.SayoModels;
 using AccOsuMemory.Core.Net;
 using AccOsuMemory.Core.NetCoreAudio;
 using AccOsuMemory.Desktop.Model;
@@ -31,7 +30,7 @@ public partial class HomePageViewModel : ViewModelBase
     }
 
 
-    public async Task PlayAudio(string url)
+    public async Task PlayAudioAsync(string url)
     {
         // if (_player.Playing) await _player.Stop();
         var index = url.LastIndexOf('/');

@@ -2,9 +2,7 @@
 using System.IO;
 using AccOsuMemory.Core.Models;
 using AccOsuMemory.Core.Utils;
-using AccOsuMemory.Desktop.Utils;
 using Microsoft.Extensions.Options;
-
 
 namespace AccOsuMemory.Desktop.Services;
 

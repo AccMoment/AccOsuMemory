@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AccOsuMemory.Core.Models.SayoModels;
 using AccOsuMemory.Core.Models.SayoModels.Enum;
 

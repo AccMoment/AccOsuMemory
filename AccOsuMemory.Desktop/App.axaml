@@ -16,12 +16,12 @@
 
         <SolidColorBrush x:Key="TopBarColor" Color="#4dffffff" />
         <SolidColorBrush x:Key="Primary" Color="#ff75b3" />
-        <SolidColorBrush x:Key="PrimaryContainer" Color="#4dffd9e5" />
+        <SolidColorBrush x:Key="PrimaryContainer" Color="#66ffd9e5" />
         <SolidColorBrush x:Key="SecondaryContainer" Color="#ffd9e5" />
         <SolidColorBrush x:Key="TipsContainer" Color="#77f9d0" />
         <SolidColorBrush x:Key="Error" Color="#ba1a1a" />
         <SolidColorBrush x:Key="ErrorContainer" Color="#ffdad6" />
-        <SolidColorBrush x:Key="Background" Color="#4df3f3f3" />
+        <SolidColorBrush x:Key="Background" Color="#66f3f3f3" />
         <SolidColorBrush x:Key="Surface" Color="#f3f3f3" />
     </Application.Resources>
 

@@ -4,6 +4,8 @@
     <option name="projectPerEditor">
       <map>
         <entry key="AccOsuMemory.Desktop/App.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
+        <entry key="AccOsuMemory.Desktop/Views/BatchDownloadPage.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
+        <entry key="AccOsuMemory.Desktop/Views/BatchDownloadPageView.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/Component/BeatmapDetail.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/Component/MenuButton.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/Component/MenuButton1.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
@@ -17,6 +19,7 @@
         <entry key="AccOsuMemory.Desktop/Views/HomePageView.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/MainWindow.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/Pages/HomePage.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
+        <entry key="AccOsuMemory.Desktop/Views/SearchPageView.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/TaskPageView.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
       </map>
     </option>

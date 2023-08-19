@@ -27,8 +27,7 @@ public class OsuApiV1
 
     public Task<List<BeatMap>?> GetBeatMaps(DateTime dateTime, GameMode mode = GameMode.Standard, int limit = 500) =>
         GetBeatMaps(new BeatMapParams(dateTime, mode, limit));
-
-    [RequiresUnreferencedCode("GetBeatMaps")]
+    
     public Task<List<BeatMap>?> GetBeatMaps(BeatMapParams param)
     {
         var url = BuildUrl(param, ApiUrlV1.BeatMap);
@@ -40,8 +39,7 @@ public class OsuApiV1
 
     public Task<List<UserBestScore>?> GetUserBP(int userId, GameMode mode = GameMode.Standard, int limit = 10) =>
         GetUserBP(new UserBestParams(userId, mode, limit));
-
-    [RequiresUnreferencedCode("GetUserBP")]
+    
     public Task<List<UserBestScore>?> GetUserBP(UserBestParams param)
     {
         var url = BuildUrl(param, ApiUrlV1.BestPerformance);
@@ -53,8 +51,7 @@ public class OsuApiV1
 
     public Task<UserInfo?> GetUserInfo(int userId, GameMode mode = GameMode.Standard, int eventDays = 1) =>
         GetUserInfo(new UserInfoParams(userId, mode, eventDays));
-
-    [RequiresUnreferencedCode("GetUserBP")]
+    
     public async Task<UserInfo?> GetUserInfo(UserInfoParams param)
     {
         var url = BuildUrl(param, ApiUrlV1.User);
@@ -70,8 +67,7 @@ public class OsuApiV1
 
     public Task<List<MapScore>?> GetMapScores(int beatMapId, int? userId, GameMode mode = GameMode.Standard) =>
         GetMapScores(new ScoresParams(beatMapId, mode, userId));
-
-    [RequiresUnreferencedCode("GetUserBP")]
+    
     public Task<List<MapScore>?> GetMapScores(ScoresParams param)
     {
         var url = BuildUrl(param, ApiUrlV1.Scores);
@@ -83,8 +79,7 @@ public class OsuApiV1
 
     public Task<List<UserRecentScore>?> GetRecentScore(int userId, GameMode mode = GameMode.Standard,
         int limit = 500) => GetRecentScore(new UserRecentScoreParams(userId, mode, limit));
-
-    [RequiresUnreferencedCode("GetUserBP")]
+    
     public Task<List<UserRecentScore>?> GetRecentScore(UserRecentScoreParams param)
     {
         var url = BuildUrl(param, ApiUrlV1.RecentlyPlayed);

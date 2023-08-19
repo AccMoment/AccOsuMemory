@@ -45,6 +45,8 @@ namespace AccOsuMemory.Desktop
                     services.AddSingleton<HomePageViewModel>();
                     services.AddSingleton<TaskPageViewModel>();
                     services.AddTransient<HitTestPageViewModel>();
+                    services.AddTransient<SearchPageViewModel>();
+                    services.AddTransient<BatchDownloadPageViewModel>();
 
                     // Others
                     services.AddSingleton<DownloadManager>();
