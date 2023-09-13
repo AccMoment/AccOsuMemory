@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using AccOsuMemory.Desktop.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
@@ -14,6 +16,8 @@ namespace AccOsuMemory.Desktop.Views;
 public partial class HitTestPageView : UserControl
 {
     private readonly int[] _hitKeys;
+
+    private HitTestPageViewModel? _vm;
 
     public HitTestPageView()
     {
@@ -30,16 +34,19 @@ public partial class HitTestPageView : UserControl
         _hitKeys[1] = (int)Key.X;
     }
 
+    protected override void OnDataContextChanged(EventArgs e)
+    {
+        if (DataContext is HitTestPageViewModel vm) _vm = vm;
+        base.OnDataContextChanged(e);
+    }
+
     protected override void OnKeyDown(KeyEventArgs e)
     {
         if ((Cb1.IsChecked == true && (int)e.Key == _hitKeys[0]) ||
             (Cb2.IsChecked == true && (int)e.Key == _hitKeys[1]))
         {
-            if (DataContext is HitTestPageViewModel vm)
-            {
-                if (!vm.HitCalculator.IsStarted) vm.HitCalculator.Start();
-                vm.HitCalculator.Tap();
-            }
+            if (!_vm!.HitCalculator.IsStarted) _vm.HitCalculator.Start();
+            _vm.HitCalculator.Tap();
         }
     }
 
@@ -77,10 +84,20 @@ public partial class HitTestPageView : UserControl
                 MinLimit = 0,
             }
         };
-        Chart.DrawMarginFrame = new DrawMarginFrame()
+        Chart.DrawMarginFrame = new DrawMarginFrame
         {
             Stroke = new SolidColorPaint(SKColors.LightGray),
         };
         Chart.DrawMargin = new Margin(8);
+    }
+
+    private void CheckBox_OnIsCheckedChanged(object? sender, RoutedEventArgs e)
+    {
+        if (Cb1.IsChecked == false && Cb2.IsChecked == true) _vm.HitCalculator.IsSingleKey = true;
+        else if (Cb1.IsChecked == true && Cb2.IsChecked == false) _vm.HitCalculator.IsSingleKey = true;
+        else
+        {
+            _vm.HitCalculator.IsSingleKey = false;
+        }
     }
 }

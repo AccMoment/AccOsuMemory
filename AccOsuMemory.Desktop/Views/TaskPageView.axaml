@@ -15,14 +15,13 @@
     </UserControl.Resources>
     <UserControl.Styles>
         <Style Selector="TextBlock.StateText">
-            <Setter Property="Width" Value="150" />
+            <Setter Property="Width" Value="300" />
             <Setter Property="FontSize" Value="16" />
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="VerticalAlignment" Value="Top" />
-            <Setter Property="TextAlignment" Value="Right" />
             <Setter Property="Foreground" Value="#000" />
-            <Setter Property="Margin" Value="4" />
-            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="16" />
+            <Setter Property="TextWrapping" Value="{x:Static TextWrapping.WrapWithOverflow}" />
             <Setter Property="MaxLines" Value="1" />
         </Style>
 
@@ -65,8 +64,10 @@
                             <!--     <TextBlock Text="等待中..." IsVisible="{CompiledBinding IsWaiting}" Classes="StateText" /> -->
                             <!--     <TextBlock Text="下载中..." IsVisible="{CompiledBinding IsDownloading}" Classes="StateText" /> -->
                             <!--     <TextBlock Text="已完成" IsVisible="{CompiledBinding IsFinished}" Classes="StateText" /> -->
-                            <!--     <TextBlock Text="{Binding ErrorMessage}" IsVisible="{CompiledBinding IsError}" ToolTip.Tip="{CompiledBinding ErrorMessage}" -->
-                            <!--                Classes="StateText" Foreground="{StaticResource Error}" /> -->
+                            <TextBlock Text="{Binding ErrorMessage}" IsVisible="{Binding IsError}"
+                                       ToolTip.Tip="{Binding ErrorMessage}"
+                                       Classes="StateText" Margin="16" Foreground="{StaticResource Error}"
+                                       HorizontalAlignment="Right" />
                             <!-- </Grid> -->
                             <ProgressBar
                                 VerticalAlignment="Bottom"

@@ -8,7 +8,8 @@
              xmlns:sayoModels="clr-namespace:AccOsuMemory.Core.Models.SayoModels;assembly=AccOsuMemory.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AccOsuMemory.Desktop.Views.HomePageView"
-             x:DataType="vm:HomePageViewModel">
+             x:DataType="vm:HomePageViewModel"
+             Name="Uc">
     <Design.PreviewWith>
 
     </Design.PreviewWith>
@@ -138,19 +139,29 @@
                                 <!-- Action -->
                                 <StackPanel VerticalAlignment="Bottom"
                                             HorizontalAlignment="Right" Orientation="Horizontal">
-                                    <Button Click="AudioPlay_Click" DataContext="{Binding}" ToolTip.Tip="播放"
-                                            ToolTip.ShowDelay="1000" ToolTip.VerticalOffset="-51" ToolTip.HorizontalOffset="-30"
-                                            Classes="WindowButton ActionBtn">
+                                    <Button
+                                        Command="{Binding $parent[UserControl].((vm:HomePageViewModel)DataContext).PlayAudioCommand}"
+                                        CommandParameter="{Binding DataType=sayoModels:BeatMap,Path=PreviewAudio}"
+                                        ToolTip.Tip="播放"
+                                        ToolTip.ShowDelay="1000" ToolTip.VerticalOffset="-51"
+                                        ToolTip.HorizontalOffset="-30"
+                                        Classes="WindowButton ActionBtn">
                                         <Image Source="{SvgImage /Assets/Images/play.svg}" Classes="ActionIcon" />
                                     </Button>
-                                    <Button Click="Download_Click" DataContext="{Binding}" ToolTip.Tip="下载"
-                                            ToolTip.ShowDelay="1000" ToolTip.VerticalOffset="-51" ToolTip.HorizontalOffset="-26"
-                                            Classes="WindowButton ActionBtn" Margin="4 0">
+                                    <Button
+                                        Command="{Binding $parent[UserControl].((vm:HomePageViewModel)DataContext).AddDownloadTaskCommand}"
+                                        CommandParameter="{Binding DataType=sayoModels:BeatMap}" ToolTip.Tip="下载"
+                                        ToolTip.ShowDelay="1000" ToolTip.VerticalOffset="-51"
+                                        ToolTip.HorizontalOffset="-26"
+                                        Classes="WindowButton ActionBtn" Margin="4 0">
                                         <Image Source="{SvgImage /Assets/Images/download.svg}" Classes="ActionIcon" />
                                     </Button>
                                     <Button Classes="WindowButton ActionBtn" DataContext="{Binding}"
-                                            ToolTip.Tip="分享链接" ToolTip.VerticalOffset="-55" ToolTip.HorizontalOffset="-40"
-                                            ToolTip.ShowDelay="1000" Click="ShareLink_OnClick">
+                                            ToolTip.Tip="分享链接" ToolTip.VerticalOffset="-55"
+                                            ToolTip.HorizontalOffset="-40"
+                                            ToolTip.ShowDelay="1000" 
+                                            Click="ShareLink_OnClick"
+                                            >
                                         <Image Source="{SvgImage /Assets/Images/post.svg}" Classes="ActionIcon" />
                                     </Button>
                                 </StackPanel>
@@ -193,12 +204,17 @@
         <!--     <Setter Property="Foreground" Value="White"></Setter> -->
         <!-- </Style> -->
     </UserControl.Styles>
+    <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Loaded" SourceObject="Uc">
+            <InvokeCommandAction Command="{Binding LoadBeatMapsCommand}"></InvokeCommandAction>
+        </EventTriggerBehavior>
+    </Interaction.Behaviors>
     <Grid Name="HomePageGrid">
 
         <StackPanel IsVisible="{Binding !CanConnectNetWork}" VerticalAlignment="Center"
                     HorizontalAlignment="Center">
             <TextBlock FontSize="24" Text="网络状况出现异常，请检查网络设置。" Foreground="Black" />
-            <Button Content="刷新" Click="Refresh_Click" HorizontalAlignment="Center" />
+            <Button Content="刷新" Command="{Binding LoadBeatMapsCommand}" HorizontalAlignment="Center" />
         </StackPanel>
         <Grid IsVisible="{Binding  CanConnectNetWork}">
             <ScrollViewer Name="SongsScroll">

@@ -5,6 +5,7 @@ using AccOsuMemory.Desktop.Services;
 using AccOsuMemory.Desktop.ViewModels;
 using AccOsuMemory.Desktop.Views;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
@@ -30,6 +31,7 @@ namespace AccOsuMemory.Desktop
                 .SetBasePath(Environment.CurrentDirectory)
                 .AddJsonFile("appsettings.json", true, true)
                 .Build();
+            
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {
@@ -53,8 +55,7 @@ namespace AccOsuMemory.Desktop
                     services.AddSingleton(DownloadManager.HttpClient);
                 })
                 .Build();
-
-
+            
             base.RegisterServices();
         }
 
@@ -66,7 +67,7 @@ namespace AccOsuMemory.Desktop
                 // Line below is needed to remove Avalonia data validation.
                 // Without this line you will get duplicate validations from both Avalonia and CT
                 BindingPlugins.DataValidators.RemoveAt(0);
-                desktop.MainWindow = new MainWindow()
+                desktop.MainWindow = new MainWindow
                 {
                     DataContext = AppHost.Services.GetRequiredService<MainWindowViewModel>()
                 };

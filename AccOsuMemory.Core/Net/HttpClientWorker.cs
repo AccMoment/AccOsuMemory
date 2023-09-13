@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Handlers;
+﻿using System.Net;
+using System.Net.Http.Handlers;
 
 namespace AccOsuMemory.Core.Net;
 
@@ -27,6 +28,11 @@ public class HttpClientWorker : HttpClient
                 _handler.HttpReceiveProgress += task.OnDownload;
             task.OnStart();
             var response = await SendAsync(request, _cancellationTokenSource.Token);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                task.OnError("发生错误：可能因为以下原因导致不能下载：服务器资源不足，读取失败，ppy不给下载");
+                return;
+            }
             await using var responseStream = await response.Content.ReadAsStreamAsync();
             await task.OnFinished(responseStream);
         }

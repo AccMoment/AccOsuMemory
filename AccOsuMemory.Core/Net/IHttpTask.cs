@@ -14,5 +14,7 @@ public interface IHttpTask
 
     public void OnDownload(object? sender, HttpProgressEventArgs e);
 
-    public ValueTask OnFinished(Stream responseStream);
+    public Task OnFinished(Stream responseStream);
+
+    public void OnError(string errorMessage);
 }

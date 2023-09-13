@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="using:AccOsuMemory.Desktop.Views.Component"
-        xmlns:preivew ="clr-namespace:AccOsuMemory.Desktop.Views"
         mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="750"
         Width="1280"
         Height="750"
@@ -76,7 +75,7 @@
             <Grid Grid.Column="0" RowDefinitions="Auto,*,Auto" Width="220">
                 <Separator Grid.Row="0" Height="1" Background="White" Margin="20 0" />
                 <views:SideBar Grid.Row="1" DataContext="{Binding}" />
-                <Button Grid.Row="2" Classes="SettingButton">
+                <Button Grid.Row="2" Classes="SettingButton" >
                     <Image Source="{SvgImage /Assets/Images/setting.svg}" Width="32" Height="32" />
                 </Button>
             </Grid>

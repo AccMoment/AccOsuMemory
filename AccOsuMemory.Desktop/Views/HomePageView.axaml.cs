@@ -1,25 +1,39 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AccOsuMemory.Core.Models.SayoModels;
+using AccOsuMemory.Desktop.Message;
 using AccOsuMemory.Desktop.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AccOsuMemory.Desktop.Views;
 
 public partial class HomePageView : UserControl
 {
-    private readonly TaskPageViewModel? _taskPageVM =
-        App.AppHost?.Services.GetRequiredService<TaskPageViewModel>();
-
     private readonly HomePageViewModel _homePageVM = App.AppHost?.Services.GetRequiredService<HomePageViewModel>()!;
+
 
     public HomePageView()
     {
         InitializeComponent();
+
+        _homePageVM.ShowTips += (className, text) =>
+        {
+            TipsText.Text = text;
+            TipsBorder.Classes.Add(className);
+        };
+        _homePageVM.HideTips += async className =>
+        {
+            while (TipsBorder.IsAnimating(OpacityProperty))
+            {
+                await Task.Delay(500);
+            }
+            TipsBorder.Classes.Remove(className);
+        };
     }
+
 
     protected override void OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
@@ -33,27 +47,11 @@ public partial class HomePageView : UserControl
         base.OnAttachedToLogicalTree(e);
     }
 
-    protected override async void OnInitialized()
+
+    protected override void OnLoaded(RoutedEventArgs e)
     {
-        try
-        {
-            await _homePageVM.CheckNetStatus();
-            if (_homePageVM.CanConnectNetWork)
-            {
-                if (_homePageVM.BeatmapStorage.Beatmaps.Count == 0)
-                {
-                    LoadBeatmaps();
-                }
-
-                SongsScroll.ScrollChanged += ScrollEvent;
-            }
-        }
-        catch (Exception e)
-        {
-            _homePageVM.WriteErrorToFile(e.StackTrace ?? e.Message);
-        }
-
-        base.OnInitialized();
+        SongsScroll.ScrollChanged += ScrollEvent;
+        base.OnLoaded(e);
     }
 
     protected override void OnUnloaded(RoutedEventArgs e)
@@ -62,94 +60,24 @@ public partial class HomePageView : UserControl
         base.OnUnloaded(e);
     }
 
-    private async void Download_Click(object? sender, RoutedEventArgs e)
-    {
-        if (sender is Button { DataContext: BeatMap beatmap })
-        {
-            TipsBorder.Classes.Add("ShowTips");
-            TipsText.Text = "已添加进下载列表中(*^▽^*)";
-            _taskPageVM?.AddTask($"{beatmap.Sid} {beatmap.Creator} - {beatmap.Title}",
-                beatmap.MiniDownloadUrl, ".osz");
-            await Task.Delay(1145);
-            TipsBorder.Classes.Remove("ShowTips");
-        }
-    }
-
-    private async void AudioPlay_Click(object? sender, RoutedEventArgs e)
-    {
-        if (sender is Button { DataContext: BeatMap beatmap })
-        {
-            // Task.Run(async () => await _vm.PlayAudio(beatmap.PreviewAudio));
-            await _homePageVM.PlayAudioAsync(beatmap.PreviewAudio);
-        }
-    }
-
-    private async void Refresh_Click(object? sender, RoutedEventArgs e)
-    {
-        try
-        {
-            await _homePageVM.CheckNetStatus();
-            if (!_homePageVM.CanConnectNetWork) return;
-            LoadBeatmaps();
-            SongsScroll.ScrollChanged += ScrollEvent;
-        }
-        catch (Exception ex)
-        {
-            _homePageVM.WriteErrorToFile(ex.StackTrace ?? ex.Message);
-        }
-    }
-
-    private async void LoadBeatmaps()
-    {
-        TipsText.Text = "(*^▽^*)加载中~~";
-        TipsBorder.Classes.Add("ShowTips");
-        await _homePageVM.LoadBeatMapsAsync();
-        await Task.Delay(1145);
-        TipsBorder.Classes.Remove("ShowTips");
-    }
 
     private async void ScrollEvent(object? sender, ScrollChangedEventArgs e)
     {
         var extentHeight = SongsScroll.Extent.Height;
         var currentOffset = SongsScroll.Offset.Y + SongsScroll.Viewport.Height;
-// #if DEBUG
-//             Logger.TryGet(LogEventLevel.Debug, LogArea.Control)?.Log("ScrollEvent",
-//                 $"extentHeight:{extentHeight} currentOffset:{currentOffset}");
-// #endif
         if (extentHeight - currentOffset >= 50d) return;
-        try
-        {
-            if (_homePageVM.BeatmapStorage.CanLoadBeatMapList)
-            {
-                LoadBeatmaps();
-            }
-            else
-            {
-                TipsBorder.Classes.Add("ShowTips");
-                TipsText.Text = "o(╥﹏╥)o 到底了~~";
-                await Task.Delay(1145);
-                TipsBorder.Classes.Remove("ShowTips");
-            }
-        }
-        catch (Exception ex)
-        {
-            TipsBorder.Classes.Remove("ShowTips");
-            TipsBorder.Classes.Add("ShowErrorTips");
-            TipsText.Text = ex.Message;
-            await Task.Delay(1145);
-            TipsBorder.Classes.Remove("ShowErrorTips");
-        }
+        await _homePageVM.LoadBeatMapsCommand.ExecuteAsync(null);
     }
 
     private async void ShareLink_OnClick(object? sender, RoutedEventArgs e)
     {
-        TipsText.Text = "(*^▽^*)复制成功，分享给你的好友吧~~";
-        TipsBorder.Classes.Add("ShowTips");
+       
         if (sender is Button { DataContext : BeatMap beatmap })
         {
-            TopLevel.GetTopLevel(this)?.Clipboard?.SetTextAsync(beatmap.FullDownloadUrl);
+            var topLevel = TopLevel.GetTopLevel(this);
+            WeakReferenceMessenger.Default.Send(new ShareLinkMessage(beatmap,topLevel));
         }
-        await Task.Delay(1145);
-        TipsBorder.Classes.Remove("ShowTips");
+    
+        
     }
 }

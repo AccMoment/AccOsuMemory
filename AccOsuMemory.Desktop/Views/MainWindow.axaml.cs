@@ -15,8 +15,6 @@ namespace AccOsuMemory.Desktop.Views
     public partial class MainWindow : Window
     {
         private MainWindowViewModel? _viewModel;
-        
-        
         public MainWindow()
         {
             InitializeComponent();
@@ -63,5 +61,6 @@ namespace AccOsuMemory.Desktop.Views
             }
             base.OnDataContextChanged(e);
         }
+        
     }
 }

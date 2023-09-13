@@ -15,6 +15,7 @@ public partial class DownloadTask : BaseModel, IHttpTask
     [ObservableProperty] private long _bytesTransferred;
     [ObservableProperty] private long _totalBytes;
     [ObservableProperty] private long _recordBytesTransferred;
+    [ObservableProperty]
     private string _errorMessage = string.Empty;
 
     private readonly System.Timers.Timer _timer = new()
@@ -28,24 +29,9 @@ public partial class DownloadTask : BaseModel, IHttpTask
     public long Id { get; init; } = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
     public string Name { get; init; }
     public string Url { get; init; }
+    
 
-
-    public string ErrorMessage
-    {
-        get => _errorMessage;
-        set
-        {
-            IsDownloading = false;
-            IsFinished = false;
-            IsWaiting = false;
-            IsError = true;
-            _timer.Stop();
-            _timer.Dispose();
-            SetProperty(ref _errorMessage, value);
-        }
-    }
-
-    public DownloadTask(string name, string url, string filePath, string suffix)
+    public DownloadTask(string name, string url, string suffix, string filePath)
     {
         Name = name;
         Url = url;
@@ -77,12 +63,23 @@ public partial class DownloadTask : BaseModel, IHttpTask
         BytesTransferred = e.BytesTransferred;
     }
 
-    public async ValueTask OnFinished(Stream responseStream)
+    public async Task OnFinished(Stream responseStream)
     {
         await using var fileStream = new FileStream(DestinationFilePath, FileMode.OpenOrCreate, FileAccess.Write);
         await responseStream.CopyToAsync(fileStream);
         IsFinished = true;
         IsDownloading = false;
+        _timer.Stop();
+        _timer.Dispose();
+    }
+
+    public void OnError(string errorMessage)
+    {
+        ErrorMessage = errorMessage;
+        IsDownloading = false;
+        IsFinished = false;
+        IsWaiting = false;
+        IsError = true;
         _timer.Stop();
         _timer.Dispose();
     }
