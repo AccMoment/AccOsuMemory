@@ -18,8 +18,7 @@
         x:Class="AccOsuMemory.Desktop.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/Images/avalonia-logo.ico"
-        Title="AccOsuMemory"
-        >
+        Title="AccOsuMemory">
     <Window.Styles>
         <Style Selector="Button.SettingButton">
             <Setter Property="Padding" Value="0" />
@@ -41,9 +40,9 @@
     </Window.Styles>
 
 
-<!--     <Design.DataContext>  -->
-<!--        <vm:MainWindowViewModel />  -->
-<!-- </Design.DataContext>  -->
+    <!--     <Design.DataContext>  -->
+    <!--        <vm:MainWindowViewModel />  -->
+    <!-- </Design.DataContext>  -->
 
 
     <Grid RowDefinitions="Auto,*">
@@ -75,7 +74,7 @@
             <Grid Grid.Column="0" RowDefinitions="Auto,*,Auto" Width="220">
                 <Separator Grid.Row="0" Height="1" Background="White" Margin="20 0" />
                 <views:SideBar Grid.Row="1" DataContext="{Binding}" />
-                <Button Grid.Row="2" Classes="SettingButton" >
+                <Button Grid.Row="2" Classes="SettingButton">
                     <Image Source="{SvgImage /Assets/Images/setting.svg}" Width="32" Height="32" />
                 </Button>
             </Grid>

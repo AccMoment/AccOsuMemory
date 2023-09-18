@@ -8,7 +8,11 @@ public class JsonStringBooleanConverter : JsonConverter<bool>
 {
     public override bool Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        TryParse(reader.GetString(), out int result);
+        if (reader.TryGetInt32(out var value))
+        {
+            return value == 1;
+        }
+        TryParse(reader.GetString(), out var result);
         return result == 1;
     }
 

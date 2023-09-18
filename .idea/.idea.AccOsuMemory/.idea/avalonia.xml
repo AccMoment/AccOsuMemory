@@ -7,6 +7,7 @@
         <entry key="AccOsuMemory.Desktop/Views/BatchDownloadPage.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/BatchDownloadPageView.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/Component/BeatmapDetail.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
+        <entry key="AccOsuMemory.Desktop/Views/Component/DetailBeatmap.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/Component/MenuButton.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/Component/MenuButton1.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/Component/SIdeBar.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />

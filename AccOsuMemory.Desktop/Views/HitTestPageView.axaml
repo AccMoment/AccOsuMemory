@@ -24,9 +24,11 @@
                         <Button Margin="8 0" FontSize="18" Content="重置" Command="{Binding  Reset}" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <CheckBox Name="Cb1" Margin="8 0" IsChecked="True" IsCheckedChanged="CheckBox_OnIsCheckedChanged" />
+                        <CheckBox Name="Cb1" Margin="8 0" IsChecked="True"
+                                  IsCheckedChanged="CheckBox_OnIsCheckedChanged" />
                         <ComboBox Name="Key1" SelectionChanged="OnSelectionChanged" />
-                        <CheckBox Name="Cb2" Margin="8 0" IsChecked="True" IsCheckedChanged="CheckBox_OnIsCheckedChanged"/>
+                        <CheckBox Name="Cb2" Margin="8 0" IsChecked="True"
+                                  IsCheckedChanged="CheckBox_OnIsCheckedChanged" />
                         <ComboBox Name="Key2" SelectionChanged="OnSelectionChanged" />
                     </StackPanel>
                 </Grid>

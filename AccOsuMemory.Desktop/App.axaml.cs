@@ -2,6 +2,7 @@ using System;
 using AccOsuMemory.Core.Models;
 using AccOsuMemory.Core.Net;
 using AccOsuMemory.Desktop.Services;
+using AccOsuMemory.Desktop.Utils;
 using AccOsuMemory.Desktop.ViewModels;
 using AccOsuMemory.Desktop.Views;
 using Avalonia;
@@ -53,6 +54,9 @@ namespace AccOsuMemory.Desktop
                     // Others
                     services.AddSingleton<DownloadManager>();
                     services.AddSingleton(DownloadManager.HttpClient);
+                    services.AddAutoMapper((provider, expression) =>
+                    { 
+                    },typeof(MapperProfile));
                 })
                 .Build();
             

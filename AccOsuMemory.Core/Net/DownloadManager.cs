@@ -58,6 +58,15 @@ public class DownloadManager
         return true;
     }
 
+    public void ClearAllTask()
+    {
+        for (var i = 0; i < _maxTaskWorker; i++)
+        {
+            if(_workers[i].IsWorking) _workers[i].CancelWork();
+        }
+        _httpTasks.Clear();
+    }
+
     public void Start()
     {
         Task.Run(() =>

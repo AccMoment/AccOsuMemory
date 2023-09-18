@@ -1,11 +1,13 @@
 ﻿using AccOsuMemory.Core.Models.SayoModels;
+using AccOsuMemory.Desktop.DTO;
+using AccOsuMemory.Desktop.DTO.Sayo;
 using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace AccOsuMemory.Desktop.Message;
 
-public class DownloadTaskMessage : ValueChangedMessage<BeatMap>
+public class DownloadTaskMessage : ValueChangedMessage<BeatmapDto>
 {
-    public DownloadTaskMessage(BeatMap value) : base(value)
+    public DownloadTaskMessage(BeatmapDto value) : base(value)
     {
         
     }

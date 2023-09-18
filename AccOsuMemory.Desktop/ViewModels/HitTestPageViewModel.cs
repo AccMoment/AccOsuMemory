@@ -2,6 +2,7 @@
 using AccOsuMemory.Desktop.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using HitCalculator = AccOsuMemory.Desktop.VO.HitCalculator;
 
 namespace AccOsuMemory.Desktop.ViewModels;
 

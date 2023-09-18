@@ -49,11 +49,11 @@
         <Style Selector="ListBox">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="SelectionMode" Value="Single" />
-            <!-- <Setter Property="ItemsPanel"> -->
-            <!--     <ItemsPanelTemplate> -->
-            <!--         <VirtualizingStackPanel/> -->
-            <!--     </ItemsPanelTemplate> -->
-            <!-- </Setter> -->
+            <Setter Property="ItemsPanel">
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </Setter>
             <Setter Property="ItemTemplate">
                 <DataTemplate DataType="net:DownloadTask">
                     <Border Height="120" Margin="10" CornerRadius="4" BorderThickness="1"
@@ -119,8 +119,7 @@
             <Separator Height="2" Background="#f3f3f3" Margin="8"></Separator>
         </StackPanel>
         <ScrollViewer Grid.Row="1">
-            <ListBox Name="DownloadListBox" ItemsSource="{Binding DownloadTasks}">
-            </ListBox>
+            <ListBox Name="DownloadListBox" ItemsSource="{Binding DownloadTasks}"/>
         </ScrollViewer>
     </Grid>
 </UserControl>
