@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -39,6 +41,7 @@ public partial class HomePageViewModel : ViewModelBase
 
     public Action<string, string>? ShowTips;
     public Func<string, Task>? HideTips;
+    
 
     public HomePageViewModel(ISayoApiService service, IFileProvider fileProvider, HttpClient httpClient,
         IMapper mapper) :
@@ -53,20 +56,35 @@ public partial class HomePageViewModel : ViewModelBase
     [RelayCommand]
     private async Task OpenDetailPanelAsync(int sid)
     {
-        if (BeatmapStorage.BeatmapInfo?.Sid == sid) return;
-        var info = _mapper.Map<BeatmapInfoDto>(await _service.GetBeatmapListInfo(sid.ToString()));
-        info.MapDetailData.Sort((x, y) => x.Star.CompareTo(y.Star));
-        BeatmapStorage.BeatmapInfo = info;
-        var file = Path.Combine(FileProvider.GetThumbnailCacheDirectory(), $"{sid}.jpg");
-        BeatmapStorage.SelectedDiffMap = BeatmapStorage.BeatmapInfo.MapDetailData.FirstOrDefault();
-        BeatmapStorage.SelectedBeatmap.ThumbnailFile = file;
-        IsOpenDetailMapControl = true;
+        if (BeatmapStorage.BeatmapInfo?.Sid == sid && !IsOpenDetailMapControl)
+        {
+            IsOpenDetailMapControl = true;
+            return;
+        }
+
+        try
+        {
+            var info = _mapper.Map<BeatmapInfoDto>(await _service.GetBeatmapListInfo(sid.ToString()));
+            info.MapDetailData.Sort((x, y) => x.Star.CompareTo(y.Star));
+            BeatmapStorage.BeatmapInfo = info;
+            var file = Path.Combine(FileProvider.GetThumbnailCacheDirectory(), $"{sid}.jpg");
+            BeatmapStorage.SelectedDiffMap = BeatmapStorage.BeatmapInfo.MapDetailData.FirstOrDefault();
+            BeatmapStorage.SelectedBeatmap.ThumbnailFile = file;
+            IsOpenDetailMapControl = true;
+        }
+        catch (Exception e)
+        {
+            await PopupTips("ShowErrorTips", e.Message);
+            throw;
+        }
+       
     }
 
     [RelayCommand]
     private void CloseDetailPanelAsync()
     {
         IsOpenDetailMapControl = false;
+        
     }
 
 
@@ -200,7 +218,7 @@ public partial class HomePageViewModel : ViewModelBase
         HideTips?.Invoke("ShowTips");
     }
 
-    private async Task PopupTips(string className, string text, Func<Task>? action)
+    private async Task PopupTips(string className, string text, Func<Task>? action = null)
     {
         ShowTips?.Invoke(className, text);
         if (action != null)

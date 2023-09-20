@@ -225,11 +225,11 @@
 
         </Style>
     </UserControl.Styles>
-    <Interaction.Behaviors>
-        <EventTriggerBehavior EventName="Loaded" SourceObject="Uc">
-            <InvokeCommandAction Command="{Binding LoadBeatMapsCommand}"></InvokeCommandAction>
-        </EventTriggerBehavior>
-    </Interaction.Behaviors>
+    <!-- <Interaction.Behaviors> -->
+    <!--     <EventTriggerBehavior EventName="Loaded" SourceObject="Uc"> -->
+    <!--         <InvokeCommandAction Command="{Binding LoadBeatMapsCommand}"></InvokeCommandAction> -->
+    <!--     </EventTriggerBehavior> -->
+    <!-- </Interaction.Behaviors> -->
     <Grid Name="HomePageGrid" >
 
         <StackPanel IsVisible="{Binding !CanConnectNetWork}" VerticalAlignment="Center"
@@ -238,7 +238,7 @@
             <Button Content="刷新" Command="{Binding LoadBeatMapsCommand}" HorizontalAlignment="Center" />
         </StackPanel>
         <Grid  IsVisible="{Binding  CanConnectNetWork}">
-            <ScrollViewer Name="SongsScroll">
+            <ScrollViewer Name="SongsScroll" Offset="{Binding CurrentOffset, Mode=TwoWay}">
                 <ListBox Name="BeatMapsLb" ItemsSource="{Binding BeatmapStorage.Beatmaps}"
                          SelectedItem="{Binding BeatmapStorage.SelectedBeatmap}" />
             </ScrollViewer>

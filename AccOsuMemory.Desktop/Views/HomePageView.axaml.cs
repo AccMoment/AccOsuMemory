@@ -1,6 +1,5 @@
-﻿using System.Threading.Tasks;
-using AccOsuMemory.Core.Models.SayoModels;
-using AccOsuMemory.Desktop.DTO;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using AccOsuMemory.Desktop.DTO.Sayo;
 using AccOsuMemory.Desktop.Message;
 using AccOsuMemory.Desktop.ViewModels;
@@ -39,36 +38,24 @@ public partial class HomePageView : UserControl
     }
 
 
-    protected override void OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e)
-    {
-        _homePageVM.CurrentOffset = SongsScroll.Offset;
-        base.OnDetachedFromLogicalTree(e);
-    }
-
     protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
-        SongsScroll.Offset = _homePageVM.CurrentOffset;
+        SongsScroll.ScrollChanged += ScrollEvent;
         base.OnAttachedToLogicalTree(e);
     }
 
-
-    protected override void OnLoaded(RoutedEventArgs e)
-    {
-        SongsScroll.ScrollChanged += ScrollEvent;
-        base.OnLoaded(e);
-    }
-
-    protected override void OnUnloaded(RoutedEventArgs e)
+    protected override void OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
         SongsScroll.ScrollChanged -= ScrollEvent;
-        base.OnUnloaded(e);
+        base.OnDetachedFromLogicalTree(e);
     }
-
 
     private async void ScrollEvent(object? sender, ScrollChangedEventArgs e)
     {
+        Debug.WriteLine($"value:{_homePageVM.BeatmapStorage.Beatmaps.Count}");
         var extentHeight = SongsScroll.Extent.Height;
-        var currentOffset = SongsScroll.Offset.Y + SongsScroll.Viewport.Height;
+        var currentOffset = _homePageVM.CurrentOffset.Y + SongsScroll.Viewport.Height;
+        Debug.WriteLine($"extentHeight:{extentHeight},currentOffset:{currentOffset}");
         if (extentHeight - currentOffset >= 150d) return;
         await _homePageVM.LoadBeatMapsCommand.ExecuteAsync(null);
     }

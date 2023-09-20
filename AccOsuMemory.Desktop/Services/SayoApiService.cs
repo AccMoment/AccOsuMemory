@@ -50,7 +50,6 @@ public class SayoApiService : ISayoApiService
     {
         var response = await _httpClient.GetAsync($"{BeatmapInfoUrl}?0={keyWord}");
         var result = await response.Content.ReadAsStreamAsync();
-        var str = await response.Content.ReadAsStringAsync();
         var beatmapListInfo =
             await JsonSerializer.DeserializeAsync<BeatmapListInfo>(result, new JsonSerializerOptions
             {
