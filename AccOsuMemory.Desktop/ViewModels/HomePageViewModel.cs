@@ -12,6 +12,7 @@ using AccOsuMemory.Desktop.DTO.Sayo;
 using AccOsuMemory.Desktop.Message;
 using AccOsuMemory.Desktop.Services;
 using AccOsuMemory.Desktop.Utils;
+using AccOsuMemory.Desktop.VO;
 using AutoMapper;
 using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -33,15 +34,19 @@ public partial class HomePageViewModel : ViewModelBase
 
     [ObservableProperty] private BeatmapStorage _beatmapStorage = new();
 
+    [ObservableProperty] private BeatmapInfoStorage _beatmapInfoStorage =new();
+
     [ObservableProperty] private Vector _currentOffset;
 
     [ObservableProperty] private bool _canConnectNetWork = true;
-
+    
     [ObservableProperty] private bool _isOpenDetailMapControl;
+
+    
 
     public Action<string, string>? ShowTips;
     public Func<string, Task>? HideTips;
-    
+
 
     public HomePageViewModel(ISayoApiService service, IFileProvider fileProvider, HttpClient httpClient,
         IMapper mapper) :
@@ -56,7 +61,7 @@ public partial class HomePageViewModel : ViewModelBase
     [RelayCommand]
     private async Task OpenDetailPanelAsync(int sid)
     {
-        if (BeatmapStorage.BeatmapInfo?.Sid == sid && !IsOpenDetailMapControl)
+        if (BeatmapInfoStorage.BeatmapInfo?.Sid == sid && !IsOpenDetailMapControl)
         {
             IsOpenDetailMapControl = true;
             return;
@@ -66,10 +71,13 @@ public partial class HomePageViewModel : ViewModelBase
         {
             var info = _mapper.Map<BeatmapInfoDto>(await _service.GetBeatmapListInfo(sid.ToString()));
             info.MapDetailData.Sort((x, y) => x.Star.CompareTo(y.Star));
-            BeatmapStorage.BeatmapInfo = info;
+            BeatmapInfoStorage.BeatmapInfo = info;
             var file = Path.Combine(FileProvider.GetThumbnailCacheDirectory(), $"{sid}.jpg");
-            BeatmapStorage.SelectedDiffMap = BeatmapStorage.BeatmapInfo.MapDetailData.FirstOrDefault();
-            BeatmapStorage.SelectedBeatmap.ThumbnailFile = file;
+            BeatmapInfoStorage.SelectedDiffMap = BeatmapInfoStorage.BeatmapInfo.MapDetailData.FirstOrDefault();
+            // if (BeatmapStorage.SelectedBeatmap != null) BeatmapStorage.SelectedBeatmap.ThumbnailFile = file;
+            BeatmapInfoStorage.BeatmapInfo.ThumbnailFile = file ?? BeatmapInfoStorage.BeatmapInfo.GetThumbnailUrl();
+            Debug.WriteLine(file);
+            // await Task.Delay(50);
             IsOpenDetailMapControl = true;
         }
         catch (Exception e)
@@ -77,15 +85,8 @@ public partial class HomePageViewModel : ViewModelBase
             await PopupTips("ShowErrorTips", e.Message);
             throw;
         }
-       
     }
 
-    [RelayCommand]
-    private void CloseDetailPanelAsync()
-    {
-        IsOpenDetailMapControl = false;
-        
-    }
 
 
     [RelayCommand]
@@ -121,7 +122,7 @@ public partial class HomePageViewModel : ViewModelBase
                 await Task.CompletedTask;
             });
     }
-    
+
     [RelayCommand]
     private async Task AddDownloadTaskAsync(BeatmapDto beatmap)
     {
@@ -202,19 +203,26 @@ public partial class HomePageViewModel : ViewModelBase
                 });
         }
     }
+    
+    // [RelayCommand]
+    // private void ChangeDiffMapAsync(int bid)
+    // {
+    //     var data = BeatmapInfoStorage.BeatmapInfo?.MapDetailData.Find(f => f.Bid == bid);
+    //     BeatmapInfoStorage.SelectedDiffMap = data;
+    // }
 
     [RelayCommand]
-    private void ChangeDiffMapAsync(int bid)
+    private void CloseDetailPanelAsync()
     {
-        var data = BeatmapStorage.BeatmapInfo?.MapDetailData.Find(f => f.Bid == bid);
-        BeatmapStorage.SelectedDiffMap = data;
+        IsOpenDetailMapControl = false;
     }
 
+    
     private async void ReceiveShareLinkMessage(object r, ShareLinkMessage m)
     {
-        var beatMap = m.Value;
+        var url = m.Value;
         ShowTips?.Invoke("ShowTips", "(*^▽^*)复制成功，分享给你的好友吧~~");
-        await m.TopLevel?.Clipboard?.SetTextAsync(beatMap.FullDownloadUrl)!;
+        await m.TopLevel?.Clipboard?.SetTextAsync(url)!;
         HideTips?.Invoke("ShowTips");
     }
 

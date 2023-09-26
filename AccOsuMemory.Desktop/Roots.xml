@@ -3,4 +3,5 @@
     <assembly fullname="AccOsuMemory" preserve="All"/>
     <assembly fullname="AccOsuMemory.Core" preserve="All"/>
     <assembly fullname="Semi.Avalonia" preserve="All"/>
+    <assembly fullname="AutoMapper" preserve="All"/>
 </linker>

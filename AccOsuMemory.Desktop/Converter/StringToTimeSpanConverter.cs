@@ -20,6 +20,5 @@ public class StringToTimeSpanConverter : IValueConverter
         if (!double.TryParse(value?.ToString(), out var result)) return TimeSpan.FromSeconds(5);
         if (result > TimeSpan.MaxValue.TotalSeconds || result < 0) return TimeSpan.FromSeconds(5);
         return TimeSpan.FromSeconds(result);
-
     }
 }

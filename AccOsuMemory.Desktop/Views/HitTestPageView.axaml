@@ -10,7 +10,7 @@
              x:DataType="vm:HitTestPageViewModel">
     <UserControl.Resources>
         <converter:StringToTimeSpanConverter x:Key="StringToTimeSpanConverter"></converter:StringToTimeSpanConverter>
-        <converter:DoublePrecisionConverter x:Key="DoublePrecisionConverter"></converter:DoublePrecisionConverter>
+        <converter:PrecisionConverter x:Key="PrecisionConverter"></converter:PrecisionConverter>
     </UserControl.Resources>
     <Grid RowDefinitions="Auto,*" Background="Transparent">
         <Grid Grid.Row="0">
@@ -46,7 +46,7 @@
                     <StackPanel VerticalAlignment="Center" Grid.Column="2" Orientation="Horizontal">
                         <Label Content="平均BPM:" FontSize="18" />
                         <TextBlock FontSize="18" VerticalAlignment="Center"
-                                   Text="{Binding HitCalculator.Bpm,Converter={StaticResource DoublePrecisionConverter}}" />
+                                   Text="{Binding HitCalculator.Bpm,Converter={StaticResource PrecisionConverter}}" />
                     </StackPanel>
                 </Grid>
 

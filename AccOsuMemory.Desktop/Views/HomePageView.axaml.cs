@@ -52,10 +52,10 @@ public partial class HomePageView : UserControl
 
     private async void ScrollEvent(object? sender, ScrollChangedEventArgs e)
     {
-        Debug.WriteLine($"value:{_homePageVM.BeatmapStorage.Beatmaps.Count}");
+        // Debug.WriteLine($"value:{_homePageVM.BeatmapStorage.Beatmaps.Count}");
         var extentHeight = SongsScroll.Extent.Height;
         var currentOffset = _homePageVM.CurrentOffset.Y + SongsScroll.Viewport.Height;
-        Debug.WriteLine($"extentHeight:{extentHeight},currentOffset:{currentOffset}");
+        // Debug.WriteLine($"extentHeight:{extentHeight},currentOffset:{currentOffset}");
         if (extentHeight - currentOffset >= 150d) return;
         await _homePageVM.LoadBeatMapsCommand.ExecuteAsync(null);
     }
@@ -64,16 +64,6 @@ public partial class HomePageView : UserControl
     {
         if (sender is not Button { DataContext : BeatmapDto beatmap }) return;
         var topLevel = TopLevel.GetTopLevel(this);
-        WeakReferenceMessenger.Default.Send(new ShareLinkMessage(beatmap, topLevel));
-    }
-
-
-    private void MaskGrid_OnPointerPressed(object? sender, PointerPressedEventArgs e)
-    {
-        if (_homePageVM.IsOpenDetailMapControl)
-        {
-            _homePageVM.IsOpenDetailMapControl = false;
-            e.Handled = true;
-        }
+        WeakReferenceMessenger.Default.Send(new ShareLinkMessage(beatmap.FullDownloadUrl, topLevel));
     }
 }

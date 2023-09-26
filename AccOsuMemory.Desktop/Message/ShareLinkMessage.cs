@@ -6,11 +6,11 @@ using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace AccOsuMemory.Desktop.Message;
 
-public class ShareLinkMessage : ValueChangedMessage<BeatmapDto>
+public class ShareLinkMessage : ValueChangedMessage<string>
 {
     public TopLevel? TopLevel;
     
-    public ShareLinkMessage(BeatmapDto value,TopLevel? topLevel) : base(value)
+    public ShareLinkMessage(string linkUrl,TopLevel? topLevel) : base(linkUrl)
     {
         TopLevel = topLevel;
     }

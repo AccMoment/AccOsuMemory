@@ -5,16 +5,18 @@
              xmlns:extControl="clr-namespace:AccOsuMemory.Desktop.ExtControl"
              xmlns:Converter="clr-namespace:AccOsuMemory.Desktop.Converter"
              xmlns:vm="clr-namespace:AccOsuMemory.Desktop.ViewModels"
+             xmlns:vo="clr-namespace:AccOsuMemory.Desktop.VO"
              xmlns:sayoEnum="clr-namespace:AccOsuMemory.Core.Models.SayoModels.Enum;assembly=AccOsuMemory.Core"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AccOsuMemory.Desktop.Views.Component.DetailBeatmap"
-             x:DataType="vm:HomePageViewModel">
+             x:DataType="vo:BeatmapInfoStorage"
+             PointerPressed="InputElement_OnPointerPressed">
     <UserControl.Resources>
-        <Converter:DoublePrecisionConverter x:Key="DoublePrecisionConverter" />
+        <Converter:PrecisionConverter x:Key="DoublePrecisionConverter" />
         <Converter:MapApprovedConverter x:Key="MapApprovedConverter" />
         <Converter:MapGenreConverter x:Key="MapGenreConverter" />
         <Converter:MapLanguageConverter x:Key="MapLanguageConverter" />
-        <Converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter"></Converter:LongToDateTimeConverter>
+        <Converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter" />
     </UserControl.Resources>
     <Grid RowDefinitions="Auto,*" ColumnDefinitions="32,*">
         <Button Grid.Column="0" Grid.Row="0" Name="CloseBtn" Background="White" Click="CloseBtn_OnClick"
@@ -23,12 +25,12 @@
         </Button>
         <Grid Column="1" Row="0">
             <Grid>
-                <extControl:AsyncImage AsyncSource="{Binding BeatmapStorage.SelectedBeatmap.ThumbnailFile}" />
+                <extControl:AsyncImage AsyncSource="{Binding BeatmapInfo.ThumbnailFile}" />
                 <Border Background="Black" Opacity="0.35" />
             </Grid>
 
             <ItemsControl Name="DiffItemsControl"
-                          ItemsSource="{Binding BeatmapStorage.BeatmapInfo.MapDetailData}"
+                          ItemsSource="{Binding BeatmapInfo.MapDetailData}"
                           HorizontalAlignment="Right">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -38,7 +40,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button
-                            Command="{Binding $parent[UserControl].((vm:HomePageViewModel)DataContext).ChangeDiffMapAsyncCommand}"
+                            Command="{Binding $parent[UserControl].((vo:BeatmapInfoStorage)DataContext).ChangeDiffMapAsyncCommand}"
                             CommandParameter="{Binding Bid}"
                             Content="{Binding Star,Converter={StaticResource DoublePrecisionConverter}}"
                             Background="{StaticResource Primary}"
@@ -50,149 +52,145 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Grid>
-        <Grid Column="1" Row="1" Background="#2E3538">
+        <Grid Column="1" Row="1" Background="#2E3538" RowDefinitions="Auto,Auto,Auto">
+            <TextBlock Grid.Row="0" VerticalAlignment="Center" Margin="16 8"
+                       Text="{Binding BeatmapInfo.Title}" Foreground="White" FontWeight="Bold"
+                       FontSize="26" />
 
-            <Grid RowDefinitions="Auto,Auto,Auto">
+            <Grid Grid.Row="1" ColumnDefinitions="*,*" VerticalAlignment="Center">
 
-                <TextBlock Grid.Row="0" VerticalAlignment="Top" Margin="16 8"
-                           Text="{Binding BeatmapStorage.BeatmapInfo.Title}" Foreground="White" FontWeight="Bold"
-                           FontSize="26" />
-
-                <Grid Grid.Row="1" ColumnDefinitions="*,*" VerticalAlignment="Center">
-
-                    <Grid Column="0" Margin="16" VerticalAlignment="Top">
-                        <Border Padding="16" Background="#394246" Height="324">
-                            <Grid ColumnDefinitions="125,*">
-                                <Grid.Styles>
-                                    <Style Selector="TextBlock">
-                                        <Setter Property="Foreground" Value="White" />
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                        <Setter Property="FontSize" Value="16" />
-                                        <Setter Property="Margin" Value="0 4"></Setter>
-                                    </Style>
-                                </Grid.Styles>
-                                <StackPanel Grid.Column="0" Orientation="Vertical">
-                                    <TextBlock Text="SID"></TextBlock>
-                                    <TextBlock Text="State"></TextBlock>
-                                    <TextBlock Text="Creator"></TextBlock>
-                                    <TextBlock Text="Artist"></TextBlock>
-                                    <TextBlock Text="Source"></TextBlock>
-                                    <TextBlock Text="Genre"></TextBlock>
-                                    <TextBlock Text="BPM"></TextBlock>
-                                    <TextBlock Text="Max Combo"></TextBlock>
-                                    <TextBlock Text="Length"></TextBlock>
-                                    <TextBlock Text="Language"></TextBlock>
-                                    <TextBlock Text="Upload Date"></TextBlock>
-                                </StackPanel>
-                                <StackPanel Grid.Column="1" Orientation="Vertical">
-                                    <TextBlock Text="{Binding BeatmapStorage.BeatmapInfo.Sid}"></TextBlock>
-                                    <TextBlock
-                                        Text="{Binding BeatmapStorage.BeatmapInfo.ApprovedState,Converter={StaticResource MapApprovedConverter}}">
-                                    </TextBlock>
-                                    <TextBlock Text="{Binding BeatmapStorage.BeatmapInfo.Creator}"></TextBlock>
-                                    <TextBlock Text="{Binding BeatmapStorage.BeatmapInfo.Artist}"></TextBlock>
-                                    <TextBlock Text="{Binding BeatmapStorage.BeatmapInfo.Source}"></TextBlock>
-                                    <TextBlock
-                                        Text="{Binding BeatmapStorage.BeatmapInfo.Genre,Converter={StaticResource MapGenreConverter}}" />
-                                    <TextBlock Text="{Binding BeatmapStorage.BeatmapInfo.Bpm}" />
-                                    <TextBlock Text="{Binding BeatmapStorage.SelectedDiffMap.MaxCombo}" />
-                                    <TextBlock Text="{Binding BeatmapStorage.SelectedDiffMap.Length}" />
-                                    <TextBlock
-                                        Text="{Binding BeatmapStorage.BeatmapInfo.Language,Converter={StaticResource MapLanguageConverter}}">
-                                    </TextBlock>
-                                    <TextBlock
-                                        Text="{Binding BeatmapStorage.BeatmapInfo.LastUpdate,Converter={StaticResource LongToDateTimeConverter}}">
-                                    </TextBlock>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </Grid>
-                    <Grid Column="1" Margin="16">
-                        <Border Padding="16" Background="#394246" Height="324">
-                            <StackPanel  Orientation="Vertical">
-                                <StackPanel.Styles>
-                                    <Style Selector="TextBlock">
-                                        <Setter Property="Margin" Value="8 8" />
-                                        <Setter Property="Foreground" Value="White" />
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                        <Setter Property="FontSize" Value="16" />
-                                    </Style>
-                                    <Style Selector="ProgressBar">
-                                        <Setter Property="Margin" Value="0 8"/>
-                                        <Setter Property="Height" Value="12"/>
-                                        <Setter Property="Background" Value="#2E3538"/>
-                                        <Setter Property="Foreground" Value="White"></Setter>
-                                        <Setter Property="Transitions">
-                                                <Transitions>
-                                                    <DoubleTransition Duration="0:0:0.25" Property="Value"/>
-                                                </Transitions>
-                                            </Setter>
-                                    </Style>
-                                </StackPanel.Styles>
-                                
-                                <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
-                                    <TextBlock Text="CS" VerticalAlignment="Center" />
-                                    <ProgressBar VerticalAlignment="Center" Value="{Binding BeatmapStorage.SelectedDiffMap.CS}" Maximum="10"/>
-                                    <TextBlock VerticalAlignment="Center"
-                                               Text="{Binding BeatmapStorage.SelectedDiffMap.CS,Converter={StaticResource DoublePrecisionConverter}}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
-                                    <TextBlock Text="HP" VerticalAlignment="Center" />
-                                    <ProgressBar VerticalAlignment="Center" Value="{Binding BeatmapStorage.SelectedDiffMap.HP}" Maximum="10"/>
-                                    <TextBlock VerticalAlignment="Center"
-                                               Text="{Binding BeatmapStorage.SelectedDiffMap.HP,Converter={StaticResource DoublePrecisionConverter}}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
-                                    <TextBlock Text="OD" VerticalAlignment="Center" />
-                                    <ProgressBar VerticalAlignment="Center" Value="{Binding BeatmapStorage.SelectedDiffMap.OD}" Maximum="10"/>
-                                    <TextBlock VerticalAlignment="Center"
-                                               Text="{Binding BeatmapStorage.SelectedDiffMap.OD,Converter={StaticResource DoublePrecisionConverter}}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
-                                    <TextBlock Text="AR" VerticalAlignment="Center" />
-                                    <ProgressBar VerticalAlignment="Center" Value="{Binding BeatmapStorage.SelectedDiffMap.AR}" Maximum="10"/>
-                                    <TextBlock VerticalAlignment="Center"
-                                               Text="{Binding BeatmapStorage.SelectedDiffMap.AR,Converter={StaticResource DoublePrecisionConverter}}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
-                                    <TextBlock Text="Star" VerticalAlignment="Center" Margin="-4 8 8 8" />
-                                    <ProgressBar VerticalAlignment="Center" Foreground="Orange" Value="{Binding BeatmapStorage.SelectedDiffMap.Star}" Maximum="10"/>
-                                    <TextBlock VerticalAlignment="Center"
-                                               Text="{Binding BeatmapStorage.SelectedDiffMap.Star,Converter={StaticResource DoublePrecisionConverter}}" />
-                                </StackPanel>
-    
+                <Grid Column="0" Margin="16" VerticalAlignment="Top">
+                    <Border Padding="16" Background="#394246" Height="324">
+                        <Grid ColumnDefinitions="125,*">
+                            <Grid.Styles>
+                                <Style Selector="TextBlock">
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="FontSize" Value="16" />
+                                    <Setter Property="Margin" Value="0 4"></Setter>
+                                </Style>
+                            </Grid.Styles>
+                            <StackPanel Grid.Column="0" Orientation="Vertical">
+                                <TextBlock Text="SID"></TextBlock>
+                                <TextBlock Text="State"></TextBlock>
+                                <TextBlock Text="Creator"></TextBlock>
+                                <TextBlock Text="Artist"></TextBlock>
+                                <TextBlock Text="Source"></TextBlock>
+                                <TextBlock Text="Genre"></TextBlock>
+                                <TextBlock Text="BPM"></TextBlock>
+                                <TextBlock Text="Max Combo"></TextBlock>
+                                <TextBlock Text="Length"></TextBlock>
+                                <TextBlock Text="Language"></TextBlock>
+                                <TextBlock Text="Upload Date"></TextBlock>
                             </StackPanel>
-                        </Border>
-                    </Grid>
+                            <StackPanel Grid.Column="1" Orientation="Vertical">
+                                <TextBlock Text="{Binding BeatmapInfo.Sid}"></TextBlock>
+                                <TextBlock
+                                    Text="{Binding BeatmapInfo.ApprovedState,Converter={StaticResource MapApprovedConverter}}">
+                                </TextBlock>
+                                <TextBlock Text="{Binding BeatmapInfo.Creator}"></TextBlock>
+                                <TextBlock Text="{Binding BeatmapInfo.Artist}"></TextBlock>
+                                <TextBlock Text="{Binding BeatmapInfo.Source}"></TextBlock>
+                                <TextBlock
+                                    Text="{Binding BeatmapInfo.Genre,Converter={StaticResource MapGenreConverter}}" />
+                                <TextBlock Text="{Binding BeatmapInfo.Bpm}" />
+                                <TextBlock Text="{Binding SelectedDiffMap.MaxCombo}" />
+                                <TextBlock Text="{Binding SelectedDiffMap.Length}" />
+                                <TextBlock
+                                    Text="{Binding BeatmapInfo.Language,Converter={StaticResource MapLanguageConverter}}">
+                                </TextBlock>
+                                <TextBlock
+                                    Text="{Binding BeatmapInfo.LastUpdate,Converter={StaticResource LongToDateTimeConverter}}">
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
                 </Grid>
+                <Grid Column="1" Margin="16">
+                    <Border Padding="16" Background="#394246" Height="324">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel.Styles>
+                                <Style Selector="TextBlock">
+                                    <Setter Property="Margin" Value="8 8" />
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="FontSize" Value="16" />
+                                </Style>
+                                <Style Selector="ProgressBar">
+                                    <Setter Property="Margin" Value="0 8" />
+                                    <Setter Property="Height" Value="12" />
+                                    <Setter Property="Background" Value="#2E3538" />
+                                    <Setter Property="Foreground" Value="White"></Setter>
+                                    <Setter Property="Transitions">
+                                        <Transitions>
+                                            <DoubleTransition Duration="0:0:0.25" Property="Value" />
+                                        </Transitions>
+                                    </Setter>
+                                </Style>
+                            </StackPanel.Styles>
 
-                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 8" Height="96" VerticalAlignment="Top"
-                            HorizontalAlignment="Center">
-                    <StackPanel.Styles>
-                        <Style Selector="Button">
-                            <Setter Property="Height" Value="36" />
-                            <Setter Property="Background" Value="{StaticResource Primary}" />
-                            <Setter Property="Foreground" Value="White" />
-                            <Setter Property="Margin" Value="8 4"></Setter>
-                            <Setter Property="FontSize" Value="18"></Setter>
-                            <Style Selector="^:pointerover /template/ ContentPresenter">
-                                <Setter Property="Background" Value="{StaticResource Primary}"></Setter>
-                            </Style>
-                        </Style>
-                    </StackPanel.Styles>
-                    <Button Content="播放" Command="{Binding PlayAudioCommand}"
-                            CommandParameter="{Binding BeatmapStorage.SelectedBeatmap.PreviewAudio}" />
-                    <Button Content="下载" Command="{Binding AddDownloadTaskByTypeCommand}"
-                            CommandParameter="{x:Static sayoEnum:DownloadType.Full}" />
-                    <Button Content="无视频下载" Command="{Binding AddDownloadTaskByTypeCommand}"
-                            CommandParameter="{x:Static sayoEnum:DownloadType.NoVideo}" />
-                    <Button Content="mini" Command="{Binding AddDownloadTaskByTypeCommand}"
-                            CommandParameter="{x:Static sayoEnum:DownloadType.Mini}" />
-                    <Button Content="分享" DataContext="{Binding BeatmapStorage.SelectedBeatmap}"
-                            Click="ShareLink_OnClick" />
-                </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
+                                <TextBlock Text="CS" VerticalAlignment="Center" />
+                                <ProgressBar VerticalAlignment="Center" Value="{Binding SelectedDiffMap.CS}"
+                                             Maximum="10" />
+                                <TextBlock VerticalAlignment="Center"
+                                           Text="{Binding SelectedDiffMap.CS,Converter={StaticResource DoublePrecisionConverter}}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
+                                <TextBlock Text="HP" VerticalAlignment="Center" />
+                                <ProgressBar VerticalAlignment="Center" Value="{Binding SelectedDiffMap.HP}"
+                                             Maximum="10" />
+                                <TextBlock VerticalAlignment="Center"
+                                           Text="{Binding SelectedDiffMap.HP,Converter={StaticResource DoublePrecisionConverter}}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
+                                <TextBlock Text="OD" VerticalAlignment="Center" />
+                                <ProgressBar VerticalAlignment="Center" Value="{Binding SelectedDiffMap.OD}"
+                                             Maximum="10" />
+                                <TextBlock VerticalAlignment="Center"
+                                           Text="{Binding SelectedDiffMap.OD,Converter={StaticResource DoublePrecisionConverter}}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
+                                <TextBlock Text="AR" VerticalAlignment="Center" />
+                                <ProgressBar VerticalAlignment="Center" Value="{Binding SelectedDiffMap.AR}"
+                                             Maximum="10" />
+                                <TextBlock VerticalAlignment="Center"
+                                           Text="{Binding SelectedDiffMap.AR,Converter={StaticResource DoublePrecisionConverter}}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
+                                <TextBlock Text="Star" VerticalAlignment="Center" Margin="-4 8 8 8" />
+                                <ProgressBar VerticalAlignment="Center" Foreground="Orange"
+                                             Value="{Binding SelectedDiffMap.Star}" Maximum="10" />
+                                <TextBlock VerticalAlignment="Center"
+                                           Text="{Binding SelectedDiffMap.Star,Converter={StaticResource DoublePrecisionConverter}}" />
+                            </StackPanel>
 
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </Grid>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 8" Height="96" VerticalAlignment="Top"
+                        HorizontalAlignment="Center">
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Height" Value="36" />
+                        <Setter Property="Background" Value="{StaticResource Primary}" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="Margin" Value="8 4"></Setter>
+                        <Setter Property="FontSize" Value="18"></Setter>
+                        <Style Selector="^:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="{StaticResource Primary}"></Setter>
+                        </Style>
+                    </Style>
+                </StackPanel.Styles>
+                <Button Content="播放" Click="PlayAudio_OnClick" />
+                <Button Content="下载" Click="Download_OnClick" />
+                <Button Content="无视频下载" Click="NoVideDownload_OnClick" />
+                <Button Content="mini" Click="MiniDownload_OnClick" />
+                <Button Content="分享" DataContext="{Binding BeatmapInfo}" Click="ShareLink_OnClick" />
+            </StackPanel>
+
 
         </Grid>
     </Grid>

@@ -38,11 +38,9 @@ namespace AccOsuMemory.Desktop.Views
             e.Handled = true;
             Close();
         }
-
-
+        
         private void WindowMoved(object sender, PointerPressedEventArgs e)
         {
-           
             BeginMoveDrag(e);
         }
 
