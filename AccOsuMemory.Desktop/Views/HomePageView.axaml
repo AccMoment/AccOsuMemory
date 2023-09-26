@@ -53,6 +53,7 @@
             <Setter Property="VerticalAlignment" Value="Bottom" />
             <!-- <Setter Property="RenderTransform" Value="TranslateY(-30px)"></Setter> -->
             <Setter Property="Opacity" Value="0"></Setter>
+            <Setter Property="IsHitTestVisible" Value="False"></Setter>
             <Setter Property="Transitions">
                 <Transitions>
                     <!-- <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.75" /> -->
