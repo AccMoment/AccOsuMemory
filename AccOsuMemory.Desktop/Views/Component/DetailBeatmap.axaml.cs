@@ -14,7 +14,7 @@ namespace AccOsuMemory.Desktop.Views.Component;
 
 public partial class DetailBeatmap : UserControl
 {
-    private HomePageViewModel _vm;
+   
 
     public static readonly StyledProperty<bool> IsOpenProperty = AvaloniaProperty.Register<DetailBeatmap, bool>(
         "IsOpen");
@@ -23,6 +23,15 @@ public partial class DetailBeatmap : UserControl
     {
         get => GetValue(IsOpenProperty);
         set => SetValue(IsOpenProperty, value);
+    }
+
+    public static readonly StyledProperty<bool> IsCloseBtnVisibleProperty = AvaloniaProperty.Register<DetailBeatmap, bool>(
+        "IsCloseBtnVisible",true);
+
+    public bool IsCloseBtnVisible
+    {
+        get => GetValue(IsCloseBtnVisibleProperty);
+        set => SetValue(IsCloseBtnVisibleProperty, value);
     }
 
     public static readonly RoutedEvent<RoutedEventArgs> CloseEvent =
@@ -77,11 +86,7 @@ public partial class DetailBeatmap : UserControl
     {
         InitializeComponent();
     }
-
-    protected override void OnDataContextChanged(EventArgs e)
-    {
-        if (DataContext is HomePageViewModel vm) _vm = vm;
-    }
+    
 
     private void CloseBtn_OnClick(object? sender, RoutedEventArgs e)
     {

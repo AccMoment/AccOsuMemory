@@ -56,7 +56,7 @@ public class SayoApiService : ISayoApiService
                 TypeInfoResolver = SayoJsonSerializerContext.Default,
                 NumberHandling = JsonNumberHandling.AllowReadingFromString
             });
-        if (beatmapListInfo == null) throw new Exception("发生错误，请重新尝试!");
+        if (beatmapListInfo == null || beatmapListInfo.Status == -1) throw new Exception("找不到曲目，请重新尝试!");
         return beatmapListInfo.BeatmapInfo;
     }
 }

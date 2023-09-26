@@ -23,25 +23,26 @@ public partial class MainWindowViewModel : ViewModelBase
             new("SearchPage", "搜索歌曲"),
             new("BatchDownloadPage", "批量下载"),
             new("TaskPage", "任务列表"),
-            new("HitTestPage","手速测试")
+            new("HitTestPage", "手速测试")
         };
+        ViewModelBase = App.AppHost?.Services.GetRequiredService<SearchPageViewModel>();
     }
 
     public void ClearTempFiles()
     {
-        Directory.Delete(FileProvider.GetMusicCacheDirectory(),true);
-        Directory.Delete(FileProvider.GetThumbnailCacheDirectory(),true);
+        Directory.Delete(FileProvider.GetMusicCacheDirectory(), true);
+        Directory.Delete(FileProvider.GetThumbnailCacheDirectory(), true);
     }
-    
+
     public void ChangePage(IHost? appHost, string? name)
     {
         ViewModelBase = name switch
         {
             "HomePage" => appHost?.Services.GetRequiredService<HomePageViewModel>(),
-            "SearchPage" =>appHost?.Services.GetRequiredService<SearchPageViewModel>(), 
+            "SearchPage" => appHost?.Services.GetRequiredService<SearchPageViewModel>(),
             "BatchDownloadPage" => appHost?.Services.GetRequiredService<BatchDownloadPageViewModel>(),
             "TaskPage" => appHost?.Services.GetRequiredService<TaskPageViewModel>(),
-            "HitTestPage"=>appHost?.Services.GetRequiredService<HitTestPageViewModel>(),
+            "HitTestPage" => appHost?.Services.GetRequiredService<HitTestPageViewModel>(),
             _ => null
         };
     }

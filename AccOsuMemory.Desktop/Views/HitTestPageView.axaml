@@ -9,8 +9,8 @@
              xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
              x:DataType="vm:HitTestPageViewModel">
     <UserControl.Resources>
-        <converter:StringToTimeSpanConverter x:Key="StringToTimeSpanConverter"></converter:StringToTimeSpanConverter>
-        <converter:PrecisionConverter x:Key="PrecisionConverter"></converter:PrecisionConverter>
+        <converter:StringToTimeSpanConverter x:Key="StringToTimeSpanConverter"/>
+        <converter:PrecisionConverter x:Key="PrecisionConverter"/>
     </UserControl.Resources>
     <Grid RowDefinitions="Auto,*" Background="Transparent">
         <Grid Grid.Row="0">

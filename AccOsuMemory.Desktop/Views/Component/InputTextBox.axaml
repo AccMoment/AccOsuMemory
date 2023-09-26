@@ -1,0 +1,30 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converter="clr-namespace:AccOsuMemory.Desktop.Converter"
+             xmlns:component="clr-namespace:AccOsuMemory.Desktop.Views.Component"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AccOsuMemory.Desktop.Views.Component.InputTextBox">
+    <UserControl.Styles>
+
+        <Style Selector="TextBox.Error">
+            <Setter Property="BorderBrush" Value="{StaticResource Error}" />
+            <!-- <Style Selector="^:focus-within /template/ ContentPresenter,^:focus /template/ ContentPresenter"> -->
+            <!--     <Setter Property="BorderBrush" Value="{StaticResource Error}" /> -->
+            <!-- </Style> -->
+        </Style>
+    </UserControl.Styles>
+    <UserControl.Resources>
+        <converter:ProportionConverter x:Key="ProportionConverter" />
+    </UserControl.Resources>
+    <StackPanel Width="{Binding $parent[UserControl].Bounds.Width,Converter={StaticResource ProportionConverter},ConverterParameter={}80}">
+        <TextBox Name="SearchTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Watermark="在这里输入点什么吧~"
+                 MaxLines="1"
+                 Width="{Binding $parent[StackPanel].Bounds.Width,Converter={StaticResource ProportionConverter},ConverterParameter={}100}"
+                 Text="{Binding $parent[component:InputTextBox].SearchText}" KeyDown="SearchTextBox_OnKeyDown"
+                 Classes.Error="{Binding $parent[component:InputTextBox].IsError}" />
+        <TextBlock FontSize="14" Foreground="{StaticResource Error}" Text="{Binding $parent[component:InputTextBox].ErrorText}" IsVisible="{Binding $parent[component:InputTextBox].IsError}"/>
+    </StackPanel>
+    
+</UserControl>

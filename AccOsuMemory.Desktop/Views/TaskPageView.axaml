@@ -10,7 +10,7 @@
              x:DataType="vm:TaskPageViewModel">
     <UserControl.Resources>
         <converter:NetSpeedConverter x:Key="SpeedConverter" />
-        <converter:ByteToMegaByteConverter x:Key="ByteToMegaByteConverter"></converter:ByteToMegaByteConverter>
+        <converter:ByteToMegaByteConverter x:Key="ByteToMegaByteConverter"/>
     </UserControl.Resources>
     <UserControl.Styles>
         <Style Selector="TextBlock.StateText">

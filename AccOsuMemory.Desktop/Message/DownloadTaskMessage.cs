@@ -5,10 +5,4 @@ using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace AccOsuMemory.Desktop.Message;
 
-public class DownloadTaskMessage : ValueChangedMessage<BeatmapDto>
-{
-    public DownloadTaskMessage(BeatmapDto value) : base(value)
-    {
-        
-    }
-}
+public class DownloadTaskMessage(BeatmapDto value) : ValueChangedMessage<BeatmapDto>(value);

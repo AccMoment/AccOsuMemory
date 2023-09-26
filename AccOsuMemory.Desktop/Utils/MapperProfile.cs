@@ -11,6 +11,7 @@ public class MapperProfile : Profile
     {
         CreateMap<Beatmap, BeatmapDto>();
         CreateMap<BeatmapInfo, BeatmapInfoDto>();
+        CreateMap<BeatmapInfoDto, BeatmapDto>();
         CreateMap<MapDetailData, MapDetailDataDto>();
     }
 }

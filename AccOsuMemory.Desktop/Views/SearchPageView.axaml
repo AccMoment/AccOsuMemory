@@ -3,17 +3,53 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:AccOsuMemory.Desktop.ViewModels"
-             xmlns:converter="clr-namespace:AccOsuMemory.Desktop.Converter"
+             xmlns:component="clr-namespace:AccOsuMemory.Desktop.Views.Component"
+             xmlns:sayoEnum="clr-namespace:AccOsuMemory.Core.Models.SayoModels.Enum;assembly=AccOsuMemory.Core"
+             Background="Transparent"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AccOsuMemory.Desktop.Views.SearchPageView"
              x:DataType="vm:SearchPageViewModel">
     <UserControl.Resources>
-        <converter:ProportionConverter x:Key="ProportionConverter"></converter:ProportionConverter>
+
     </UserControl.Resources>
-    <Grid RowDefinitions="80,*">
-            <TextBox HorizontalAlignment="Center"  VerticalAlignment="Center" Watermark="在这里输入点什么吧~"
-                     MaxLines="1" Width="{Binding $parent[Grid].Bounds.Width,Converter={StaticResource ProportionConverter},ConverterParameter={}80}"
-                     Text="{Binding SearchText}" />
+    <Grid RowDefinitions="50,*">
+
+        <component:InputTextBox ZIndex="1" Grid.Row="0" VerticalAlignment="Center" SearchText="{Binding SearchText}" IsError="{Binding IsError}"
+                                ErrorText="{Binding ErrorText}" >
+            <Interaction.Behaviors>
+                <EventTriggerBehavior EventName="Search">
+                    <InvokeCommandAction Command="{Binding SearchCommand}" />
+                </EventTriggerBehavior>
+            </Interaction.Behaviors>
+        </component:InputTextBox>
+        <component:DetailBeatmap 
+            IsCloseBtnVisible="False" ZIndex="-1" Width="{Binding $parent[UserControl].Bounds.Width}" 
+            HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" 
+            IsVisible="{Binding $parent[UserControl].((vm:SearchPageViewModel)DataContext).IsVisibleDetailMapControl}" 
+            DataContext="{Binding BeatmapInfoStorage}">
+            <Interaction.Behaviors>
+                <EventTriggerBehavior EventName="PlayAudio">
+                    <InvokeCommandAction
+                        Command="{Binding $parent[Grid].((vm:SearchPageViewModel)DataContext).PlayAudioCommand}" CommandParameter="{Binding  BeatmapInfo.Sid}">
+                    </InvokeCommandAction>
+                </EventTriggerBehavior>
+                <EventTriggerBehavior EventName="Download" >
+                    <InvokeCommandAction
+                        Command="{Binding $parent[Grid].((vm:SearchPageViewModel)DataContext).AddDownloadTaskByTypeCommand}" CommandParameter="{x:Static sayoEnum:DownloadType.Full}">
+                    </InvokeCommandAction>
+                </EventTriggerBehavior>
+                <EventTriggerBehavior EventName="NoVideoDownload" >
+                    <InvokeCommandAction
+                        Command="{Binding $parent[Grid].((vm:SearchPageViewModel)DataContext).AddDownloadTaskByTypeCommand}" CommandParameter="{x:Static sayoEnum:DownloadType.NoVideo}">
+                    </InvokeCommandAction>
+                </EventTriggerBehavior>
+                <EventTriggerBehavior EventName="MiniDownload">
+                    <InvokeCommandAction
+                        Command="{Binding $parent[Grid].((vm:SearchPageViewModel)DataContext).AddDownloadTaskByTypeCommand}" CommandParameter="{x:Static sayoEnum:DownloadType.Mini}">
+                    </InvokeCommandAction>
+                </EventTriggerBehavior>
+            </Interaction.Behaviors>
+        </component:DetailBeatmap>
         
     </Grid>
 </UserControl>

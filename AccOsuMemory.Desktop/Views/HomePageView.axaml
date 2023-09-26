@@ -8,7 +8,6 @@
              xmlns:sayoEnum="clr-namespace:AccOsuMemory.Core.Models.SayoModels.Enum;assembly=AccOsuMemory.Core"
              xmlns:views="using:AccOsuMemory.Desktop.Views.Component"
              xmlns:sayo="clr-namespace:AccOsuMemory.Desktop.DTO.Sayo"
-             xmlns:vo="clr-namespace:AccOsuMemory.Desktop.VO"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AccOsuMemory.Desktop.Views.HomePageView"
              x:DataType="vm:HomePageViewModel"
@@ -17,9 +16,9 @@
 
     </Design.PreviewWith>
     <UserControl.Resources>
-        <converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter"></converter:LongToDateTimeConverter>
-        <converter:MapApprovedConverter x:Key="MapApprovedConverter"></converter:MapApprovedConverter>
-        <converter:ModeConverter x:Key="ModeConverter"></converter:ModeConverter>
+        <converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter"/>
+        <converter:MapApprovedConverter x:Key="MapApprovedConverter"/>
+        <converter:ModeConverter x:Key="ModeConverter"/>
     </UserControl.Resources>
     <UserControl.Styles>
         <Style Selector="Button.ActionBtn">
@@ -53,7 +52,7 @@
             <Setter Property="VerticalAlignment" Value="Bottom" />
             <!-- <Setter Property="RenderTransform" Value="TranslateY(-30px)"></Setter> -->
             <Setter Property="Opacity" Value="0"></Setter>
-            <Setter Property="IsHitTestVisible" Value="False"></Setter>
+            <Setter Property="IsHitTestVisible" Value="False"/>
             <Setter Property="Transitions">
                 <Transitions>
                     <!-- <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.75" /> -->
@@ -232,11 +231,7 @@
         </Style>
         
     </UserControl.Styles>
-    <!-- <Interaction.Behaviors> -->
-    <!--     <EventTriggerBehavior EventName="Loaded" SourceObject="Uc"> -->
-    <!--         <InvokeCommandAction Command="{Binding LoadBeatMapsCommand}"></InvokeCommandAction> -->
-    <!--     </EventTriggerBehavior> -->
-    <!-- </Interaction.Behaviors> -->
+
     <Grid Name="HomePageGrid">
 
         <StackPanel IsVisible="{Binding !CanConnectNetWork}" VerticalAlignment="Center"

@@ -55,7 +55,6 @@ namespace AccOsuMemory.Desktop.Views
             if (DataContext is MainWindowViewModel vm)
             {
                 _viewModel = vm;
-                _viewModel.ViewModelBase = AppHost?.Services.GetRequiredService<HomePageViewModel>();
             }
             base.OnDataContextChanged(e);
         }

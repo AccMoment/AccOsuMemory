@@ -3,31 +3,32 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:extControl="clr-namespace:AccOsuMemory.Desktop.ExtControl"
-             xmlns:Converter="clr-namespace:AccOsuMemory.Desktop.Converter"
-             xmlns:vm="clr-namespace:AccOsuMemory.Desktop.ViewModels"
+             xmlns:converter="clr-namespace:AccOsuMemory.Desktop.Converter"
              xmlns:vo="clr-namespace:AccOsuMemory.Desktop.VO"
-             xmlns:sayoEnum="clr-namespace:AccOsuMemory.Core.Models.SayoModels.Enum;assembly=AccOsuMemory.Core"
+             xmlns:component="clr-namespace:AccOsuMemory.Desktop.Views.Component"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AccOsuMemory.Desktop.Views.Component.DetailBeatmap"
              x:DataType="vo:BeatmapInfoStorage"
              PointerPressed="InputElement_OnPointerPressed">
     <UserControl.Resources>
-        <Converter:PrecisionConverter x:Key="DoublePrecisionConverter" />
-        <Converter:MapApprovedConverter x:Key="MapApprovedConverter" />
-        <Converter:MapGenreConverter x:Key="MapGenreConverter" />
-        <Converter:MapLanguageConverter x:Key="MapLanguageConverter" />
-        <Converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter" />
+        <converter:PrecisionConverter x:Key="PrecisionConverter" />
+        <converter:MapApprovedConverter x:Key="MapApprovedConverter" />
+        <converter:MapGenreConverter x:Key="MapGenreConverter" />
+        <converter:MapLanguageConverter x:Key="MapLanguageConverter" />
+        <converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter" />
     </UserControl.Resources>
-    <Grid RowDefinitions="Auto,*" ColumnDefinitions="32,*">
-        <Button Grid.Column="0" Grid.Row="0" Name="CloseBtn" Background="White" Click="CloseBtn_OnClick"
+    <Grid RowDefinitions="Auto,*">
+        <Button IsVisible="{Binding $parent[component:DetailBeatmap].IsCloseBtnVisible}"  Grid.Row="0" Name="CloseBtn" Background="White" Click="CloseBtn_OnClick"
                 HorizontalAlignment="Left" VerticalAlignment="Top">
             <Image Source="{SvgImage /Assets/Images/close-window.svg}" Width="20" Height="20" />
         </Button>
-        <Grid Column="1" Row="0">
-            <Grid>
-                <extControl:AsyncImage AsyncSource="{Binding BeatmapInfo.ThumbnailFile}" />
-                <Border Background="Black" Opacity="0.35" />
-            </Grid>
+        <Grid Row="0">
+            <Border ClipToBounds="True" MaxHeight="200">
+                <Grid>
+                    <extControl:AsyncImage AsyncSource="{Binding BeatmapInfo.ThumbnailFile}"  Stretch="UniformToFill"  />
+                    <Border Background="Black" Opacity="0.35" />
+                </Grid>
+            </Border>
 
             <ItemsControl Name="DiffItemsControl"
                           ItemsSource="{Binding BeatmapInfo.MapDetailData}"
@@ -42,7 +43,7 @@
                         <Button
                             Command="{Binding $parent[UserControl].((vo:BeatmapInfoStorage)DataContext).ChangeDiffMapAsyncCommand}"
                             CommandParameter="{Binding Bid}"
-                            Content="{Binding Star,Converter={StaticResource DoublePrecisionConverter}}"
+                            Content="{Binding Star,Converter={StaticResource PrecisionConverter}}"
                             Background="{StaticResource Primary}"
                             Foreground="White"
                             Height="32"
@@ -52,7 +53,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Grid>
-        <Grid Column="1" Row="1" Background="#2E3538" RowDefinitions="Auto,Auto,Auto">
+        <Grid Column="1" Row="1" Background="#2E3538" RowDefinitions="Auto,Auto,*">
             <TextBlock Grid.Row="0" VerticalAlignment="Center" Margin="16 8"
                        Text="{Binding BeatmapInfo.Title}" Foreground="White" FontWeight="Bold"
                        FontSize="26" />
@@ -107,70 +108,78 @@
                     </Border>
                 </Grid>
                 <Grid Column="1" Margin="16">
-                    <Border Padding="16" Background="#394246" Height="324">
-                        <StackPanel Orientation="Vertical">
-                            <StackPanel.Styles>
-                                <Style Selector="TextBlock">
-                                    <Setter Property="Margin" Value="8 8" />
-                                    <Setter Property="Foreground" Value="White" />
-                                    <Setter Property="FontWeight" Value="Bold" />
-                                    <Setter Property="FontSize" Value="16" />
-                                </Style>
-                                <Style Selector="ProgressBar">
-                                    <Setter Property="Margin" Value="0 8" />
-                                    <Setter Property="Height" Value="12" />
-                                    <Setter Property="Background" Value="#2E3538" />
-                                    <Setter Property="Foreground" Value="White"></Setter>
-                                    <Setter Property="Transitions">
-                                        <Transitions>
-                                            <DoubleTransition Duration="0:0:0.25" Property="Value" />
-                                        </Transitions>
-                                    </Setter>
-                                </Style>
-                            </StackPanel.Styles>
+                    <Grid Background="#394246" Height="324">
+                        <Grid Margin="16">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left"
+                                        Width="{Binding $parent[Grid].Bounds.Width}">
+                                <StackPanel.Styles>
+                                    <Style Selector="TextBlock">
+                                        <Setter Property="Margin" Value="8  8" />
+                                        <Setter Property="Foreground" Value="White" />
+                                        <Setter Property="FontWeight" Value="Bold" />
+                                        <Setter Property="FontSize" Value="16" />
+                                    </Style>
+                                    <Style Selector="ProgressBar">
+                                        <Setter Property="Margin" Value="0 8" />
+                                        <Setter Property="Height" Value="12" />
+                                        <Setter Property="Background" Value="#2E3538" />
+                                        <Setter Property="Foreground" Value="White"></Setter>
+                                        <Setter Property="Transitions">
+                                            <Transitions>
+                                                <DoubleTransition Duration="0:0:0.25" Property="Value" />
+                                            </Transitions>
+                                        </Setter>
+                                    </Style>
+                                </StackPanel.Styles>
 
-                            <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
-                                <TextBlock Text="CS" VerticalAlignment="Center" />
-                                <ProgressBar VerticalAlignment="Center" Value="{Binding SelectedDiffMap.CS}"
-                                             Maximum="10" />
-                                <TextBlock VerticalAlignment="Center"
-                                           Text="{Binding SelectedDiffMap.CS,Converter={StaticResource DoublePrecisionConverter}}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
-                                <TextBlock Text="HP" VerticalAlignment="Center" />
-                                <ProgressBar VerticalAlignment="Center" Value="{Binding SelectedDiffMap.HP}"
-                                             Maximum="10" />
-                                <TextBlock VerticalAlignment="Center"
-                                           Text="{Binding SelectedDiffMap.HP,Converter={StaticResource DoublePrecisionConverter}}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
-                                <TextBlock Text="OD" VerticalAlignment="Center" />
-                                <ProgressBar VerticalAlignment="Center" Value="{Binding SelectedDiffMap.OD}"
-                                             Maximum="10" />
-                                <TextBlock VerticalAlignment="Center"
-                                           Text="{Binding SelectedDiffMap.OD,Converter={StaticResource DoublePrecisionConverter}}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
-                                <TextBlock Text="AR" VerticalAlignment="Center" />
-                                <ProgressBar VerticalAlignment="Center" Value="{Binding SelectedDiffMap.AR}"
-                                             Maximum="10" />
-                                <TextBlock VerticalAlignment="Center"
-                                           Text="{Binding SelectedDiffMap.AR,Converter={StaticResource DoublePrecisionConverter}}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Center">
-                                <TextBlock Text="Star" VerticalAlignment="Center" Margin="-4 8 8 8" />
-                                <ProgressBar VerticalAlignment="Center" Foreground="Orange"
-                                             Value="{Binding SelectedDiffMap.Star}" Maximum="10" />
-                                <TextBlock VerticalAlignment="Center"
-                                           Text="{Binding SelectedDiffMap.Star,Converter={StaticResource DoublePrecisionConverter}}" />
-                            </StackPanel>
+                                <Grid ColumnDefinitions="36,*,36" Height="48">
+                                    <TextBlock Grid.Column="0" Text="CS" VerticalAlignment="Center" />
+                                    <ProgressBar Grid.Column="1" VerticalAlignment="Center"
+                                                 Value="{Binding SelectedDiffMap.CS}"
+                                                 Maximum="10" />
+                                    <TextBlock Grid.Column="2" VerticalAlignment="Center"
+                                               Text="{Binding SelectedDiffMap.CS,Converter={StaticResource PrecisionConverter}}" />
+                                </Grid>
+                                <Grid ColumnDefinitions="36,*,36" Height="48">
+                                    <TextBlock Grid.Column="0" Text="HP" VerticalAlignment="Center" />
+                                    <ProgressBar Grid.Column="1" VerticalAlignment="Center"
+                                                 Value="{Binding SelectedDiffMap.HP}"
+                                                 Maximum="10" />
+                                    <TextBlock Grid.Column="2" VerticalAlignment="Center"
+                                               Text="{Binding SelectedDiffMap.HP,Converter={StaticResource PrecisionConverter}}" />
+                                </Grid>
+                                <Grid ColumnDefinitions="36,*,36" Height="48">
+                                    <TextBlock Grid.Column="0" Text="OD" VerticalAlignment="Center" />
+                                    <ProgressBar Grid.Column="1" VerticalAlignment="Center"
+                                                 Value="{Binding SelectedDiffMap.OD}"
+                                                 Maximum="10" />
+                                    <TextBlock Grid.Column="2" VerticalAlignment="Center"
+                                               Text="{Binding SelectedDiffMap.OD,Converter={StaticResource PrecisionConverter}}" />
+                                </Grid>
+                                <Grid ColumnDefinitions="36,*,36" Height="48">
+                                    <TextBlock Grid.Column="0" Text="AR" VerticalAlignment="Center" />
+                                    <ProgressBar Grid.Column="1" VerticalAlignment="Center"
+                                                 Value="{Binding SelectedDiffMap.AR}"
+                                                 Maximum="10" />
+                                    <TextBlock Grid.Column="2" VerticalAlignment="Center"
+                                               Text="{Binding SelectedDiffMap.AR,Converter={StaticResource PrecisionConverter}}" />
+                                </Grid>
+                                <Grid ColumnDefinitions="36,*,36" Height="48">
+                                    <TextBlock Grid.Column="0" Text="Star" VerticalAlignment="Center" Margin="-4 8 8 8" />
+                                    <ProgressBar Grid.Column="1" VerticalAlignment="Center" Foreground="Orange"
+                                                 Value="{Binding SelectedDiffMap.Star}" Maximum="10" />
+                                    <TextBlock Grid.Column="2" VerticalAlignment="Center"
+                                               Text="{Binding SelectedDiffMap.Star,Converter={StaticResource PrecisionConverter}}" />
+                                </Grid>
 
-                        </StackPanel>
-                    </Border>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
 
-            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 8" Height="96" VerticalAlignment="Top"
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 8" Height="96" Background="Transparent"
+                        VerticalAlignment="Bottom"
                         HorizontalAlignment="Center">
                 <StackPanel.Styles>
                     <Style Selector="Button">
@@ -179,8 +188,9 @@
                         <Setter Property="Foreground" Value="White" />
                         <Setter Property="Margin" Value="8 4"></Setter>
                         <Setter Property="FontSize" Value="18"></Setter>
+                        <Setter Property="VerticalAlignment" Value="Center"></Setter>
                         <Style Selector="^:pointerover /template/ ContentPresenter">
-                            <Setter Property="Background" Value="{StaticResource Primary}"></Setter>
+                            <Setter Property="Background" Value="{StaticResource Primary}" />
                         </Style>
                     </Style>
                 </StackPanel.Styles>
@@ -190,7 +200,6 @@
                 <Button Content="mini" Click="MiniDownload_OnClick" />
                 <Button Content="分享" DataContext="{Binding BeatmapInfo}" Click="ShareLink_OnClick" />
             </StackPanel>
-
 
         </Grid>
     </Grid>
