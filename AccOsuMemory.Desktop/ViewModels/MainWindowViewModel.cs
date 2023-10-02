@@ -25,7 +25,7 @@ public partial class MainWindowViewModel : ViewModelBase
             new("TaskPage", "任务列表"),
             new("HitTestPage", "手速测试")
         };
-        ViewModelBase = App.AppHost?.Services.GetRequiredService<SearchPageViewModel>();
+        ViewModelBase = App.AppHost?.Services.GetRequiredService<BatchDownloadPageViewModel>();
     }
 
     public void ClearTempFiles()

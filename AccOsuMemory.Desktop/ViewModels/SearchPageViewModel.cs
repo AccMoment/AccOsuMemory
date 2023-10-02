@@ -14,7 +14,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace AccOsuMemory.Desktop.ViewModels;
 
-public partial class SearchPageViewModel(IFileProvider fileProvider, ISayoApiService sayoApiService, IMapper mapper,
+public partial class SearchPageViewModel(IFileProvider fileProvider,ISayoApiService sayoApiService, IMapper mapper,
     HomePageViewModel homePageViewModel) : ViewModelBase(fileProvider)
 {
     [ObservableProperty] private string _searchText = string.Empty;
@@ -22,10 +22,6 @@ public partial class SearchPageViewModel(IFileProvider fileProvider, ISayoApiSer
     [ObservableProperty] private bool _isError;
     [ObservableProperty] private bool _isVisibleDetailMapControl;
     [ObservableProperty] private BeatmapInfoStorage _beatmapInfoStorage = new();
-
-    private ISayoApiService _service = sayoApiService;
-    private IMapper _mapper = mapper;
-    private HomePageViewModel _homePageViewModel = homePageViewModel;
 
     [RelayCommand]
     private async Task Search()
@@ -39,12 +35,11 @@ public partial class SearchPageViewModel(IFileProvider fileProvider, ISayoApiSer
 
         try
         {
-            var info = _mapper.Map<BeatmapInfoDto>(await _service.GetBeatmapListInfo(SearchText));
+            var info = mapper.Map<BeatmapInfoDto>(await sayoApiService.GetBeatmapListInfo(SearchText));
             info.MapDetailData.Sort((x, y) => x.Star.CompareTo(y.Star));
             BeatmapInfoStorage.BeatmapInfo = info;
             BeatmapInfoStorage.SelectedDiffMap = BeatmapInfoStorage.BeatmapInfo.MapDetailData.FirstOrDefault();
             BeatmapInfoStorage.BeatmapInfo.ThumbnailFile = BeatmapInfoStorage.BeatmapInfo.GetThumbnailUrl();
-            // await Task.Delay(50);
             IsVisibleDetailMapControl = true;
         }
         catch (Exception e)
@@ -57,7 +52,7 @@ public partial class SearchPageViewModel(IFileProvider fileProvider, ISayoApiSer
     [RelayCommand]
     private async Task PlayAudioAsync(string url)
     {
-        await homePageViewModel.PlayAudioCommand.ExecuteAsync(url);
+         await homePageViewModel.PlayAudioCommand.ExecuteAsync(url);
     }
 
     [RelayCommand]

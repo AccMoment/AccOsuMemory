@@ -61,9 +61,9 @@
                     <Button Click="MinimizeOnClick" Classes="WindowButton NormalAction">
                         <Image Source="{SvgImage /Assets/Images/hide-window.svg}" Classes="WindowIcon" />
                     </Button>
-                    <Button Click="MaximizeOnclick" Classes="WindowButton NormalAction">
-                        <Image Source="{SvgImage /Assets/Images/scale-window.svg}" Classes="WindowIcon" />
-                    </Button>
+                    <!-- <Button Click="MaximizeOnclick" Classes="WindowButton NormalAction"> -->
+                    <!--     <Image Source="{SvgImage /Assets/Images/scale-window.svg}" Classes="WindowIcon" /> -->
+                    <!-- </Button> -->
                     <Button Click="CloseOnClick" Classes="WindowButton CloseAction">
                         <Image Source="{SvgImage /Assets/Images/close-window.svg}" Classes="WindowIcon" />
                     </Button>

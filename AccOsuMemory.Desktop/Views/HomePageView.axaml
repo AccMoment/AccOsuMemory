@@ -240,12 +240,12 @@
             <Button Content="刷新" Command="{Binding LoadBeatMapsCommand}" HorizontalAlignment="Center" />
         </StackPanel>
         <Grid IsVisible="{Binding  CanConnectNetWork}">
-            <ScrollViewer Name="SongsScroll" Offset="{Binding CurrentOffset, Mode=TwoWay}">
+            <ScrollViewer  Name="SongsScroll" Offset="{Binding CurrentOffset, Mode=TwoWay}">
                 <ListBox Name="BeatMapsLb" ItemsSource="{Binding BeatmapStorage.Beatmaps}"
                          SelectedItem="{Binding BeatmapStorage.SelectedBeatmap}" />
             </ScrollViewer>
 
-            <Grid Name="MaskGrid" Background="Black" IsVisible="{Binding IsOpenDetailMapControl}" Opacity="0.75">
+            <Grid Name="MaskGrid"  Background="Black" IsVisible="{Binding IsOpenDetailMapControl}" Opacity="0.75">
                 <Interaction.Behaviors>
                     <EventTriggerBehavior EventName="PointerPressed" SourceObject="Uc">
                         <InvokeCommandAction Command="{Binding CloseDetailPanelAsyncCommand}" />
@@ -256,7 +256,8 @@
             
             <views:DetailBeatmap Name="DetailBeatmap" HorizontalAlignment="Right" Width="750"
                                  IsOpen="{Binding Path= $parent[Grid].((vm:HomePageViewModel)DataContext).IsOpenDetailMapControl }"
-                                 DataContext="{Binding  BeatmapInfoStorage}">
+                                 DataContext="{Binding  BeatmapInfoStorage}"
+                                 >
                 <Interaction.Behaviors>
                     <EventTriggerBehavior EventName="Close" >
                         <InvokeCommandAction
@@ -265,7 +266,7 @@
                     </EventTriggerBehavior>
                     <EventTriggerBehavior EventName="PlayAudio">
                         <InvokeCommandAction
-                            Command="{Binding $parent[Grid].((vm:HomePageViewModel)DataContext).PlayAudioCommand}" CommandParameter="{Binding  BeatmapInfo.Sid}">
+                            Command="{Binding $parent[Grid].((vm:HomePageViewModel)DataContext).PlayAudioCommand}" CommandParameter="{Binding  BeatmapInfo.PreviewAudio}">
                         </InvokeCommandAction>
                     </EventTriggerBehavior>
                     <EventTriggerBehavior EventName="Download" >

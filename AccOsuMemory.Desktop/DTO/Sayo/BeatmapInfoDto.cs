@@ -23,11 +23,11 @@ public partial class BeatmapInfoDto : BaseModel
     
     
     [ObservableProperty] private string? _thumbnailFile;
-    //
+   
     public string GetThumbnailUrl() => $"https://cdn.sayobot.cn:25225/beatmaps/{Sid}/covers/cover.jpg";
-    //
-    // [Description("试听音频")] public string PreviewAudio => $"https://cdn.sayobot.cn:25225/preview/{Sid}.mp3";
-    //
+   
+    [Description("试听音频")] public string PreviewAudio => $"https://cdn.sayobot.cn:25225/preview/{Sid}.mp3";
+    
     [Description("完整版下载")] public string FullDownloadUrl => $"https://dl.sayobot.cn/beatmaps/download/full/{Sid}";
     //
     // [Description("无视频版下载")]

@@ -1,10 +1,36 @@
-﻿using AccOsuMemory.Desktop.Services;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using AccOsuMemory.Core.Models;
+using AccOsuMemory.Core.Models.SayoModels.Enum;
+using AccOsuMemory.Core.Utils;
+using AccOsuMemory.Desktop.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Options;
 
 namespace AccOsuMemory.Desktop.ViewModels;
 
-public class BatchDownloadPageViewModel : ViewModelBase
+public partial class BatchDownloadPageViewModel(IFileProvider fileProvider,IOptionsMonitor<AppSettings> options) : ViewModelBase(fileProvider)
 {
-    public BatchDownloadPageViewModel(IFileProvider fileProvider) : base(fileProvider)
+    [ObservableProperty] private DateTimeOffset _selectedDate = new(new DateTime(2007, 5, 25));
+    // [ObservableProperty] private DateTimeOffset _minYears = new(new DateTime(2007, 5, 25));
+    [ObservableProperty] private BatchDownloadType _downloadType;
+
+    [ObservableProperty] private string _gamerName;
+    [ObservableProperty] private string _mapperName;
+
+    [ObservableProperty] private ObservableCollection<string> _log;
+
+    [ObservableProperty] private bool _isGrantApiKey = string.IsNullOrWhiteSpace(options.CurrentValue.ApiV1Key);
+    
+    [RelayCommand]
+    private void ChangeDownloadType(BatchDownloadType type)
     {
+        Debug.WriteLine(type);
+        DownloadType = type;
     }
+    
+    
 }
+

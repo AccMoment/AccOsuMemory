@@ -18,6 +18,7 @@ using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using BeatmapStorage = AccOsuMemory.Desktop.VO.BeatmapStorage;
 
 namespace AccOsuMemory.Desktop.ViewModels;
@@ -74,10 +75,7 @@ public partial class HomePageViewModel : ViewModelBase
             BeatmapInfoStorage.BeatmapInfo = info;
             var file = Path.Combine(FileProvider.GetThumbnailCacheDirectory(), $"{sid}.jpg");
             BeatmapInfoStorage.SelectedDiffMap = BeatmapInfoStorage.BeatmapInfo.MapDetailData.FirstOrDefault();
-            // if (BeatmapStorage.SelectedBeatmap != null) BeatmapStorage.SelectedBeatmap.ThumbnailFile = file;
-            BeatmapInfoStorage.BeatmapInfo.ThumbnailFile = file ?? BeatmapInfoStorage.BeatmapInfo.GetThumbnailUrl();
-            Debug.WriteLine(file);
-            // await Task.Delay(50);
+            BeatmapInfoStorage.BeatmapInfo.ThumbnailFile = file;
             IsOpenDetailMapControl = true;
         }
         catch (Exception e)

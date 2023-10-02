@@ -14,7 +14,7 @@
     </UserControl.Resources>
     <Grid RowDefinitions="50,*">
 
-        <component:InputTextBox ZIndex="1" Grid.Row="0" VerticalAlignment="Center" SearchText="{Binding SearchText}" IsError="{Binding IsError}"
+        <component:InputTextBox  Grid.Row="0" VerticalAlignment="Center" SearchText="{Binding SearchText}" IsError="{Binding IsError}"
                                 ErrorText="{Binding ErrorText}" >
             <Interaction.Behaviors>
                 <EventTriggerBehavior EventName="Search">
@@ -22,8 +22,11 @@
                 </EventTriggerBehavior>
             </Interaction.Behaviors>
         </component:InputTextBox>
-        <component:DetailBeatmap 
-            IsCloseBtnVisible="False" ZIndex="-1" Width="{Binding $parent[UserControl].Bounds.Width}" 
+        
+        
+            <Grid Row="1" Background="#2E3538" IsVisible="{Binding IsVisibleDetailMapControl}"/>
+            <component:DetailBeatmap 
+            IsCloseBtnVisible="False" Width="{Binding $parent[UserControl].Bounds.Width}" 
             HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" 
             IsVisible="{Binding $parent[UserControl].((vm:SearchPageViewModel)DataContext).IsVisibleDetailMapControl}" 
             DataContext="{Binding BeatmapInfoStorage}">

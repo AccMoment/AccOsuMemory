@@ -18,8 +18,8 @@
     <UserControl.Resources>
         <converter:ProportionConverter x:Key="ProportionConverter" />
     </UserControl.Resources>
-    <StackPanel Width="{Binding $parent[UserControl].Bounds.Width,Converter={StaticResource ProportionConverter},ConverterParameter={}80}">
-        <TextBox Name="SearchTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Watermark="在这里输入点什么吧~"
+    <StackPanel Margin="0 4 0 0" Width="{Binding $parent[UserControl].Bounds.Width,Converter={StaticResource ProportionConverter},ConverterParameter={}80}">
+        <TextBox Name="SearchTextBox" HorizontalAlignment="Center" Watermark="在这里输入点什么吧~"
                  MaxLines="1"
                  Width="{Binding $parent[StackPanel].Bounds.Width,Converter={StaticResource ProportionConverter},ConverterParameter={}100}"
                  Text="{Binding $parent[component:InputTextBox].SearchText}" KeyDown="SearchTextBox_OnKeyDown"

@@ -57,16 +57,17 @@ namespace AccOsuMemory.Desktop
                     services.AddAutoMapper((provider, expression) =>
                     { 
                     },typeof(MapperProfile));
+                    services.AddLogging();
                 })
                 .Build();
             
             base.RegisterServices();
         }
 
-        private void InitService(IServiceProvider provider)
+        private static void InitService(IServiceProvider provider)
         {
             //单例，先进行初始化，不然在进入任务列表之前所有的下载都无效
-            var _ = provider.GetRequiredService<TaskPageViewModel>();
+            _ = provider.GetRequiredService<TaskPageViewModel>();
         }
         
         

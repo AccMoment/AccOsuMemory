@@ -18,18 +18,18 @@
         <converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter" />
     </UserControl.Resources>
     <Grid RowDefinitions="Auto,*">
-        <Button IsVisible="{Binding $parent[component:DetailBeatmap].IsCloseBtnVisible}"  Grid.Row="0" Name="CloseBtn" Background="White" Click="CloseBtn_OnClick"
-                HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Image Source="{SvgImage /Assets/Images/close-window.svg}" Width="20" Height="20" />
-        </Button>
+       
         <Grid Row="0">
-            <Border ClipToBounds="True" MaxHeight="200">
+            <Border ClipToBounds="True" MinHeight="200" Background="#2E3538">
                 <Grid>
                     <extControl:AsyncImage AsyncSource="{Binding BeatmapInfo.ThumbnailFile}"  Stretch="UniformToFill"  />
                     <Border Background="Black" Opacity="0.35" />
                 </Grid>
             </Border>
-
+            <Button IsVisible="{Binding $parent[component:DetailBeatmap].IsCloseBtnVisible}"  Grid.Row="0" Name="CloseBtn" Background="White" Click="CloseBtn_OnClick"
+                    HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Image Source="{SvgImage /Assets/Images/close-window.svg}" Width="20" Height="20" />
+            </Button>
             <ItemsControl Name="DiffItemsControl"
                           ItemsSource="{Binding BeatmapInfo.MapDetailData}"
                           HorizontalAlignment="Right">
