@@ -23,7 +23,8 @@ public partial class MainWindowViewModel : ViewModelBase
             new("SearchPage", "搜索歌曲"),
             new("BatchDownloadPage", "批量下载"),
             new("TaskPage", "任务列表"),
-            new("HitTestPage", "手速测试")
+            new("HitTestPage", "手速测试"),
+            new("BackupPage","备份")
         };
         ViewModelBase = App.AppHost?.Services.GetRequiredService<BatchDownloadPageViewModel>();
     }
@@ -43,6 +44,7 @@ public partial class MainWindowViewModel : ViewModelBase
             "BatchDownloadPage" => appHost?.Services.GetRequiredService<BatchDownloadPageViewModel>(),
             "TaskPage" => appHost?.Services.GetRequiredService<TaskPageViewModel>(),
             "HitTestPage" => appHost?.Services.GetRequiredService<HitTestPageViewModel>(),
+            "BackupPage" => appHost?.Services.GetRequiredService<BackupPageViewModel>(),
             _ => null
         };
     }

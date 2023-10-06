@@ -54,7 +54,7 @@
         <StackPanel Grid.Column="0" Margin="16" Orientation="Vertical">
             <TextBlock Text="下载类型" FontSize="16" />
             <StackPanel Orientation="Horizontal">
-                <RadioButton GroupName="DownloadType" Content="Rank日期">
+                <RadioButton GroupName="DownloadType" Content="Rank日期" IsChecked="True">
                     <Interaction.Behaviors>
                         <EventTriggerBehavior EventName="Checked">
                             <InvokeCommandAction Command="{Binding ChangeDownloadTypeCommand}"

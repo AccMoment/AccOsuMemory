@@ -15,7 +15,7 @@ public partial class BatchDownloadPageViewModel(IFileProvider fileProvider,IOpti
 {
     [ObservableProperty] private DateTimeOffset _selectedDate = new(new DateTime(2007, 5, 25));
     // [ObservableProperty] private DateTimeOffset _minYears = new(new DateTime(2007, 5, 25));
-    [ObservableProperty] private BatchDownloadType _downloadType;
+    [ObservableProperty] private BatchDownloadType _downloadType = BatchDownloadType.Ranked;
 
     [ObservableProperty] private string _gamerName;
     [ObservableProperty] private string _mapperName;

@@ -4,6 +4,7 @@
     <option name="projectPerEditor">
       <map>
         <entry key="AccOsuMemory.Desktop/App.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
+        <entry key="AccOsuMemory.Desktop/Views/BackupPageView.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/BatchDownloadPage.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/BatchDownloadPageView.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
         <entry key="AccOsuMemory.Desktop/Views/Component/BeatmapDetail.axaml" value="AccOsuMemory.Desktop/AccOsuMemory.Desktop.csproj" />
