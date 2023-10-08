@@ -14,7 +14,7 @@
         ExtendClientAreaToDecorationsHint="True"
         SystemDecorations="None"
         TransparencyLevelHint="AcrylicBlur"
-        Background="{StaticResource Background}"
+        Background="{StaticResource Surface}"
         x:Class="AccOsuMemory.Desktop.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/Images/avalonia-logo.ico"
@@ -43,12 +43,13 @@
     <!--     <Design.DataContext>  -->
     <!--        <vm:MainWindowViewModel />  -->
     <!-- </Design.DataContext>  -->
-    
+
     <!-- <Border > -->
- 
+
     <Grid RowDefinitions="Auto,*">
         <!-- Top -->
-        <Grid PointerPressed="WindowMoved" Background="Transparent">
+        <Border BorderThickness="0 0 0 1"
+                BorderBrush="LightGray" Grid.Row="0" PointerPressed="WindowMoved" Background="Transparent">
             <Grid ColumnDefinitions="*,*,*">
                 <Image Source="{SvgImage /Assets/Images/osu-logo.svg}" HorizontalAlignment="Left"
                        VerticalAlignment="Center" Height="32" Width="32" Margin="2 0 0 0"
@@ -69,19 +70,22 @@
                     </Button>
                 </StackPanel>
             </Grid>
-        </Grid>
+        </Border>
+
+        <!-- <Separator Grid.Row="1" Height="1" Background="LightGray" /> -->
 
         <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
-            <Grid Grid.Column="0" RowDefinitions="Auto,*,Auto" Width="220">
-                <Separator Grid.Row="0" Height="1" Background="White" Margin="20 0" />
+            <Grid Grid.Column="0" RowDefinitions="Auto,*,Auto" Width="220"  Background="{StaticResource SecondaryContainer}">
+
                 <views:SideBar Grid.Row="1" DataContext="{Binding}" />
                 <Button Grid.Row="2" Classes="SettingButton">
                     <Image Source="{SvgImage /Assets/Images/setting.svg}" Width="32" Height="32" />
                 </Button>
             </Grid>
-            <Grid Grid.Column="1" Background="{StaticResource PrimaryContainer}">
+            <Border Background="{StaticResource PrimaryContainer}" Grid.Column="1" BorderThickness="1 0  0 0"
+                    BorderBrush="LightGray">
                 <TransitioningContentControl Name="ViewPages" Content="{Binding ViewModelBase}" />
-            </Grid>
+            </Border>
         </Grid>
     </Grid>
     <!-- </Border> -->

@@ -34,7 +34,9 @@
         </Style>
 
         <Style Selector="Border.ItemBorder">
-            <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="LightGray"></Setter>
         </Style>
 
         <Style Selector="Border.ItemBorder:pointerover">
@@ -83,8 +85,7 @@
             </Setter>
             <Setter Property="ItemTemplate">
                 <DataTemplate DataType="sayo:BeatmapDto">
-                    <Border Margin="10" Classes="ItemBorder" CornerRadius="4" BorderThickness="1"
-                            BorderBrush="#f0f0f0" Tag="{Binding Sid}">
+                    <Border Margin="10" Classes="ItemBorder" CornerRadius="4" Tag="{Binding Sid}">
                         <Interaction.Behaviors>
                             <EventTriggerBehavior EventName="PointerPressed">
                                 <InvokeCommandAction

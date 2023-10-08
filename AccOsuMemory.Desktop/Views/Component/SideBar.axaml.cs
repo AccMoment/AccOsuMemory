@@ -18,8 +18,8 @@ public partial class SideBar : UserControl
     {
         if (DataContext is MainWindowViewModel vm)
         {
-            var name = vm.ViewModelBase?.GetType().Name.Replace("ViewModel", "");
-            var index = vm.PageModels.ToList().FindIndex(page => page.Name == name);
+            var name = vm.ViewModelBase?.GetType().Name.Replace("ViewModel", "View");
+            var index = vm.PageModels.ToList().FindIndex(page => page.ViewName == name);
             var y = index * 49 + 15;
             Canvas.SetTop(FloatPoint, y);
         }
