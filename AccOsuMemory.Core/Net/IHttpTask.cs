@@ -4,12 +4,11 @@ namespace AccOsuMemory.Core.Net;
 
 public interface IHttpTask
 {
-    public long Id { get; init; }
+    public long Id { get;  }
 
-    public string Url { get; init; }
-
-    public string ErrorMessage { get; set; }
-
+    public string Url { get;  }
+    
+    
     public void OnStart();
 
     public void OnDownload(object? sender, HttpProgressEventArgs e);

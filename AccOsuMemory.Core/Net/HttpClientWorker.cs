@@ -38,7 +38,7 @@ public class HttpClientWorker : HttpClient
         }
         catch (HttpRequestException e)
         {
-            task.ErrorMessage = e.Message;
+            task.OnError(e.Message);
         }
         finally
         {

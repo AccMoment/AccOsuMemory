@@ -9,4 +9,6 @@ public class AppSettings
     public string ApiV2Token { get; set; } = string.Empty;
     public string OsuDirectoryPath { get; set; } = string.Empty;
     public string DefaultDownloadPath { get; set; } = string.Empty;
+
+    public int ThreadCount { get; set; }
 }

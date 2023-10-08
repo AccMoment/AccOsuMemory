@@ -2,6 +2,7 @@
 using System.IO;
 using AccOsuMemory.Desktop.Model;
 using AccOsuMemory.Desktop.Services;
+using AccOsuMemory.Desktop.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,12 +20,12 @@ public partial class MainWindowViewModel : ViewModelBase
         // _viewModelBase = _appHost?.Services.GetRequiredService<HomePageViewModel>();
         _pageModels = new ObservableCollection<Page>
         {
-            new("HomePage", "主页"),
-            new("SearchPage", "搜索歌曲"),
-            new("BatchDownloadPage", "批量下载"),
-            new("TaskPage", "任务列表"),
-            new("HitTestPage", "手速测试"),
-            new("BackupPage","备份")
+            new(nameof(HomePageView), "主页"),
+            new(nameof(SearchPageView), "搜索歌曲"),
+            new(nameof(BatchDownloadPageView), "批量下载"),
+            new(nameof(TaskPageView), "任务列表"),
+            new(nameof(HitTestPageView), "手速测试"),
+            new(nameof(BackupPageView),"数据备份")
         };
         ViewModelBase = App.AppHost?.Services.GetRequiredService<BatchDownloadPageViewModel>();
     }
@@ -39,12 +40,12 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         ViewModelBase = name switch
         {
-            "HomePage" => appHost?.Services.GetRequiredService<HomePageViewModel>(),
-            "SearchPage" => appHost?.Services.GetRequiredService<SearchPageViewModel>(),
-            "BatchDownloadPage" => appHost?.Services.GetRequiredService<BatchDownloadPageViewModel>(),
-            "TaskPage" => appHost?.Services.GetRequiredService<TaskPageViewModel>(),
-            "HitTestPage" => appHost?.Services.GetRequiredService<HitTestPageViewModel>(),
-            "BackupPage" => appHost?.Services.GetRequiredService<BackupPageViewModel>(),
+            nameof(HomePageView) => appHost?.Services.GetRequiredService<HomePageViewModel>(),
+            nameof(SearchPageView) => appHost?.Services.GetRequiredService<SearchPageViewModel>(),
+            nameof(BatchDownloadPageView) => appHost?.Services.GetRequiredService<BatchDownloadPageViewModel>(),
+            nameof(TaskPageView) => appHost?.Services.GetRequiredService<TaskPageViewModel>(),
+            nameof(HitTestPageView) => appHost?.Services.GetRequiredService<HitTestPageViewModel>(),
+            nameof(BackupPageView) => appHost?.Services.GetRequiredService<BackupPageViewModel>(),
             _ => null
         };
     }

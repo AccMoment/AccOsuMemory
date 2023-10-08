@@ -29,6 +29,8 @@ public partial class DownloadTask : BaseModel, IHttpTask
     public long Id { get; init; } = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
     public string Name { get; init; }
     public string Url { get; init; }
+    
+    
 
 
     public DownloadTask(string name, string url, string suffix, string filePath)
