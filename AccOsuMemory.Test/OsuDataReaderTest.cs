@@ -12,6 +12,8 @@ public class OsuDataReaderTest
         watch.Start();
         var data = OsuDataReader.GetOsuDataFromOsuDb(@"D:\osu!\osu!.db");
         watch.Stop();
+        var beatmapList = data.Beatmaps.DistinctBy(d => d.BeatmapSetId);
+        Debug.WriteLine(beatmapList.ToList().Count);
         Debug.WriteLine($"timer:{watch.ElapsedMilliseconds}");
         Assert.IsNotNull(data);
     }

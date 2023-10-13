@@ -1,19 +1,14 @@
-﻿using AccOsuMemory.Desktop.Model;
-using AccOsuMemory.Desktop.Services;
+﻿using AccOsuMemory.Desktop.Services;
+using AccOsuMemory.Desktop.VO;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using HitCalculator = AccOsuMemory.Desktop.VO.HitCalculator;
 
 namespace AccOsuMemory.Desktop.ViewModels;
 
-public partial class HitTestPageViewModel : ViewModelBase
+public partial class HitTestPageViewModel(IFileProvider fileProvider) : ViewModelBase(fileProvider)
 {
     [ObservableProperty]
     private HitCalculator _hitCalculator = new();
-    
-    public HitTestPageViewModel(IFileProvider fileProvider) : base(fileProvider)
-    {
-    }
 
     [RelayCommand]
     public void Reset()

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace AccOsuMemory.Desktop.Utils;
 
-public class NetworkChecker
+public static class NetworkChecker
 {
     private const string HostName = "www.qq.com";
 

@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using AccOsuMemory.Core.Models;
 using AccOsuMemory.Core.Models.SayoModels.Enum;
-using AccOsuMemory.Core.Utils;
 using AccOsuMemory.Desktop.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -17,10 +16,10 @@ public partial class BatchDownloadPageViewModel(IFileProvider fileProvider,IOpti
     // [ObservableProperty] private DateTimeOffset _minYears = new(new DateTime(2007, 5, 25));
     [ObservableProperty] private BatchDownloadType _downloadType = BatchDownloadType.Ranked;
 
-    [ObservableProperty] private string _gamerName;
-    [ObservableProperty] private string _mapperName;
+    [ObservableProperty] private string _gamerName = string.Empty;
+    [ObservableProperty] private string _mapperName = string.Empty;
 
-    [ObservableProperty] private ObservableCollection<string> _log;
+    [ObservableProperty] private ObservableCollection<string> _log = new();
 
     [ObservableProperty] private bool _isGrantApiKey = string.IsNullOrWhiteSpace(options.CurrentValue.ApiV1Key);
     

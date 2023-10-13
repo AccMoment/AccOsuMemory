@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using AccOsuMemory.Core.Models;
 using AccOsuMemory.Core.Net;
 using AccOsuMemory.Desktop.Services;
@@ -84,6 +85,22 @@ namespace AccOsuMemory.Desktop
                 desktop.MainWindow = new MainWindow
                 {
                     DataContext = AppHost.Services.GetRequiredService<MainWindowViewModel>()
+                };
+                desktop.ShutdownRequested +=async (_, _) =>
+                {
+                    try
+                    {
+                        await AppHost.StopAsync();
+                        AppHost.Dispose();
+                        AppHost = null;
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine(exception);
+                    }
+
+                    // 停 500 ms
+                    await Task.Delay(TimeSpan.FromMilliseconds(500));
                 };
             }
 

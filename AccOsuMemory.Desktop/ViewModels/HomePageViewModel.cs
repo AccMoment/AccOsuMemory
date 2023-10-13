@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -18,8 +16,6 @@ using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.Logging;
-using BeatmapStorage = AccOsuMemory.Desktop.VO.BeatmapStorage;
 
 namespace AccOsuMemory.Desktop.ViewModels;
 
@@ -35,15 +31,14 @@ public partial class HomePageViewModel : ViewModelBase
 
     [ObservableProperty] private BeatmapStorage _beatmapStorage = new();
 
-    [ObservableProperty] private BeatmapInfoStorage _beatmapInfoStorage =new();
+    [ObservableProperty] private BeatmapInfoStorage _beatmapInfoStorage = new();
 
     [ObservableProperty] private Vector _currentOffset;
 
     [ObservableProperty] private bool _canConnectNetWork = true;
-    
+
     [ObservableProperty] private bool _isOpenDetailMapControl;
 
-    
 
     public Action<string, string>? ShowTips;
     public Func<string, Task>? HideTips;
@@ -57,6 +52,8 @@ public partial class HomePageViewModel : ViewModelBase
         _httpClient = httpClient;
         _mapper = mapper;
         WeakReferenceMessenger.Default.Register<ShareLinkMessage>(this, ReceiveShareLinkMessage);
+
+        Task.Run(async () => { await CheckingNetworkStatus(); });
     }
 
     [RelayCommand]
@@ -86,7 +83,6 @@ public partial class HomePageViewModel : ViewModelBase
     }
 
 
-
     [RelayCommand]
     private async Task PlayAudioAsync(string url)
     {
@@ -112,7 +108,7 @@ public partial class HomePageViewModel : ViewModelBase
     private async Task AddDownloadTaskByTypeAsync(DownloadType type)
     {
         var beatmap = BeatmapStorage.SelectedBeatmap;
-        beatmap.DownloadType = type;
+        beatmap!.DownloadType = type;
         await PopupTips("ShowTips", "已添加进下载列表中(*^▽^*)",
             async () =>
             {
@@ -139,21 +135,9 @@ public partial class HomePageViewModel : ViewModelBase
     {
         try
         {
-            var status = await NetworkChecker.CheckNetworkStatusAsync();
-            if (status != IPStatus.Success)
-            {
-                await PopupTips("ShowErrorTips", "网络错误!",
-                    async () =>
-                    {
-                        CanConnectNetWork = false;
-                        await Task.CompletedTask;
-                    });
-                return;
-            }
-
             if (!BeatmapStorage.CanLoadBeatMapList)
             {
-                await PopupTips("ShowTips", "o(╥﹏╥)o 到底了~~", null);
+                await PopupTips("ShowTips", "o(╥﹏╥)o 到底了~~");
                 return;
             }
 
@@ -163,6 +147,7 @@ public partial class HomePageViewModel : ViewModelBase
                 if (list.Status != 0)
                 {
                     BeatmapStorage.CanLoadBeatMapList = false;
+                    await PopupTips("ShowTips", "o(╥﹏╥)o 到底了~~");
                     return;
                 }
 
@@ -176,7 +161,7 @@ public partial class HomePageViewModel : ViewModelBase
                     var mapDto = _mapper.Map<BeatmapDto>(map);
                     Task.Run(async () =>
                     {
-                        var file = Path.Combine(FileProvider.GetThumbnailCacheDirectory(), $"{map.Sid}.jpg");
+                        var file = Path.Combine(FileProvider.GetThumbnailCacheDirectory(), $"{mapDto.Sid}.jpg");
                         if (!File.Exists(file))
                         {
                             await using var stream =
@@ -191,23 +176,26 @@ public partial class HomePageViewModel : ViewModelBase
                 });
             });
         }
+        catch (HttpRequestException)
+        {
+            await PopupTips("ShowErrorTips", "网络状况不佳或请求超时!");
+        }
+        catch (TaskCanceledException)
+        {
+            await PopupTips("ShowErrorTips", "网络请求超时!");
+        }
         catch (Exception e)
         {
-            await PopupTips("ShowErrorTips", e.Message,
-                async () =>
-                {
-                    CanConnectNetWork = false;
-                    await Task.CompletedTask;
-                });
+            await PopupTips("ShowErrorTips", e.Message);
         }
     }
-    
-    // [RelayCommand]
-    // private void ChangeDiffMapAsync(int bid)
-    // {
-    //     var data = BeatmapInfoStorage.BeatmapInfo?.MapDetailData.Find(f => f.Bid == bid);
-    //     BeatmapInfoStorage.SelectedDiffMap = data;
-    // }
+
+    [RelayCommand]
+    private async Task CheckingNetworkStatus()
+    {
+        var status = await NetworkChecker.CheckNetworkStatusAsync();
+        CanConnectNetWork = status == IPStatus.Success;
+    }
 
     [RelayCommand]
     private void CloseDetailPanelAsync()
@@ -215,7 +203,7 @@ public partial class HomePageViewModel : ViewModelBase
         IsOpenDetailMapControl = false;
     }
 
-    
+
     private async void ReceiveShareLinkMessage(object r, ShareLinkMessage m)
     {
         var url = m.Value;

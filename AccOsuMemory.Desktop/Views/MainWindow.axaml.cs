@@ -22,7 +22,6 @@ namespace AccOsuMemory.Desktop.Views
 
         protected override async void OnClosed(EventArgs e)
         {
-            await AppHost!.StopAsync();
             _viewModel?.ClearTempFiles();
             base.OnClosed(e);
         }

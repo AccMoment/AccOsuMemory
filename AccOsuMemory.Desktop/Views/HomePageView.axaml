@@ -8,6 +8,7 @@
              xmlns:sayoEnum="clr-namespace:AccOsuMemory.Core.Models.SayoModels.Enum;assembly=AccOsuMemory.Core"
              xmlns:views="using:AccOsuMemory.Desktop.Views.Component"
              xmlns:sayo="clr-namespace:AccOsuMemory.Desktop.DTO.Sayo"
+             xmlns:iac="clr-namespace:AccOsuMemory.Desktop.Interactions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AccOsuMemory.Desktop.Views.HomePageView"
              x:DataType="vm:HomePageViewModel"
@@ -16,9 +17,9 @@
 
     </Design.PreviewWith>
     <UserControl.Resources>
-        <converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter"/>
-        <converter:MapApprovedConverter x:Key="MapApprovedConverter"/>
-        <converter:ModeConverter x:Key="ModeConverter"/>
+        <converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter" />
+        <converter:MapApprovedConverter x:Key="MapApprovedConverter" />
+        <converter:ModeConverter x:Key="ModeConverter" />
     </UserControl.Resources>
     <UserControl.Styles>
         <Style Selector="Button.ActionBtn">
@@ -34,8 +35,8 @@
         </Style>
 
         <Style Selector="Border.ItemBorder">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
             <Setter Property="BorderBrush" Value="LightGray"></Setter>
         </Style>
 
@@ -54,7 +55,7 @@
             <Setter Property="VerticalAlignment" Value="Bottom" />
             <!-- <Setter Property="RenderTransform" Value="TranslateY(-30px)"></Setter> -->
             <Setter Property="Opacity" Value="0"></Setter>
-            <Setter Property="IsHitTestVisible" Value="False"/>
+            <Setter Property="IsHitTestVisible" Value="False" />
             <Setter Property="Transitions">
                 <Transitions>
                     <!-- <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.75" /> -->
@@ -154,7 +155,7 @@
                                         Command="{Binding $parent[UserControl].((vm:HomePageViewModel)DataContext).PlayAudioCommand}"
                                         CommandParameter="{Binding DataType=sayo:BeatmapDto,Path=PreviewAudio}"
                                         ToolTip.Tip="播放"
-                                        ToolTip.ShowDelay="1000" 
+                                        ToolTip.ShowDelay="1000"
                                         ToolTip.VerticalOffset="-51"
                                         ToolTip.HorizontalOffset="-30"
                                         Classes="WindowButton ActionBtn">
@@ -228,70 +229,80 @@
 
         </Style>
         <Style Selector="ScrollBar /template/ RepeatButton">
-            <Setter Property="IsVisible" Value="False"/>
+            <Setter Property="IsVisible" Value="False" />
         </Style>
-        
+
+
     </UserControl.Styles>
 
     <Grid Name="HomePageGrid">
 
+        <!-- <ScrollViewer  Name="SongsScroll" Offset="{Binding CurrentOffset, Mode=TwoWay}" IsScrollChainingEnabled="False"> -->
         <StackPanel IsVisible="{Binding !CanConnectNetWork}" VerticalAlignment="Center"
-                    HorizontalAlignment="Center">
+                    HorizontalAlignment="Center" Orientation="Horizontal">
             <TextBlock FontSize="24" Text="网络状况出现异常，请检查网络设置。" Foreground="Black" />
-            <Button Content="刷新" Command="{Binding LoadBeatMapsCommand}" HorizontalAlignment="Center" />
+            <Button Content="刷新" Command="{Binding CheckingNetworkStatusCommand}" HorizontalAlignment="Center" />
         </StackPanel>
-        <Grid IsVisible="{Binding  CanConnectNetWork}">
-            <ScrollViewer  Name="SongsScroll" Offset="{Binding CurrentOffset, Mode=TwoWay}">
-                <ListBox Name="BeatMapsLb" ItemsSource="{Binding BeatmapStorage.Beatmaps}"
-                         SelectedItem="{Binding BeatmapStorage.SelectedBeatmap}" />
-            </ScrollViewer>
+        <ListBox ScrollViewer.IsScrollChainingEnabled="False" Name="BeatMapsLb" IsVisible="{Binding CanConnectNetWork}"
+                 ItemsSource="{Binding BeatmapStorage.Beatmaps}"
+                 SelectedItem="{Binding BeatmapStorage.SelectedBeatmap}">
+            <Interaction.Behaviors>
+                <iac:Scroll2EndTriggerBehavior Distance2End="150" IsRememberOffset="True"
+                                               Offset="{Binding CurrentOffset}"
+                                               LoadMoreDataCmd="{Binding LoadBeatMapsCommand}" />
+            </Interaction.Behaviors>
+        </ListBox>
 
-            <Grid Name="MaskGrid"  Background="Black" IsVisible="{Binding IsOpenDetailMapControl}" Opacity="0.75">
-                <Interaction.Behaviors>
-                    <EventTriggerBehavior EventName="PointerPressed" SourceObject="Uc">
-                        <InvokeCommandAction Command="{Binding CloseDetailPanelAsyncCommand}" />
-                    </EventTriggerBehavior>
-                </Interaction.Behaviors>
-            </Grid>
-            
-            
-            <views:DetailBeatmap Name="DetailBeatmap" HorizontalAlignment="Right" Width="750"
-                                 IsOpen="{Binding Path= $parent[Grid].((vm:HomePageViewModel)DataContext).IsOpenDetailMapControl }"
-                                 DataContext="{Binding  BeatmapInfoStorage}"
-                                 >
-                <Interaction.Behaviors>
-                    <EventTriggerBehavior EventName="Close" >
-                        <InvokeCommandAction
-                            Command="{Binding $parent[Grid].((vm:HomePageViewModel)DataContext).CloseDetailPanelAsyncCommand}">
-                        </InvokeCommandAction>
-                    </EventTriggerBehavior>
-                    <EventTriggerBehavior EventName="PlayAudio">
-                        <InvokeCommandAction
-                            Command="{Binding $parent[Grid].((vm:HomePageViewModel)DataContext).PlayAudioCommand}" CommandParameter="{Binding  BeatmapInfo.PreviewAudio}">
-                        </InvokeCommandAction>
-                    </EventTriggerBehavior>
-                    <EventTriggerBehavior EventName="Download" >
-                        <InvokeCommandAction
-                            Command="{Binding $parent[Grid].((vm:HomePageViewModel)DataContext).AddDownloadTaskByTypeCommand}" CommandParameter="{x:Static sayoEnum:DownloadType.Full}">
-                        </InvokeCommandAction>
-                    </EventTriggerBehavior>
-                    <EventTriggerBehavior EventName="NoVideoDownload" >
-                        <InvokeCommandAction
-                            Command="{Binding $parent[Grid].((vm:HomePageViewModel)DataContext).AddDownloadTaskByTypeCommand}" CommandParameter="{x:Static sayoEnum:DownloadType.NoVideo}">
-                        </InvokeCommandAction>
-                    </EventTriggerBehavior>
-                    <EventTriggerBehavior EventName="MiniDownload">
-                        <InvokeCommandAction
-                            Command="{Binding $parent[Grid].((vm:HomePageViewModel)DataContext).AddDownloadTaskByTypeCommand}" CommandParameter="{x:Static sayoEnum:DownloadType.Mini}">
-                        </InvokeCommandAction>
-                    </EventTriggerBehavior>
-                </Interaction.Behaviors>
-            </views:DetailBeatmap>
-            
-            <Border Name="TipsBorder" Classes="TipsBorder">
-                <TextBlock Name="TipsText" Classes="TipsText" Foreground="White" />
-            </Border>
+        <!-- </ScrollViewer> -->
+
+        <Grid Name="MaskGrid" Background="Black" IsVisible="{Binding IsOpenDetailMapControl}" Opacity="0.75">
+            <Interaction.Behaviors>
+                <EventTriggerBehavior EventName="PointerPressed">
+                    <InvokeCommandAction Command="{Binding CloseDetailPanelAsyncCommand}" />
+                </EventTriggerBehavior>
+            </Interaction.Behaviors>
         </Grid>
+
+
+        <views:DetailBeatmap Name="DetailBeatmap" HorizontalAlignment="Right" Width="750"
+                             IsOpen="{Binding Path= $parent[Grid].((vm:HomePageViewModel)DataContext).IsOpenDetailMapControl }"
+                             DataContext="{Binding  BeatmapInfoStorage}">
+            <Interaction.Behaviors>
+                <EventTriggerBehavior EventName="Close">
+                    <InvokeCommandAction
+                        Command="{Binding $parent[Grid].((vm:HomePageViewModel)DataContext).CloseDetailPanelAsyncCommand}">
+                    </InvokeCommandAction>
+                </EventTriggerBehavior>
+                <EventTriggerBehavior EventName="PlayAudio">
+                    <InvokeCommandAction
+                        Command="{Binding $parent[Grid].((vm:HomePageViewModel)DataContext).PlayAudioCommand}"
+                        CommandParameter="{Binding  BeatmapInfo.PreviewAudio}">
+                    </InvokeCommandAction>
+                </EventTriggerBehavior>
+                <EventTriggerBehavior EventName="Download">
+                    <InvokeCommandAction
+                        Command="{Binding $parent[Grid].((vm:HomePageViewModel)DataContext).AddDownloadTaskByTypeCommand}"
+                        CommandParameter="{x:Static sayoEnum:DownloadType.Full}">
+                    </InvokeCommandAction>
+                </EventTriggerBehavior>
+                <EventTriggerBehavior EventName="NoVideoDownload">
+                    <InvokeCommandAction
+                        Command="{Binding $parent[Grid].((vm:HomePageViewModel)DataContext).AddDownloadTaskByTypeCommand}"
+                        CommandParameter="{x:Static sayoEnum:DownloadType.NoVideo}">
+                    </InvokeCommandAction>
+                </EventTriggerBehavior>
+                <EventTriggerBehavior EventName="MiniDownload">
+                    <InvokeCommandAction
+                        Command="{Binding $parent[Grid].((vm:HomePageViewModel)DataContext).AddDownloadTaskByTypeCommand}"
+                        CommandParameter="{x:Static sayoEnum:DownloadType.Mini}">
+                    </InvokeCommandAction>
+                </EventTriggerBehavior>
+            </Interaction.Behaviors>
+        </views:DetailBeatmap>
+
+        <Border Name="TipsBorder" Classes="TipsBorder">
+            <TextBlock Name="TipsText" Classes="TipsText" Foreground="White" />
+        </Border>
 
 
     </Grid>
