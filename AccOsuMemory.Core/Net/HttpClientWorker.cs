@@ -33,12 +33,17 @@ public class HttpClientWorker : HttpClient
                 task.OnError("发生错误：可能因为以下原因导致不能下载：服务器资源不足，读取失败，ppy不给下载");
                 return;
             }
+
             await using var responseStream = await response.Content.ReadAsStreamAsync();
             await task.OnFinished(responseStream);
         }
         catch (HttpRequestException e)
         {
             task.OnError(e.Message);
+        }
+        catch (TaskCanceledException)
+        {
+            task.OnError("下载时间过长,请重新尝试下载!");
         }
         finally
         {

@@ -12,7 +12,7 @@ public class NetSpeedConverter : IValueConverter
         long.TryParse(value?.ToString(), out var netSpeed);
         var format = netSpeed switch
         {
-            <= 0 => "{1:f2}%",
+            <= 0 => "{1:f2}%(0B/S)"  ,
             <= 1024 => "{1:f2}%" + $"({netSpeed}B/S)",
             <= 1024 * 1024L => "{1:f2}%" + $"({netSpeed / 1024}KB/S)",
             _ => "{1:f2}%" + $"({netSpeed / (1024 * 1024)}MB/S)",

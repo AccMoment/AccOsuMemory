@@ -76,16 +76,16 @@
                                 Maximum="100"
                                 ShowProgressText="True"
                                 ProgressTextFormat="{Binding CurrentNetSpeed,Converter={StaticResource SpeedConverter}}">
-                                <!-- <ProgressBar.Styles> -->
-                                <!--     <Style Selector="ProgressBar"> -->
-                                <!--         <Setter Property="Foreground" Value="Aqua"/> -->
-                                <!--         <Setter Property="Transitions"> -->
-                                <!--             <Transitions> -->
-                                <!--                 <DoubleTransition Duration="0:0:1" Property="Value"></DoubleTransition> -->
-                                <!--             </Transitions> -->
-                                <!--         </Setter> -->
-                                <!--     </Style> -->
-                                <!-- </ProgressBar.Styles> -->
+                                <ProgressBar.Styles>
+                                    <Style Selector="ProgressBar">
+                                        <!-- <Setter Property="Foreground" Value="Aqua"/> -->
+                                        <Setter Property="Transitions">
+                                            <Transitions>
+                                                <DoubleTransition Duration="0:0:0.4" Property="Value"></DoubleTransition>
+                                            </Transitions>
+                                        </Setter>
+                                    </Style>
+                                </ProgressBar.Styles>
                             </ProgressBar>
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom"

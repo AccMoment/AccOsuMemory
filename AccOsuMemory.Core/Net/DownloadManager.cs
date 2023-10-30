@@ -35,7 +35,10 @@ public class DownloadManager
         _workers = new HttpClientWorker[maxTaskWorker];
         for (var i = 0; i < _maxTaskWorker; i++)
         {
-            _workers[i] = new HttpClientWorker(new ProgressMessageHandler(new HttpClientHandler()));
+            _workers[i] = new HttpClientWorker(new ProgressMessageHandler(new HttpClientHandler()))
+            {
+                Timeout = TimeSpan.FromMinutes(10)
+            };
         }
     }
 

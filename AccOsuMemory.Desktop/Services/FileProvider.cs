@@ -34,7 +34,7 @@ public class FileProvider : IFileProvider
         }
         else
         {
-            DownloadPath = string.IsNullOrWhiteSpace(appSettings.OsuDirectoryPath)
+            DownloadPath = !string.IsNullOrWhiteSpace(appSettings.OsuDirectoryPath)
                 ? appSettings.OsuDirectoryPath
                 : appSettings.DefaultDownloadPath;
         }

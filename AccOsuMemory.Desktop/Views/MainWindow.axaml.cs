@@ -20,7 +20,7 @@ namespace AccOsuMemory.Desktop.Views
             InitializeComponent();
         }
 
-        protected override async void OnClosed(EventArgs e)
+        protected override void OnClosed(EventArgs e)
         {
             _viewModel?.ClearTempFiles();
             base.OnClosed(e);
