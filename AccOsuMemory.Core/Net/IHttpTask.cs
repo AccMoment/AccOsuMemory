@@ -11,7 +11,7 @@ public interface IHttpTask
     
     public void OnStart();
 
-    public void OnDownload(object? sender, HttpProgressEventArgs e);
+    public void OnDownloadingProgress(object? sender, HttpProgressEventArgs e);
 
     public Task OnFinished(Stream responseStream);
 

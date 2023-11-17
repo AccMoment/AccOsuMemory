@@ -40,8 +40,8 @@ public partial class HomePageViewModel : ViewModelBase
     [ObservableProperty] private bool _isOpenDetailMapControl;
 
 
-    public Action<string, string>? ShowTips;
-    public Func<string, Task>? HideTips;
+    public Action<string, string>? ShowTips { get; set; }
+    public Func<string, Task>? HideTips { get; set; }
 
 
     public HomePageViewModel(ISayoApiService service, IFileProvider fileProvider, HttpClient httpClient,
@@ -206,10 +206,12 @@ public partial class HomePageViewModel : ViewModelBase
 
     private async void ReceiveShareLinkMessage(object r, ShareLinkMessage m)
     {
-        var url = m.Value;
-        ShowTips?.Invoke("ShowTips", "(*^▽^*)复制成功，分享给你的好友吧~~");
-        await m.TopLevel?.Clipboard?.SetTextAsync(url)!;
-        HideTips?.Invoke("ShowTips");
+       await PopupTips("ShowTips", "(*^▽^*)复制成功，分享给你的好友吧~~", () =>
+       {
+           var url = m.Value;
+           return m.TopLevel?.Clipboard?.SetTextAsync(url)!;
+       });
+        
     }
 
     private async Task PopupTips(string className, string text, Func<Task>? action = null)

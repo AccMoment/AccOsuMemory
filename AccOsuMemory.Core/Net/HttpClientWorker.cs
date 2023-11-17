@@ -11,21 +11,22 @@ public class HttpClientWorker : HttpClient
 
     private readonly CancellationTokenSource _cancellationTokenSource = new();
 
+    private const string Referrer = "https://github.com/AccMoment/AccOsuMemory";
 
     public HttpClientWorker(ProgressMessageHandler handler) : base(handler)
     {
         _handler = handler;
     }
 
-    public async void Work(IHttpTask task)
+    public async Task Work(IHttpTask task)
     {
         try
         {
             IsWorking = true;
             var request = new HttpRequestMessage(HttpMethod.Get, task.Url);
-            request.Headers.Referrer = new Uri("https://github.com/AccMoment/AccOsuMemory");
+            request.Headers.Referrer = new Uri(Referrer);
             if (_handler != null)
-                _handler.HttpReceiveProgress += task.OnDownload;
+                _handler.HttpReceiveProgress += task.OnDownloadingProgress;
             task.OnStart();
             var response = await SendAsync(request, _cancellationTokenSource.Token);
             if (response.StatusCode != HttpStatusCode.OK)
@@ -48,7 +49,7 @@ public class HttpClientWorker : HttpClient
         finally
         {
             if (_handler != null)
-                _handler.HttpReceiveProgress -= task.OnDownload;
+                _handler.HttpReceiveProgress -= task.OnDownloadingProgress;
             _cancellationTokenSource.TryReset();
             IsWorking = false;
         }

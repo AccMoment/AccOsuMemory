@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Handlers;
 using AccOsuMemory.Core.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Timer = System.Timers.Timer;
 
 namespace AccOsuMemory.Core.Net;
 
@@ -15,10 +16,9 @@ public partial class DownloadTask : BaseModel, IHttpTask
     [ObservableProperty] private long _bytesTransferred;
     [ObservableProperty] private long _totalBytes;
     [ObservableProperty] private long _recordBytesTransferred;
-    [ObservableProperty]
-    private string _errorMessage = string.Empty;
+    [ObservableProperty] private string _errorMessage = string.Empty;
 
-    private readonly System.Timers.Timer _timer = new()
+    private readonly Timer _timer = new()
     {
         Interval = 1000,
         Enabled = true
@@ -59,7 +59,7 @@ public partial class DownloadTask : BaseModel, IHttpTask
         _timer.Start();
     }
 
-    public void OnDownload(object? sender, HttpProgressEventArgs e)
+    public void OnDownloadingProgress(object? sender, HttpProgressEventArgs e)
     {
         TotalBytes = e.TotalBytes ?? -1;
         BytesTransferred = e.BytesTransferred;
