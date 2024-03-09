@@ -4,5 +4,6 @@
         <Assembly Name="NAudio.Core" MarshalStructure="Required All">
             <Type Name="NAudio.Wave.Mp3WaveFormat" MarshalStructure="Required All"/>
         </Assembly>
+       
     </Application>
 </Directives>

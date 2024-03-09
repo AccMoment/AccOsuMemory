@@ -56,7 +56,7 @@
             <StackPanel Orientation="Horizontal">
                 <RadioButton GroupName="DownloadType" Content="Rank日期" IsChecked="True">
                     <Interaction.Behaviors>
-                        <EventTriggerBehavior EventName="Checked">
+                        <EventTriggerBehavior EventName="Checked" >
                             <InvokeCommandAction Command="{Binding ChangeDownloadTypeCommand}"
                                                  CommandParameter="{x:Static enum:BatchDownloadType.Ranked}" />
                         </EventTriggerBehavior>

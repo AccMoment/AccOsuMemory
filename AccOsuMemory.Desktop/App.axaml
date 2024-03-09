@@ -14,13 +14,13 @@
     <Application.Resources>
         <FontFamily x:Key="LXGW-Regular">avares://AccOsuMemory/Assets/Fonts/LXGWWenKaiLite-Regular.ttf#LXGW WenKai Lite</FontFamily>
 
-        <SolidColorBrush x:Key="TopBarColor" Color="#4dffffff" />
+        <SolidColorBrush x:Key="TopBarColor" Color="#d9ffffff" />
         <SolidColorBrush x:Key="Primary" Color="#ff75b3" />
         <SolidColorBrush x:Key="Secondary" Color="#9c3d62" />
         <SolidColorBrush x:Key="Tertiary" Color="#774a9b" />
-        <SolidColorBrush x:Key="PrimaryContainer" Color="#ffecf0" />
-        <SolidColorBrush x:Key="SecondaryContainer" Color="#ffedec" />
-        <SolidColorBrush x:Key="TertiaryContainer" Color="#f2daff"/>
+        <SolidColorBrush x:Key="PrimaryContainer" Color="#d9ffecf0" />
+        <SolidColorBrush x:Key="SecondaryContainer" Color="#d9ffedec" />
+        <SolidColorBrush x:Key="TertiaryContainer" Color="#d9f2daff"/>
         <SolidColorBrush x:Key="TipsContainer" Color="#77f9d0" />
         <SolidColorBrush x:Key="Error" Color="#ba1a1a" />
         <SolidColorBrush x:Key="ErrorContainer" Color="#ffdad6" />

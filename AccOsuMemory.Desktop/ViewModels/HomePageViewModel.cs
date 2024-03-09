@@ -179,14 +179,17 @@ public partial class HomePageViewModel : ViewModelBase
         catch (HttpRequestException)
         {
             await PopupTips("ShowErrorTips", "网络状况不佳或请求超时!");
+            CanConnectNetWork = false;
         }
         catch (TaskCanceledException)
         {
             await PopupTips("ShowErrorTips", "网络请求超时!");
+            CanConnectNetWork = false;
         }
         catch (Exception e)
         {
             await PopupTips("ShowErrorTips", e.Message);
+            CanConnectNetWork = false;
         }
     }
 
